@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeLiquidGlass();
     initializeCardHoverEffects();
     initializeCursorEffects();
-    initializeAllCardClicks(); // 初始化所有卡片点击功能
+    // initializeAllCardClicks(); // 初始化所有卡片点击功能
     initializeProductTitleClick(); // 初始化产品标题点击功能
 });
 
