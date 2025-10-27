@@ -357,7 +357,7 @@
                 <div class="hidden md:flex space-x-8">
                     <a href="#home" class="text-medium-gray hover:text-sky-blue transition-all duration-300 hover:scale-110 hover:-translate-y-1 inline-block">首页</a>
                     <a href="#projects" class="text-medium-gray hover:text-sky-blue transition-all duration-300 hover:scale-110 hover:-translate-y-1 inline-block">分享</a>
-                    <a href="#contact" class="text-medium-gray hover:text-sky-blue transition-all duration-300 hover:scale-110 hover:-translate-y-1 inline-block">联系</a>
+                    <a href="#video-tool" class="text-medium-gray hover:text-sky-blue transition-all duration-300 hover:scale-110 hover:-translate-y-1 inline-block">AI 工具</a>
                 </div>
                 <button id="mobile-menu-btn" class="md:hidden text-dark-text">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -372,7 +372,7 @@
             <div class="px-6 py-4 space-y-4">
                 <a href="#home" class="block text-medium-gray hover:text-sky-blue transition-all duration-300 hover:scale-105 hover:translate-x-2">首页</a>
                 <a href="#projects" class="block text-medium-gray hover:text-sky-blue transition-all duration-300 hover:scale-105 hover:translate-x-2">作品</a>
-                <a href="#contact" class="block text-medium-gray hover:text-sky-blue transition-all duration-300 hover:scale-105 hover:translate-x-2">联系</a>
+                <a href="#video-tool" class="block text-medium-gray hover:text-sky-blue transition-all duration-300 hover:scale-105 hover:translate-x-2">AI 工具</a>
             </div>
         </div>
     </nav>
@@ -400,8 +400,8 @@
                         <a href="#projects" class="gradient-flow text-white px-8 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-lg shadow-lg">
                             今日分享
                         </a>
-                        <a href="#contact" class="bg-card-glass backdrop-blur-md border border-sky-blue/30 hover:border-sky-blue text-medium-gray hover:text-sky-blue px-8 py-3 rounded-xl font-medium transition-all duration-300 hover:bg-sky-blue/10 hover:scale-105 hover:-translate-y-1 hover:shadow-lg">
-                            给我留言
+                        <a href="#video-tool" class="bg-card-glass backdrop-blur-md border border-sky-blue/30 hover:border-sky-blue text-medium-gray hover:text-sky-blue px-8 py-3 rounded-xl font-medium transition-all duration-300 hover:bg-sky-blue/10 hover:scale-105 hover:-translate-y-1 hover:shadow-lg">
+                            AI 帮你快速阅读 YouTube 视频
                         </a>
                     </div>
                     
@@ -943,34 +943,43 @@
             </div>
         </div>
     </section>
-    <section id="contact" class="py-20 bg-gradient-to-t from-gradient-tertiary to-transparent">
+    <section id="video-tool" class="py-20 bg-gradient-to-t from-gradient-tertiary to-transparent">
         <div class="max-w-4xl mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-dark-text mb-4">给我留言</h2>
+                <h2 class="text-4xl font-bold text-dark-text mb-4">AI 帮你快速阅读 YouTube 视频</h2>
                 <p class="text-xl text-medium-gray max-w-2xl mx-auto">
-                    有什么想法或合作机会，欢迎随时联系我。
+                    输入 YouTube 视频链接，使用 AI 技术快速生成视频摘要
                 </p>
             </div>
             
             <div>
-                <!-- 联系表单 -->
+                <!-- YouTube 视频摘要工具 -->
                 <div class="bg-card-glass backdrop-blur-md border border-white/10 rounded-2xl p-8">
-                    <form id="contact-form" class="relative">
+                    <form id="video-url-form" class="relative">
                         <div class="relative">
-                            <textarea id="message" name="message" rows="3" required class="w-full bg-surface-glass backdrop-blur-sm border border-white/20 rounded-lg px-4 py-3 pr-20 text-dark-text placeholder-medium-gray focus:outline-none focus:ring-2 focus:ring-sky-blue/50 focus:border-sky-blue transition-colors duration-300 resize-none" placeholder="成长是自己的事" style="line-height: 1.5; padding-top: 0.75rem; padding-bottom: 0.75rem;">成长是自己的事</textarea>
-                            <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-sky-blue hover:bg-accent-hover text-white px-4 py-2 rounded-md font-medium transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-sky-blue/50 whitespace-nowrap text-sm">
-                                发送
+                            <input type="url" id="video-url-input" name="video-url" required 
+                                   class="w-full bg-surface-glass backdrop-blur-sm border border-white/20 rounded-lg px-4 py-3 pr-24 text-dark-text placeholder-medium-gray focus:outline-none focus:ring-2 focus:ring-sky-blue/50 focus:border-sky-blue transition-colors duration-300" 
+                                   placeholder="输入 YouTube 视频链接，如：https://www.youtube.com/watch?v=RNJCfif1dPY">
+                            <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-sky-blue hover:bg-accent-hover text-white px-6 py-2 rounded-md font-medium transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-sky-blue/50 whitespace-nowrap text-sm">
+                                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                                获取摘要
                             </button>
                         </div>
                     </form>
                     
-                    <!-- 成功/错误消息 -->
-                    <div id="success-message" class="hidden mt-4 p-4 bg-grass-green/20 border border-grass-green/30 rounded-lg">
-                        <p class="text-grass-green font-medium">消息发送成功！我会尽快回复您。</p>
-                            </div>
+                    <!-- 加载状态 -->
+                    <div id="video-loading" class="hidden mt-6 text-center">
+                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-sky-blue"></div>
+                        <p class="text-medium-gray mt-2">正在分析视频...</p>
+                    </div>
                     
-                    <div id="error-message" class="hidden mt-4 p-4 bg-red-500/20 border border-red-500/30 rounded-lg">
-                        <p class="text-red-500 font-medium">发送失败，请稍后重试。</p>
+                    <!-- 结果显示 -->
+                    <div id="video-result" class="hidden mt-6">
+                        <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6">
+                            <p class="text-dark-text text-center">请在 TLDW 查看详细的视频分析结果</p>
+                        </div>
                     </div>
                 </div>
             </div>
