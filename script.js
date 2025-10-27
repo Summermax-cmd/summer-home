@@ -966,9 +966,12 @@ async function fetchVideoSummary() {
         // 提取视频 ID
         const videoId = extractVideoId(videoUrl);
         
-        // 这里调用一个公开的 API 来获取视频摘要
-        // 使用 YouTube Data API 或第三方服务
-        const summary = await getVideoSummary(videoId);
+        if (!videoId) {
+            throw new Error('无法提取视频 ID');
+        }
+        
+        // 调用函数获取视频摘要
+        const summary = await getVideoSummary(videoId, videoUrl);
         
         // 显示结果
         contentDiv.innerHTML = summary;
@@ -995,56 +998,91 @@ function extractVideoId(url) {
 /**
  * 获取视频摘要
  */
-async function getVideoSummary(videoId) {
-    // 这里使用 TLDR 服务或类似的 API
-    // 由于没有后端 API，这里提供一个模拟的实现
-    // 实际应用中，您可以集成：
-    // 1. TLDR 的 API (https://tldw.us/)
-    // 2. YouTube Transcript API + AI 总结
-    // 3. 自己的后端服务
-    
-    // 模拟 API 调用
+async function getVideoSummary(videoId, videoUrl) {
     try {
-        const response = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`);
+        // 获取视频基本信息
+        const response = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(videoUrl)}&format=json`);
         const data = await response.json();
         
+        // 构建 TLDW 分析链接
+        const tldwUrl = `https://tldw.us/analyze/${videoId}?url=${encodeURIComponent(videoUrl)}`;
+        
         return `
-            <div class="space-y-4">
-                <h4 class="text-xl font-semibold text-dark-text">${data.title}</h4>
-                <div class="flex items-center gap-4 text-sm text-medium-gray">
-                    <span>频道: ${data.author_name}</span>
-                </div>
-                <div class="mt-4">
-                    <p class="text-medium-gray mb-2">
-                        📺 提示：您可以使用以下工具来获取视频摘要：
-                    </p>
-                    <ul class="list-disc list-inside space-y-2 text-medium-gray">
-                        <li>访问 <a href="https://tldw.us/" target="_blank" class="text-sky-blue hover:underline">TLDW</a> 获取视频摘要</li>
-                        <li>使用 <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" class="text-sky-blue hover:underline">YouTube 字幕</a> 功能</li>
-                        <li>或直接观看完整视频</li>
-                    </ul>
-                    <div class="mt-4">
-                        <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" 
-                           class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-primary text-white rounded-xl hover:shadow-lg transition-all">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <div class="space-y-6">
+                <!-- 视频信息卡片 -->
+                <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-xl p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">
+                            <svg class="w-12 h-12 text-gradient-primary" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                             </svg>
-                            <span>在 YouTube 上观看</span>
-                        </a>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-xl font-bold text-dark-text mb-2">${data.title}</h4>
+                            <p class="text-medium-gray text-sm mb-3">频道: ${data.author_name}</p>
+                        </div>
                     </div>
+                </div>
+                
+                <!-- TLDW 快速分析按钮 -->
+                <div class="bg-gradient-to-r from-gradient-primary to-gradient-secondary rounded-xl p-6 text-center">
+                    <h5 class="text-lg font-semibold text-white mb-3">🚀 智能视频摘要</h5>
+                    <p class="text-white/90 text-sm mb-4">
+                        使用 TLDW 的 AI 技术自动分析视频，生成关键要点和主题摘要
+                    </p>
+                    <a href="${tldwUrl}" target="_blank" 
+                       class="inline-flex items-center gap-2 px-8 py-4 bg-white text-gradient-primary rounded-xl font-bold hover:bg-white/90 transition-all shadow-lg hover:shadow-xl">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span>立即获取 AI 摘要</span>
+                    </a>
+                </div>
+                
+                <!-- 其他选项 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" 
+                       class="flex items-center gap-3 px-6 py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all group">
+                        <div class="w-10 h-10 bg-gradient-primary/20 rounded-lg flex items-center justify-center group-hover:bg-gradient-primary/30 transition-colors">
+                            <svg class="w-5 h-5 text-gradient-primary" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-dark-text group-hover:text-gradient-primary transition-colors">观看完整视频</p>
+                            <p class="text-xs text-medium-gray">在 YouTube 上打开</p>
+                        </div>
+                    </a>
+                    
+                    <a href="https://www.youtube.com/watch?v=${videoId}&t=1" target="_blank" 
+                       class="flex items-center gap-3 px-6 py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all group">
+                        <div class="w-10 h-10 bg-gradient-secondary/20 rounded-lg flex items-center justify-center group-hover:bg-gradient-secondary/30 transition-colors">
+                            <svg class="w-5 h-5 text-gradient-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-dark-text group-hover:text-gradient-secondary transition-colors">查看字幕</p>
+                            <p class="text-xs text-medium-gray">转录文本</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- 提示信息 -->
+                <div class="bg-white/5 border border-white/10 rounded-xl p-4">
+                    <p class="text-sm text-medium-gray leading-relaxed">
+                        💡 <strong class="text-dark-text">提示：</strong> TLDW 使用 AI 技术分析视频内容，生成智能摘要、主题识别和时间戳导航，帮助您快速获取视频核心内容。
+                    </p>
                 </div>
             </div>
         `;
     } catch (error) {
         return `
             <div class="space-y-4">
-                <p class="text-medium-gray">
-                    获取视频信息失败。您可以通过以下方式获取视频摘要：
-                </p>
-                <ul class="list-disc list-inside space-y-2 text-medium-gray">
-                    <li>访问 <a href="https://tldw.us/" target="_blank" class="text-sky-blue hover:underline">TLDW.us</a> 粘贴链接获取摘要</li>
-                    <li>在 YouTube 视频页面打开字幕功能</li>
-                </ul>
+                <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
+                    <p class="text-red-400 font-semibold mb-2">获取视频信息失败</p>
+                    <p class="text-red-300/80 text-sm">请检查链接是否正确，或稍后重试</p>
+                </div>
             </div>
         `;
     }
