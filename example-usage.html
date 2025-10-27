@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 使用示例</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white p-8">
+    <div class="max-w-4xl mx-auto space-y-8">
+        <h1 class="text-4xl font-bold mb-8">资源 API 使用示例</h1>
+        
+        <!-- 示例 1: 获取单个链接 -->
+        <div class="bg-gray-800 p-6 rounded-lg">
+            <h2 class="text-2xl font-semibold mb-4">示例 1: 获取单个资源</h2>
+            <button onclick="example1()" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">
+                获取 Twitter 链接
+            </button>
+            <div id="result1" class="mt-4 text-gray-400"></div>
+        </div>
+        
+        <!-- 示例 2: 打开受保护的链接 -->
+        <div class="bg-gray-800 p-6 rounded-lg">
+            <h2 class="text-2xl font-semibold mb-4">示例 2: 打开受保护链接</h2>
+            <div class="space-x-4">
+                <button onclick="example2_open('twitter_sama')" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded">
+                    打开 Sam Altman 的 Twitter
+                </button>
+                <button onclick="example2_open('excalidraw_link')" class="bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded">
+                    打开产品思想图
+                </button>
+            </div>
+        </div>
+        
+        <!-- 示例 3: 批量获取资源 -->
+        <div class="bg-gray-800 p-6 rounded-lg">
+            <h2 class="text-2xl font-semibold mb-4">示例 3: 批量获取资源</h2>
+            <button onclick="example3()" class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded">
+                获取所有 Twitter 链接
+            </button>
+            <pre id="result3" class="mt-4 bg-gray-900 p-4 rounded text-sm overflow-auto"></pre>
+        </div>
+        
+        <!-- 示例 4: 加载受保护图片 -->
+        <div class="bg-gray-800 p-6 rounded-lg">
+            <h2 class="text-2xl font-semibold mb-4">示例 4: 加载受保护图片</h2>
+            <button onclick="example4()" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded">
+                加载视频缩略图
+            </button>
+            <div id="images-container" class="grid grid-cols-3 gap-4 mt-4"></div>
+        </div>
+        
+        <!-- 示例 5: 完整初始化 -->
+        <div class="bg-gray-800 p-6 rounded-lg">
+            <h2 class="text-2xl font-semibold mb-4">示例 5: 完整页面初始化</h2>
+            <button onclick="example5()" class="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded">
+                初始化页面资源
+            </button>
+            <div id="result5" class="mt-4 space-y-2"></div>
+        </div>
+    </div>
+    
+    <script src="resources-api.js"></script>
+    <script>
+        // 示例 1: 获取单个资源
+        async function example1() {
+            const result = await window.ResourceAPI.getResourceUrl('twitter_sama');
+            document.getElementById('result1').textContent = result || '获取失败';
+            console.log('获取的 URL:', result);
+        }
+        
+        // 示例 2: 打开受保护链接
+        async function example2_open(key) {
+            await window.ResourceAPI.openProtectedLink(key);
+        }
+        
+        // 示例 3: 批量获取
+        async function example3() {
+            const resources = await window.ResourceAPI.getMultipleResources([
+                'twitter_sama',
+                'twitter_karpathy',
+                'twitter_jeremy',
+                'twitter_josh'
+            ]);
+            
+            document.getElementById('result3').textContent = JSON.stringify(resources, null, 2);
+            console.log('批量获取的资源:', resources);
+        }
+        
+        // 示例 4: 加载图片
+        async function example4() {
+            const keys = ['video1_thumbnail', 'video2_thumbnail', 'video3_thumbnail'];
+            const container = document.getElementById('images-container');
+            container.innerHTML = '';
+            
+            for (const key of keys) {
+                const url = await window.ResourceAPI.getProtectedImageUrl(key);
+                const img = document.createElement('img');
+                img.src = url;
+                img.className = 'w-full h-48 object-cover rounded-lg border border-gray-700';
+                img.onerror = function() {
+                    this.src = 'https://via.placeholder.com/300';
+                };
+                container.appendChild(img);
+            }
+        }
+        
+        // 示例 5: 完整初始化
+        async function example5() {
+            const config = {
+                links: [
+                    { key: 'twitter_sama', name: 'Sam Altman' },
+                    { key: 'twitter_karpathy', name: 'Andrej Karpathy' },
+                    { key: 'video1_url', name: 'AI 技术视频' }
+                ]
+            };
+            
+            const resources = await window.ResourceAPI.initResources(config);
+            const container = document.getElementById('result5');
+            container.innerHTML = '';
+            
+            for (const [name, data] of Object.entries(resources)) {
+                const div = document.createElement('div');
+                div.className = 'bg-gray-900 p-3 rounded';
+                div.innerHTML = `
+                    <strong>${data.description || name}:</strong> 
+                    <a href="${data.url}" target="_blank" class="text-blue-400 hover:underline">
+                        ${data.url}
+                    </a>
+                `;
+                container.appendChild(div);
+            }
+        }
+    </script>
+</body>
+</html>
+
