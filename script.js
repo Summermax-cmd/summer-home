@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     initializeScrollEffects();
     initializeFormSubmission();
+    initializeYouTubeTool();
     initializeAnimations();
     initializeLightEffects();
     initializeLiquidGlass();
@@ -992,6 +993,73 @@ async function fetchVideoSummary() {
  * 从 YouTube URL 中提取视频 ID
  */
 function extractVideoId(url) {
+    const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+}
+
+/**
+ * 初始化 YouTube 工具
+ */
+function initializeYouTubeTool() {
+    const videoForm = document.getElementById('video-url-form');
+    if (!videoForm) return;
+    
+    videoForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const input = document.getElementById('video-url-input');
+        const loadingDiv = document.getElementById('video-loading');
+        const resultDiv = document.getElementById('video-result');
+        
+        const videoUrl = input.value.trim();
+        
+        if (!videoUrl) {
+            alert('请输入 YouTube 视频链接');
+            return;
+        }
+        
+        // 验证 YouTube URL
+        const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
+        if (!youtubeRegex.test(videoUrl)) {
+            alert('请输入有效的 YouTube 视频链接');
+            return;
+        }
+        
+        // 显示加载状态
+        loadingDiv.classList.remove('hidden');
+        resultDiv.classList.add('hidden');
+        
+        try {
+            // 提取视频 ID
+            const videoId = extractVideoIdFromUrl(videoUrl);
+            
+            if (!videoId) {
+                throw new Error('无法提取视频 ID');
+            }
+            
+            // 直接跳转到 TLDW 分析页面
+            const tldwUrl = `https://tldw.us/analyze/${videoId}?url=${encodeURIComponent(videoUrl)}`;
+            window.open(tldwUrl, '_blank');
+            
+            // 隐藏加载状态并清空输入框
+            setTimeout(() => {
+                loadingDiv.classList.add('hidden');
+                input.value = '';
+            }, 500);
+            
+        } catch (error) {
+            console.error('Error:', error);
+            alert('获取摘要失败，请稍后重试。');
+            loadingDiv.classList.add('hidden');
+        }
+    });
+}
+
+/**
+ * 从 YouTube URL 中提取视频 ID
+ */
+function extractVideoIdFromUrl(url) {
     const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
     const match = url.match(regex);
     return match ? match[1] : null;
