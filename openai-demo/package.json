@@ -1,0 +1,26 @@
+{
+  "name": "openai-demo",
+  "version": "1.0.0",
+  "description": "OpenAI API 示例项目",
+  "main": "index.js",
+  "scripts": {
+    "demo1": "ts-node src/01-basic-chat.ts",
+    "demo2": "ts-node src/02-streaming.ts",
+    "demo3": "ts-node src/03-function-calling.ts",
+    "demo4": "ts-node src/04-vision.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["openai", "chatgpt", "ai", "typescript"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "openai": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,75 @@
+:root {
+  --bg: #0b1021;
+  --panel: #111735;
+  --text: #e7eaf6;
+  --muted: #a5aed0;
+  --primary: #5b8cff;
+  --primary-hover: #4a77e6;
+  --danger: #ff5b7f;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: radial-gradient(100% 100% at 50% 0%, #0b1021 0%, #060912 100%);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 56px;
+}
+
+h1, h2 { margin: 0 0 12px; }
+
+.form-section {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0 24px;
+  backdrop-filter: blur(6px);
+}
+
+.form-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+label { width: 72px; color: var(--muted); }
+input[type="text"], input[type="number"] {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+}
+
+button {
+  appearance: none;
+  border: none;
+  background: var(--primary);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:hover { background: var(--primary-hover); }
+
+.message { min-height: 20px; color: var(--muted); margin: 8px 0 0; }
+
+.list { list-style: none; padding: 0; margin: 0; }
+.list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,0.03);
+}
+
+.bad { color: var(--danger); }
+.success { color: #70ffa7; }
+

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>斑马 AI & 瓜瓜龙 - Pre-K 儿童的 AI 互动课</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* 继承主页的样式 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-10px) translateX(5px); }
+            50% { transform: translateY(-5px) translateX(-5px); }
+            75% { transform: translateY(-15px) translateX(3px); }
+        }
+        
+        @keyframes aiGlow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+        
+        @keyframes bubbleFloat {
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); }
+            20% { transform: translateY(-8px) translateX(4px) rotate(3deg) scale(1.02); }
+            40% { transform: translateY(-4px) translateX(-6px) rotate(-2deg) scale(0.98); }
+            60% { transform: translateY(-12px) translateX(3px) rotate(5deg) scale(1.05); }
+            80% { transform: translateY(-2px) translateX(-3px) rotate(-1deg) scale(0.99); }
+        }
+        
+        .animate-float { animation: float 5s ease-in-out infinite; }
+        .animate-particle-float { animation: particleFloat 8s ease-in-out infinite; }
+        .animate-ai-glow { animation: aiGlow 4s ease-in-out infinite; }
+        .animate-bubble-float { animation: bubbleFloat 8s ease-in-out infinite; }
+        
+        /* 可爱的悬停效果 */
+        .cute-hover {
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+        }
+        
+        .cute-hover:hover {
+            transform: rotate(-5deg) scale(1.1);
+            filter: drop-shadow(0 5px 15px rgba(59, 130, 246, 0.4));
+        }
+        
+        /* 渐变径向背景 */
+        .bg-gradient-radial {
+            background: radial-gradient(circle, var(--tw-gradient-stops));
+        }
+        
+        /* 特色卡片样式 */
+        .feature-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+        }
+        
+        /* 斑马动画 */
+        .zebra-animation {
+            animation: zebraGallop 3s ease-in-out infinite;
+        }
+        
+        @keyframes zebraGallop {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(1deg); }
+            50% { transform: translateY(-8px) rotate(0deg); }
+            75% { transform: translateY(-3px) rotate(-1deg); }
+        }
+    </style>
+    
+    <!-- 自定义 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sky-blue': '#3b82f6',
+                        'light-blue': '#93c5fd',
+                        'grass-green': '#22c55e',
+                        'soft-green': '#86efac',
+                        'dark-text': '#1f2937',
+                        'medium-gray': '#6b7280',
+                        'gradient-primary': '#f0fdf4',
+                        'gradient-secondary': '#ecfdf5',
+                        'gradient-tertiary': '#dbeafe',
+                        'surface-glass': 'rgba(240, 253, 244, 0.85)',
+                        'card-glass': 'rgba(219, 234, 254, 0.75)',
+                        'zebra-green': '#E8F5E8',
+                        'zebra-dark-green': '#B8D4B8',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gradient-to-br from-gradient-primary via-gradient-secondary to-gradient-tertiary text-dark-text font-sans antialiased min-h-screen relative">
+    <!-- AI光场背景层 -->
+    <div id="ai-lightfield" class="fixed inset-0 z-0 pointer-events-none">
+        <!-- 粒子漂浮系统 -->
+        <div class="absolute inset-0">
+            <div class="absolute top-1/6 left-1/6 w-2 h-2 bg-zebra-green/80 rounded-full animate-particle-float" style="animation-delay: 0.8s;"></div>
+            <div class="absolute top-3/4 right-1/6 w-3 h-3 bg-zebra-dark-green/60 rounded-full animate-particle-float" style="animation-delay: 1.8s;"></div>
+            <div class="absolute bottom-1/6 left-3/4 w-2.5 h-2.5 bg-zebra-green/70 rounded-full animate-particle-float" style="animation-delay: 2.8s;"></div>
+            <div class="absolute bottom-3/4 right-3/4 w-2 h-2 bg-zebra-dark-green/75 rounded-full animate-particle-float" style="animation-delay: 3.8s;"></div>
+        </div>
+    </div>
+    
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full bg-surface-glass backdrop-blur-xl z-50 border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-dark-text">
+                    <span class="text-zebra-dark-green bg-gradient-to-r from-zebra-dark-green to-zebra-green bg-clip-text text-transparent animate-pulse cute-hover inline-block">斑马 AI & 瓜瓜龙</span>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="index.html" class="text-medium-gray hover:text-zebra-dark-green transition-all duration-300 hover:scale-110 hover:-translate-y-1 inline-block">← 返回主页</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="pt-20 pb-16">
+        <!-- Hero Section -->
+        <section class="py-20">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- 左侧内容 -->
+                    <div class="space-y-8">
+                        <div>
+                            <h1 class="text-5xl font-bold text-dark-text mb-6">
+                                Pre-K 儿童的 <span class="text-zebra-dark-green bg-gradient-to-r from-zebra-dark-green to-zebra-green bg-clip-text text-transparent animate-pulse cute-hover inline-block">AI 互动课</span>
+                            </h1>
+                            <p class="text-xl text-medium-gray leading-relaxed mb-8">
+                                斑马 AI 和瓜瓜龙是专为学龄前儿童设计的 AI 互动教育平台，通过小模型搭积木的方式和 Scrum 开发流程，为孩子们提供寓教于乐的学习体验。
+                            </p>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-4">
+                            <span class="bg-card-glass backdrop-blur-sm text-medium-gray px-4 py-2 rounded-full text-sm border border-zebra-dark-green/20 hover:animate-liquid-glass cursor-pointer hover:text-zebra-dark-green transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:rotate-2">小模型搭积木</span>
+                            <span class="bg-card-glass backdrop-blur-sm text-medium-gray px-4 py-2 rounded-full text-sm border border-zebra-dark-green/20 hover:animate-liquid-glass cursor-pointer hover:text-zebra-dark-green transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:-rotate-2">Scrum</span>
+                            <span class="bg-card-glass backdrop-blur-sm text-medium-gray px-4 py-2 rounded-full text-sm border border-zebra-dark-green/20 hover:animate-liquid-glass cursor-pointer hover:text-zebra-dark-green transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:rotate-2">儿童教育</span>
+                            <span class="bg-card-glass backdrop-blur-sm text-medium-gray px-4 py-2 rounded-full text-sm border border-zebra-dark-green/20 hover:animate-liquid-glass cursor-pointer hover:text-zebra-dark-green transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:-rotate-2">AI 互动</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 右侧斑马插图 -->
+                    <div class="flex justify-center">
+                        <div class="relative">
+                            <!-- AI光场环绕效果 -->
+                            <div class="absolute inset-0 rounded-full bg-gradient-radial from-zebra-dark-green/10 via-zebra-green/5 to-transparent animate-ai-glow scale-110"></div>
+                            
+                            <!-- 斑马容器 -->
+                            <div class="w-80 h-80 rounded-full bg-gradient-to-br from-zebra-dark-green/20 via-zebra-green/10 to-cold-white/30 p-8 animate-float hover:scale-105 transition-transform duration-300 backdrop-blur-sm relative z-10">
+                                <div class="w-full h-full rounded-full bg-gradient-to-br from-cold-white/40 via-gradient-secondary/30 to-gradient-tertiary/40 flex items-center justify-center overflow-hidden backdrop-blur-sm border border-zebra-dark-green/20">
+                                    <!-- 斑马SVG -->
+                                    <svg width="200" height="200" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="2" class="zebra-animation">
+                                        <!-- 斑马身体 -->
+                                        <ellipse cx="100" cy="140" rx="60" ry="40" fill="#FFF"/>
+                                        <!-- 斑马条纹 -->
+                                        <path d="M80 120v40M90 110v60M100 100v70M110 110v60M120 120v40" stroke="#8B7355" stroke-width="3"/>
+                                        <!-- 斑马头部 -->
+                                        <ellipse cx="100" cy="80" rx="30" ry="25" fill="#FFF"/>
+                                        <!-- 斑马耳朵 -->
+                                        <ellipse cx="85" cy="60" rx="8" ry="15" fill="#FFF"/>
+                                        <ellipse cx="115" cy="60" rx="8" ry="15" fill="#FFF"/>
+                                        <!-- 斑马眼睛 -->
+                                        <circle cx="90" cy="75" r="8" fill="#8B7355"/>
+                                        <circle cx="110" cy="75" r="8" fill="#8B7355"/>
+                                        <circle cx="90" cy="75" r="3" fill="#FFF"/>
+                                        <circle cx="110" cy="75" r="3" fill="#FFF"/>
+                                        <!-- 斑马鼻子 -->
+                                        <ellipse cx="100" cy="90" rx="5" ry="3" fill="#8B7355"/>
+                                        <!-- 斑马腿 -->
+                                        <rect x="90" y="180" width="8" height="20" fill="#FFF"/>
+                                        <rect x="110" y="180" width="8" height="20" fill="#FFF"/>
+                                        <rect x="95" y="180" width="8" height="20" fill="#FFF"/>
+                                        <rect x="105" y="180" width="8" height="20" fill="#FFF"/>
+                                        <!-- 装饰元素 -->
+                                        <circle cx="40" cy="60" r="10" fill="#FFD93D"/>
+                                        <circle cx="160" cy="40" r="8" fill="#FF6B6B"/>
+                                        <!-- 瓜瓜龙元素 -->
+                                        <circle cx="160" cy="160" r="15" fill="#96CEB4"/>
+                                        <circle cx="160" cy="160" r="8" fill="#FFF"/>
+                                        <circle cx="160" cy="160" r="4" fill="#4ECDC4"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <!-- 立体水泡装饰 -->
+                            <div class="absolute -top-6 -right-6 w-16 h-16 rounded-full bg-gradient-to-br from-zebra-green/30 via-zebra-green/10 to-transparent animate-bubble-float border-2 border-zebra-green/40 shadow-2xl" style="box-shadow: 0 0 20px rgba(184, 212, 184, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.2); animation-delay: 0s;">
+                                <div class="absolute top-1 left-2 w-4 h-4 bg-zebra-green/60 rounded-full"></div>
+                                <div class="absolute top-3 right-1 w-2 h-2 bg-zebra-green/50 rounded-full"></div>
+                                <div class="absolute bottom-2 left-3 w-3 h-3 bg-zebra-green/40 rounded-full"></div>
+                            </div>
+                            
+                            <div class="absolute -bottom-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-zebra-dark-green/25 via-zebra-dark-green/8 to-transparent animate-bubble-float border-2 border-zebra-dark-green/35 shadow-2xl" style="box-shadow: 0 0 15px rgba(232, 245, 232, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.15); animation-delay: 1s;">
+                                <div class="absolute top-1 left-1 w-2 h-2 bg-zebra-dark-green/50 rounded-full"></div>
+                                <div class="absolute bottom-1 right-1 w-1.5 h-1.5 bg-zebra-dark-green/40 rounded-full"></div>
+                            </div>
+                            
+                            <!-- 环绕粒子 -->
+                            <div class="absolute top-1/4 left-1/4 w-3 h-3 bg-zebra-green/40 rounded-full animate-particle-float"></div>
+                            <div class="absolute top-2/3 right-1/4 w-2 h-2 bg-zebra-dark-green/50 rounded-full animate-particle-float" style="animation-delay: 1s;"></div>
+                            <div class="absolute bottom-1/3 left-1/4 w-3 h-3 bg-zebra-green/30 rounded-full animate-particle-float" style="animation-delay: 2s;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品特色 -->
+        <section class="py-16 bg-gradient-to-b from-transparent via-white/5 to-transparent backdrop-blur-sm">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-dark-text mb-6">产品特色</h2>
+                    <p class="text-xl text-medium-gray max-w-2xl mx-auto">
+                        斑马 AI 和瓜瓜龙通过精心设计的功能，为学龄前儿童提供安全、有趣的 AI 互动学习体验
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- 特色1 -->
+                    <div class="feature-card rounded-2xl p-8 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-zebra-dark-green to-zebra-green rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-4">AI 互动课程</h3>
+                        <p class="text-medium-gray leading-relaxed">
+                            基于 AI 技术的互动课程，能够根据孩子的学习进度和兴趣，提供个性化的学习内容和互动体验。
+                        </p>
+                    </div>
+                    
+                    <!-- 特色2 -->
+                    <div class="feature-card rounded-2xl p-8 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-grass-green to-soft-green rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-4">安全保护</h3>
+                        <p class="text-medium-gray leading-relaxed">
+                            严格的内容安全机制，确保儿童在使用过程中接触到的是安全、健康、教育性的内容。
+                        </p>
+                    </div>
+                    
+                    <!-- 特色3 -->
+                    <div class="feature-card rounded-2xl p-8 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-300 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-4">快速迭代</h3>
+                        <p class="text-medium-gray leading-relaxed">
+                            采用 Scrum 开发流程，快速响应市场需求，持续优化产品功能和用户体验。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术架构 -->
+        <section class="py-16">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-dark-text mb-6">技术架构</h2>
+                    <p class="text-xl text-medium-gray max-w-2xl mx-auto">
+                        采用小模型搭积木的方式和 Scrum 开发流程，构建高效、可扩展的儿童教育 AI 系统
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- 左侧架构图 -->
+                    <div class="space-y-6">
+                        <div class="bg-card-glass backdrop-blur-md border border-white/10 rounded-2xl p-8">
+                            <h3 class="text-2xl font-semibold text-dark-text mb-6 text-center">系统架构</h3>
+                            <div class="space-y-4">
+                                <!-- 用户界面层 -->
+                                <div class="bg-gradient-to-r from-zebra-dark-green to-zebra-green rounded-lg p-4 text-white text-center">
+                                    <div class="font-semibold">用户界面层</div>
+                                    <div class="text-sm opacity-90">儿童友好的交互界面</div>
+                                </div>
+                                
+                                <!-- AI 服务层 -->
+                                <div class="bg-gradient-to-r from-grass-green to-soft-green rounded-lg p-4 text-white text-center">
+                                    <div class="font-semibold">AI 服务层</div>
+                                    <div class="text-sm opacity-90">小模型搭积木架构</div>
+                                </div>
+                                
+                                <!-- 内容管理 -->
+                                <div class="bg-gradient-to-r from-purple-500 to-purple-300 rounded-lg p-4 text-white text-center">
+                                    <div class="font-semibold">内容管理</div>
+                                    <div class="text-sm opacity-90">课程内容与安全过滤</div>
+                                </div>
+                                
+                                <!-- 数据存储 -->
+                                <div class="bg-gradient-to-r from-orange-500 to-orange-300 rounded-lg p-4 text-white text-center">
+                                    <div class="font-semibold">数据存储</div>
+                                    <div class="text-sm opacity-90">学习数据与用户信息</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 右侧技术细节 -->
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-dark-text mb-6">核心技术</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-zebra-dark-green rounded-full flex items-center justify-center flex-shrink-0">
+                                        <span class="text-white font-bold text-sm">1</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-dark-text mb-2">小模型搭积木</h4>
+                                        <p class="text-medium-gray">使用多个专门化的小模型，每个模型负责特定的教育功能，通过组合实现完整的儿童教育体验。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-grass-green rounded-full flex items-center justify-center flex-shrink-0">
+                                        <span class="text-white font-bold text-sm">2</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-dark-text mb-2">Scrum 开发</h4>
+                                        <p class="text-medium-gray">采用敏捷开发方法，快速迭代产品功能，及时响应用户需求和市场变化。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <span class="text-white font-bold text-sm">3</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-dark-text mb-2">儿童安全</h4>
+                                        <p class="text-medium-gray">多层次的内容安全机制，确保儿童在使用过程中接触到的是安全、教育性的内容。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 项目成果 -->
+        <section class="py-16 bg-gradient-to-b from-transparent via-white/5 to-transparent backdrop-blur-sm">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-dark-text mb-6">项目成果</h2>
+                    <p class="text-xl text-medium-gray max-w-2xl mx-auto">
+                        斑马 AI 和瓜瓜龙在儿童教育领域取得了显著的成果
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- 成果1 -->
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-zebra-dark-green to-zebra-green rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl font-bold text-white">80w</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">系统课用户</h3>
+                        <p class="text-medium-gray">超过80w儿童购买瓜瓜龙启蒙系统课</p>
+                    </div>
+                    
+                    <!-- 成果2 -->
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-grass-green to-soft-green rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl font-bold text-white">300w</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">年课用户</h3>
+                        <p class="text-medium-gray">斑马AI年课用户超过300w</p>
+                    </div>
+                    
+                    <!-- 成果3 -->
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-300 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl font-bold text-white">15%</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">续费率</h3>
+                        <p class="text-medium-gray">续费转化率高达10%</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-t from-gradient-primary to-transparent border-t border-white/10 py-8">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center">
+                <p class="text-medium-gray">© 2024 斑马 AI & 瓜瓜龙. All rights reserved.</p>
+                <div class="mt-4">
+                    <a href="index.html" class="text-zebra-dark-green hover:text-zebra-dark-green/80 transition-colors duration-300">
+                        ← 返回主页
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        /**
+         * 斑马 AI & 瓜瓜龙 详情页面 JavaScript
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化动画效果
+            initializeAnimations();
+            
+            // 初始化滚动效果
+            initializeScrollEffects();
+        });
+
+        /**
+         * 初始化动画效果
+         */
+        function initializeAnimations() {
+            // 为特色卡片添加悬停效果
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        }
+
+        /**
+         * 初始化滚动效果
+         */
+        function initializeScrollEffects() {
+            // 滚动时显示元素动画
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // 观察需要动画的元素
+            document.querySelectorAll('.feature-card, .bg-card-glass').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "contact-messages-api",
+  "version": "1.0.0",
+  "description": "Node.js/Express 后端项目，提供留言系统 API，使用 SQLite 数据库存储访客留言",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["express", "sqlite", "api", "contact", "messages"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "sqlite3": "^5.1.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

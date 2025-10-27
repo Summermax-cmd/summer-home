@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>布丁 AI - 24h 智能找房小助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* 继承主页的样式 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-10px) translateX(5px); }
+            50% { transform: translateY(-5px) translateX(-5px); }
+            75% { transform: translateY(-15px) translateX(3px); }
+        }
+        
+        @keyframes aiGlow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+        
+        @keyframes bubbleFloat {
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); }
+            20% { transform: translateY(-8px) translateX(4px) rotate(3deg) scale(1.02); }
+            40% { transform: translateY(-4px) translateX(-6px) rotate(-2deg) scale(0.98); }
+            60% { transform: translateY(-12px) translateX(3px) rotate(5deg) scale(1.05); }
+            80% { transform: translateY(-2px) translateX(-3px) rotate(-1deg) scale(0.99); }
+        }
+        
+        .animate-float { animation: float 5s ease-in-out infinite; }
+        .animate-particle-float { animation: particleFloat 8s ease-in-out infinite; }
+        .animate-ai-glow { animation: aiGlow 4s ease-in-out infinite; }
+        .animate-bubble-float { animation: bubbleFloat 8s ease-in-out infinite; }
+        
+        /* 可爱的悬停效果 */
+        .cute-hover {
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+        }
+        
+        .cute-hover:hover {
+            transform: rotate(-5deg) scale(1.1);
+            filter: drop-shadow(0 5px 15px rgba(59, 130, 246, 0.4));
+        }
+        
+        /* 渐变径向背景 */
+        .bg-gradient-radial {
+            background: radial-gradient(circle, var(--tw-gradient-stops));
+        }
+        
+        /* 特色卡片样式 */
+        .feature-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+        }
+        
+        /* 房子动画 */
+        .house-animation {
+            animation: houseGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes houseGlow {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-3px) scale(1.02); }
+        }
+    </style>
+    
+    <!-- 自定义 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sky-blue': '#3b82f6',
+                        'light-blue': '#93c5fd',
+                        'grass-green': '#22c55e',
+                        'soft-green': '#86efac',
+                        'dark-text': '#1f2937',
+                        'medium-gray': '#6b7280',
+                        'gradient-primary': '#f0fdf4',
+                        'gradient-secondary': '#ecfdf5',
+                        'gradient-tertiary': '#dbeafe',
+                        'surface-glass': 'rgba(240, 253, 244, 0.85)',
+                        'card-glass': 'rgba(219, 234, 254, 0.75)',
+                        'pudding-purple': '#E8E0F0',
+                        'pudding-dark-purple': '#D0C4D8',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gradient-to-br from-gradient-primary via-gradient-secondary to-gradient-tertiary text-dark-text font-sans antialiased min-h-screen relative">
+    <!-- AI光场背景层 -->
+    <div id="ai-lightfield" class="fixed inset-0 z-0 pointer-events-none">
+        <!-- 粒子漂浮系统 -->
+        <div class="absolute inset-0">
+            <div class="absolute top-1/6 left-1/6 w-2 h-2 bg-pudding-purple/80 rounded-full animate-particle-float" style="animation-delay: 0.8s;"></div>
+            <div class="absolute top-3/4 right-1/6 w-3 h-3 bg-pudding-dark-purple/60 rounded-full animate-particle-float" style="animation-delay: 1.8s;"></div>
+            <div class="absolute bottom-1/6 left-3/4 w-2.5 h-2.5 bg-pudding-purple/70 rounded-full animate-particle-float" style="animation-delay: 2.8s;"></div>
+            <div class="absolute bottom-3/4 right-3/4 w-2 h-2 bg-pudding-dark-purple/75 rounded-full animate-particle-float" style="animation-delay: 3.8s;"></div>
+        </div>
+    </div>
+    
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full bg-surface-glass backdrop-blur-xl z-50 border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-dark-text">
+                    <span class="text-pudding-dark-purple bg-gradient-to-r from-pudding-dark-purple to-pudding-purple bg-clip-text text-transparent animate-pulse cute-hover inline-block">布丁 AI</span>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="index.html" class="text-medium-gray hover:text-pudding-dark-purple transition-all duration-300 hover:scale-110 hover:-translate-y-1 inline-block">← 返回主页</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="pt-20 pb-16">
+        <!-- Hero Section -->
+        <section class="py-20">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- 左侧内容 -->
+                    <div class="space-y-8">
+                        <div>
+                            <h1 class="text-5xl font-bold text-dark-text mb-6">
+                                24h 智能 <span class="text-pudding-dark-purple bg-gradient-to-r from-pudding-dark-purple to-pudding-purple bg-clip-text text-transparent animate-pulse cute-hover inline-block">找房小助手</span>
+                            </h1>
+                            <p class="text-xl text-medium-gray leading-relaxed mb-8">
+                                布丁 AI 是一个创新的智能找房助手，采用 AI Agent 技术和 XP 开发方法，为用户提供全天候的智能找房服务。
+                            </p>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-4">
+                            <span class="bg-card-glass backdrop-blur-sm text-medium-gray px-4 py-2 rounded-full text-sm border border-pudding-dark-purple/20 hover:animate-liquid-glass cursor-pointer hover:text-pudding-dark-purple transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:rotate-2">AI Agent</span>
+                            <span class="bg-card-glass backdrop-blur-sm text-medium-gray px-4 py-2 rounded-full text-sm border border-pudding-dark-purple/20 hover:animate-liquid-glass cursor-pointer hover:text-pudding-dark-purple transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:-rotate-2">XP</span>
+                            <span class="bg-card-glass backdrop-blur-sm text-medium-gray px-4 py-2 rounded-full text-sm border border-pudding-dark-purple/20 hover:animate-liquid-glass cursor-pointer hover:text-pudding-dark-purple transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:rotate-2">智能找房</span>
+                            <span class="bg-card-glass backdrop-blur-sm text-medium-gray px-4 py-2 rounded-full text-sm border border-pudding-dark-purple/20 hover:animate-liquid-glass cursor-pointer hover:text-pudding-dark-purple transition-all duration-300 hover:scale-110 hover:-translate-y-1 hover:-rotate-2">24h 服务</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 右侧房子插图 -->
+                    <div class="flex justify-center">
+                        <div class="relative">
+                            <!-- AI光场环绕效果 -->
+                            <div class="absolute inset-0 rounded-full bg-gradient-radial from-pudding-dark-purple/10 via-pudding-purple/5 to-transparent animate-ai-glow scale-110"></div>
+                            
+                            <!-- 房子容器 -->
+                            <div class="w-80 h-80 rounded-full bg-gradient-to-br from-pudding-dark-purple/20 via-pudding-purple/10 to-cold-white/30 p-8 animate-float hover:scale-105 transition-transform duration-300 backdrop-blur-sm relative z-10">
+                                <div class="w-full h-full rounded-full bg-gradient-to-br from-cold-white/40 via-gradient-secondary/30 to-gradient-tertiary/40 flex items-center justify-center overflow-hidden backdrop-blur-sm border border-pudding-dark-purple/20">
+                                    <!-- 房子SVG -->
+                                    <svg width="200" height="200" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="2" class="house-animation">
+                                        <!-- 房子主体 -->
+                                        <path d="M30 120l70-70 70 70v60H30z" fill="#FFB6C1"/>
+                                        <!-- 屋顶 -->
+                                        <path d="M30 120l70-70 70 70" stroke="#FF6B6B" stroke-width="3"/>
+                                        <!-- 门 -->
+                                        <rect x="85" y="150" width="30" height="30" fill="#8B4513"/>
+                                        <circle cx="100" cy="165" r="2" fill="#FFD700"/>
+                                        <!-- 窗户 -->
+                                        <rect x="50" y="130" width="15" height="15" fill="#87CEEB"/>
+                                        <rect x="135" y="130" width="15" height="15" fill="#87CEEB"/>
+                                        <!-- 烟囱 -->
+                                        <rect x="120" y="80" width="15" height="25" fill="#D2B48C"/>
+                                        <!-- 烟 -->
+                                        <circle cx="127" cy="70" r="3" fill="#E0E0E0"/>
+                                        <circle cx="130" cy="65" r="2" fill="#E0E0E0"/>
+                                        <circle cx="125" cy="60" r="2.5" fill="#E0E0E0"/>
+                                        <!-- 装饰元素 -->
+                                        <circle cx="40" cy="40" r="8" fill="#FFD93D"/>
+                                        <path d="M40 25v5M40 55v5M15 40h5M65 40h5M25 25l3 3M55 55l3 3M25 55l3-3M55 25l3-3" stroke="#FFD93D" stroke-width="1"/>
+                                        <!-- 星星 -->
+                                        <path d="M160 30l2 2-2 2-2-2z" fill="#FFD93D"/>
+                                        <path d="M20 160l1.5 1.5-1.5 1.5-1.5-1.5z" fill="#FFD93D"/>
+                                        <!-- AI 元素 -->
+                                        <circle cx="160" cy="160" r="12" fill="#4ECDC4"/>
+                                        <path d="M155 160h10M160 155v10" stroke="#FFF" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <!-- 立体水泡装饰 -->
+                            <div class="absolute -top-6 -right-6 w-16 h-16 rounded-full bg-gradient-to-br from-pudding-purple/30 via-pudding-purple/10 to-transparent animate-bubble-float border-2 border-pudding-purple/40 shadow-2xl" style="box-shadow: 0 0 20px rgba(232, 224, 240, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.2); animation-delay: 0s;">
+                                <div class="absolute top-1 left-2 w-4 h-4 bg-pudding-purple/60 rounded-full"></div>
+                                <div class="absolute top-3 right-1 w-2 h-2 bg-pudding-purple/50 rounded-full"></div>
+                                <div class="absolute bottom-2 left-3 w-3 h-3 bg-pudding-purple/40 rounded-full"></div>
+                            </div>
+                            
+                            <div class="absolute -bottom-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-pudding-dark-purple/25 via-pudding-dark-purple/8 to-transparent animate-bubble-float border-2 border-pudding-dark-purple/35 shadow-2xl" style="box-shadow: 0 0 15px rgba(208, 196, 216, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.15); animation-delay: 1s;">
+                                <div class="absolute top-1 left-1 w-2 h-2 bg-pudding-dark-purple/50 rounded-full"></div>
+                                <div class="absolute bottom-1 right-1 w-1.5 h-1.5 bg-pudding-dark-purple/40 rounded-full"></div>
+                            </div>
+                            
+                            <!-- 环绕粒子 -->
+                            <div class="absolute top-1/4 left-1/4 w-3 h-3 bg-pudding-purple/40 rounded-full animate-particle-float"></div>
+                            <div class="absolute top-2/3 right-1/4 w-2 h-2 bg-pudding-dark-purple/50 rounded-full animate-particle-float" style="animation-delay: 1s;"></div>
+                            <div class="absolute bottom-1/3 left-1/4 w-3 h-3 bg-pudding-purple/30 rounded-full animate-particle-float" style="animation-delay: 2s;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品特色 -->
+        <section class="py-16 bg-gradient-to-b from-transparent via-white/5 to-transparent backdrop-blur-sm">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-dark-text mb-6">产品特色</h2>
+                    <p class="text-xl text-medium-gray max-w-2xl mx-auto">
+                        布丁 AI 通过精心设计的功能，为用户提供智能、高效的找房服务体验
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- 特色1 -->
+                    <div class="feature-card rounded-2xl p-8 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-pudding-dark-purple to-pudding-purple rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-4">AI Agent 智能助手</h3>
+                        <p class="text-medium-gray leading-relaxed">
+                            基于 AI Agent 技术的智能助手，能够理解用户需求，主动推荐合适的房源，提供个性化的找房服务。
+                        </p>
+                    </div>
+                    
+                    <!-- 特色2 -->
+                    <div class="feature-card rounded-2xl p-8 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-grass-green to-soft-green rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-4">24小时服务</h3>
+                        <p class="text-medium-gray leading-relaxed">
+                            全天候不间断的智能服务，无论何时何地，用户都能获得及时的找房帮助和房源推荐。
+                        </p>
+                    </div>
+                    
+                    <!-- 特色3 -->
+                    <div class="feature-card rounded-2xl p-8 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-300 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-4">快速响应</h3>
+                        <p class="text-medium-gray leading-relaxed">
+                            采用 XP 开发方法，确保系统的高效运行和快速响应，为用户提供流畅的找房体验。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术架构 -->
+        <section class="py-16">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-dark-text mb-6">技术架构</h2>
+                    <p class="text-xl text-medium-gray max-w-2xl mx-auto">
+                        采用 AI Agent 技术和 XP 开发方法，构建智能、高效的找房服务系统
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- 左侧架构图 -->
+                    <div class="space-y-6">
+                        <div class="bg-card-glass backdrop-blur-md border border-white/10 rounded-2xl p-8">
+                            <h3 class="text-2xl font-semibold text-dark-text mb-6 text-center">系统架构</h3>
+                            <div class="space-y-4">
+                                <!-- 用户界面层 -->
+                                <div class="bg-gradient-to-r from-pudding-dark-purple to-pudding-purple rounded-lg p-4 text-white text-center">
+                                    <div class="font-semibold">用户界面层</div>
+                                    <div class="text-sm opacity-90">多端统一界面</div>
+                                </div>
+                                
+                                <!-- AI Agent 层 -->
+                                <div class="bg-gradient-to-r from-grass-green to-soft-green rounded-lg p-4 text-white text-center">
+                                    <div class="font-semibold">AI Agent 层</div>
+                                    <div class="text-sm opacity-90">智能决策与推荐</div>
+                                </div>
+                                
+                                <!-- 业务逻辑层 -->
+                                <div class="bg-gradient-to-r from-purple-500 to-purple-300 rounded-lg p-4 text-white text-center">
+                                    <div class="font-semibold">业务逻辑层</div>
+                                    <div class="text-sm opacity-90">找房算法与匹配</div>
+                                </div>
+                                
+                                <!-- 数据服务层 -->
+                                <div class="bg-gradient-to-r from-orange-500 to-orange-300 rounded-lg p-4 text-white text-center">
+                                    <div class="font-semibold">数据服务层</div>
+                                    <div class="text-sm opacity-90">房源数据与用户信息</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 右侧技术细节 -->
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-dark-text mb-6">核心技术</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-pudding-dark-purple rounded-full flex items-center justify-center flex-shrink-0">
+                                        <span class="text-white font-bold text-sm">1</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-dark-text mb-2">AI Agent 技术</h4>
+                                        <p class="text-medium-gray">采用先进的 AI Agent 技术，能够自主理解用户需求，主动推荐合适的房源，提供智能化的找房服务。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-grass-green rounded-full flex items-center justify-center flex-shrink-0">
+                                        <span class="text-white font-bold text-sm">2</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-dark-text mb-2">XP 开发方法</h4>
+                                        <p class="text-medium-gray">采用极限编程（XP）开发方法，确保代码质量，提高开发效率，快速响应用户需求变化。</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <span class="text-white font-bold text-sm">3</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-dark-text mb-2">智能匹配算法</h4>
+                                        <p class="text-medium-gray">基于机器学习的智能匹配算法，能够根据用户偏好、预算、位置等因素，精准推荐最合适的房源。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 项目成果 -->
+        <section class="py-16 bg-gradient-to-b from-transparent via-white/5 to-transparent backdrop-blur-sm">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-dark-text mb-6">项目成果</h2>
+                    <p class="text-xl text-medium-gray max-w-2xl mx-auto">
+                        布丁 AI 在智能找房领域取得了显著的成果
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- 成果1 -->
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-pudding-dark-purple to-pudding-purple rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl font-bold text-white">80w</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">月活用户</h3>
+                        <p class="text-medium-gray">每月超过80万用户使用布丁 AI</p>
+                    </div>
+                    
+                    <!-- 成果2 -->
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-grass-green to-soft-green rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl font-bold text-white">80%</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">回复精准度</h3>
+                        <p class="text-medium-gray">找房问题回复精准度达到85%</p>
+                    </div>
+                    
+                    <!-- 成果3 -->
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-300 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl font-bold text-white">24/7</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-text mb-2">全天候服务</h3>
+                        <p class="text-medium-gray">7x24小时不间断的智能找房服务</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-t from-gradient-primary to-transparent border-t border-white/10 py-8">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center">
+                <p class="text-medium-gray">© 2024 布丁 AI. All rights reserved.</p>
+                <div class="mt-4">
+                    <a href="index.html" class="text-pudding-dark-purple hover:text-pudding-dark-purple/80 transition-colors duration-300">
+                        ← 返回主页
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        /**
+         * 布丁 AI 详情页面 JavaScript
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化动画效果
+            initializeAnimations();
+            
+            // 初始化滚动效果
+            initializeScrollEffects();
+        });
+
+        /**
+         * 初始化动画效果
+         */
+        function initializeAnimations() {
+            // 为特色卡片添加悬停效果
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        }
+
+        /**
+         * 初始化滚动效果
+         */
+        function initializeScrollEffects() {
+            // 滚动时显示元素动画
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // 观察需要动画的元素
+            document.querySelectorAll('.feature-card, .bg-card-glass').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        }
+    </script>
+</body>
+</html>
+
