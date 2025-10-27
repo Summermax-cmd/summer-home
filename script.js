@@ -970,13 +970,15 @@ async function fetchVideoSummary() {
             throw new Error('无法提取视频 ID');
         }
         
-        // 调用函数获取视频摘要
-        const summary = await getVideoSummary(videoId, videoUrl);
+        // 直接跳转到 TLDW 分析页面
+        const tldwUrl = `https://tldw.us/analyze/${videoId}?url=${encodeURIComponent(videoUrl)}`;
+        window.open(tldwUrl, '_blank');
         
-        // 显示结果
-        contentDiv.innerHTML = summary;
-        resultDiv.classList.remove('hidden');
-        loadingDiv.classList.add('hidden');
+        // 隐藏加载状态并清空输入框
+        setTimeout(() => {
+            loadingDiv.classList.add('hidden');
+            input.value = '';
+        }, 500);
         
     } catch (error) {
         console.error('Error:', error);
