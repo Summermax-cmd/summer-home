@@ -680,6 +680,27 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- 画板模块 -->
+            <div class="mt-20 flex justify-center">
+                <div class="w-full max-w-7xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-white/20 relative">
+                    <div class="relative" style="user-select: none; -webkit-user-select: none;" oncontextmenu="return false;">
+                        <!-- 遮罩防止复制和下载 -->
+                        <div class="absolute inset-0 bg-transparent z-10 pointer-events-none"></div>
+                        
+                        <!-- 图片 -->
+                        <img 
+                            src="product-mindmap.png" 
+                            alt="产品思想演进图" 
+                            class="w-full h-auto"
+                            draggable="false"
+                            onselectstart="return false;"
+                            oncopy="return false;"
+                            oncut="return false;"
+                        >
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
