@@ -924,6 +924,46 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- 快速阅读 YouTube 视频工具 -->
+            <div class="mt-20">
+                <div class="bg-card-glass backdrop-blur-md border border-white/10 rounded-2xl p-8">
+                    <div class="text-center mb-8">
+                        <h3 class="text-3xl font-bold text-dark-text mb-4">快速阅读 YouTube 视频</h3>
+                        <p class="text-medium-gray">输入 YouTube 链接，快速获取视频摘要</p>
+                    </div>
+                    
+                    <div class="max-w-2xl mx-auto">
+                        <div class="flex gap-4 mb-6">
+                            <input 
+                                type="text" 
+                                id="video-url-input" 
+                                placeholder="粘贴 YouTube 视频链接..." 
+                                class="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-dark-text placeholder-medium-gray focus:outline-none focus:border-white/30 backdrop-blur-sm"
+                            >
+                            <button 
+                                onclick="fetchVideoSummary()" 
+                                class="px-8 py-4 bg-gradient-to-r from-gradient-primary to-gradient-secondary text-white rounded-xl font-semibold hover:from-gradient-secondary hover:to-gradient-primary transition-all duration-300 shadow-lg hover:shadow-xl"
+                            >
+                                获取摘要
+                            </button>
+                        </div>
+                        
+                        <div id="summary-result" class="hidden mt-6">
+                            <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+                                <div id="summary-content" class="text-medium-gray leading-relaxed">
+                                    <!-- 摘要内容将显示在这里 -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="summary-loading" class="hidden mt-6 text-center">
+                            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-white/20 border-t-gradient-primary"></div>
+                            <p class="mt-4 text-medium-gray">正在生成摘要...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <section id="contact" class="py-20 bg-gradient-to-t from-gradient-tertiary to-transparent">

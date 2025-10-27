@@ -935,3 +935,118 @@ if (typeof module !== 'undefined' && module.exports) {
     };
 }
 
+/**
+ * 快速阅读 YouTube 视频工具功能
+ */
+async function fetchVideoSummary() {
+    const input = document.getElementById('video-url-input');
+    const resultDiv = document.getElementById('summary-result');
+    const loadingDiv = document.getElementById('summary-loading');
+    const contentDiv = document.getElementById('summary-content');
+    
+    const videoUrl = input.value.trim();
+    
+    if (!videoUrl) {
+        alert('请输入 YouTube 视频链接');
+        return;
+    }
+    
+    // 验证 YouTube URL
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
+    if (!youtubeRegex.test(videoUrl)) {
+        alert('请输入有效的 YouTube 视频链接');
+        return;
+    }
+    
+    // 显示加载状态
+    resultDiv.classList.add('hidden');
+    loadingDiv.classList.remove('hidden');
+    
+    try {
+        // 提取视频 ID
+        const videoId = extractVideoId(videoUrl);
+        
+        // 这里调用一个公开的 API 来获取视频摘要
+        // 使用 YouTube Data API 或第三方服务
+        const summary = await getVideoSummary(videoId);
+        
+        // 显示结果
+        contentDiv.innerHTML = summary;
+        resultDiv.classList.remove('hidden');
+        loadingDiv.classList.add('hidden');
+        
+    } catch (error) {
+        console.error('Error:', error);
+        contentDiv.innerHTML = '<p class="text-red-400">获取摘要失败，请稍后重试。</p>';
+        resultDiv.classList.remove('hidden');
+        loadingDiv.classList.add('hidden');
+    }
+}
+
+/**
+ * 从 YouTube URL 中提取视频 ID
+ */
+function extractVideoId(url) {
+    const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+}
+
+/**
+ * 获取视频摘要
+ */
+async function getVideoSummary(videoId) {
+    // 这里使用 TLDR 服务或类似的 API
+    // 由于没有后端 API，这里提供一个模拟的实现
+    // 实际应用中，您可以集成：
+    // 1. TLDR 的 API (https://tldw.us/)
+    // 2. YouTube Transcript API + AI 总结
+    // 3. 自己的后端服务
+    
+    // 模拟 API 调用
+    try {
+        const response = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`);
+        const data = await response.json();
+        
+        return `
+            <div class="space-y-4">
+                <h4 class="text-xl font-semibold text-dark-text">${data.title}</h4>
+                <div class="flex items-center gap-4 text-sm text-medium-gray">
+                    <span>频道: ${data.author_name}</span>
+                </div>
+                <div class="mt-4">
+                    <p class="text-medium-gray mb-2">
+                        📺 提示：您可以使用以下工具来获取视频摘要：
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-medium-gray">
+                        <li>访问 <a href="https://tldw.us/" target="_blank" class="text-sky-blue hover:underline">TLDW</a> 获取视频摘要</li>
+                        <li>使用 <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" class="text-sky-blue hover:underline">YouTube 字幕</a> 功能</li>
+                        <li>或直接观看完整视频</li>
+                    </ul>
+                    <div class="mt-4">
+                        <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" 
+                           class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-primary text-white rounded-xl hover:shadow-lg transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                            <span>在 YouTube 上观看</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+    } catch (error) {
+        return `
+            <div class="space-y-4">
+                <p class="text-medium-gray">
+                    获取视频信息失败。您可以通过以下方式获取视频摘要：
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-medium-gray">
+                    <li>访问 <a href="https://tldw.us/" target="_blank" class="text-sky-blue hover:underline">TLDW.us</a> 粘贴链接获取摘要</li>
+                    <li>在 YouTube 视频页面打开字幕功能</li>
+                </ul>
+            </div>
+        `;
+    }
+}
+
