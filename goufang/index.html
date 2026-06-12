@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>购房计划书 — BC 协同做大准客规模</title>
+  <style>
+    :root {
+      --ink: #142033;
+      --text: #334155;
+      --muted: #64748b;
+      --paper: #f6f8fb;
+      --panel: #ffffff;
+      --line: #dbe3ef;
+      --soft: #edf1f6;
+      --blue: #245fd6;
+      --cyan: #0f8f9d;
+      --orange: #d96a2b;
+      --green: #287657;
+      --red: #b04444;
+      --amber-bg: #fff7ed;
+      --blue-bg: #eef5ff;
+      --green-bg: #edf8f3;
+      --shadow: 0 24px 72px rgba(20, 32, 51, .10);
+      --body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: repeating-linear-gradient(90deg, rgba(20,32,51,.022) 0, rgba(20,32,51,.022) 1px, transparent 1px, transparent 72px), linear-gradient(180deg, #f8fafc 0%, #eef2f6 52%, #e8edf4 100%); font-family: var(--body); line-height: 1.62; }
+    main { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 30px 0 46px; }
+    .sheet { position: relative; overflow: hidden; background: rgba(255,255,255,.97); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+    .sheet::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 8px; background: linear-gradient(180deg, var(--blue), var(--cyan) 40%, var(--green) 70%, var(--orange)); }
+    header { padding: 46px 58px 38px 66px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, rgba(238,245,255,.92), rgba(255,255,255,.98) 64%); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 16px; padding: 7px 12px; color: var(--blue); background: rgba(36,95,214,.08); border: 1px solid rgba(36,95,214,.16); border-radius: 999px; font-size: 14px; font-weight: 850; }
+    .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+    h1 { width: min(980px, 100%); margin: 0; color: var(--ink); font-size: clamp(34px, 4vw, 54px); line-height: 1.13; font-weight: 900; }
+    .subtitle { width: min(880px, 100%); margin: 16px 0 0; color: #4b5563; font-size: 19px; font-weight: 720; }
+    section { padding: 34px 58px 38px 66px; border-bottom: 1px solid var(--line); }
+    section:last-of-type { border-bottom: 0; }
+    .section-title { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .section-title::before { content: attr(data-num); display: inline-grid; place-items: center; width: 44px; height: 44px; color: #fff; background: var(--ink); border-radius: 6px; font-size: 15px; font-weight: 900; flex: 0 0 auto; }
+    h2 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 900; }
+    h3 { margin: 0 0 10px; font-size: 21px; line-height: 1.32; font-weight: 900; }
+    h4 { margin: 0 0 8px; font-size: 17px; font-weight: 850; color: var(--ink); }
+    p { margin: 0; color: #40506a; font-size: 16px; font-weight: 650; }
+    .lead { margin: 0 0 18px; color: #40506a; font-size: 18px; font-weight: 700; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .card { position: relative; min-height: 150px; padding: 20px 20px 22px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(180deg, #fff, #fbfcff); box-shadow: 0 10px 26px rgba(20,32,51,.052); }
+    .card::before { content: ""; display: block; width: 34px; height: 4px; margin-bottom: 15px; border-radius: 99px; background: var(--blue); }
+    .card.orange::before { background: var(--orange); }
+    .card.green::before { background: var(--green); }
+    .card.cyan::before { background: var(--cyan); }
+    .card.red::before { background: var(--red); }
+    .card ul { margin: 0; padding-left: 18px; color: #43516a; font-size: 16px; font-weight: 650; }
+    .card li { margin: 6px 0; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; background: #fff; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 28px rgba(20,32,51,.05); }
+    th, td { border-bottom: 1px solid var(--line); padding: 16px 18px; vertical-align: top; text-align: left; font-size: 16px; }
+    tr:last-child td { border-bottom: 0; }
+    th { color: var(--ink); background: linear-gradient(180deg, #f8fafc, #f1f5f9); font-weight: 900; }
+    td { color: #40506a; font-weight: 650; }
+    td:first-child { color: var(--ink); font-weight: 850; }
+
+    /* Targets */
+    .target-board { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; align-items: stretch; }
+    .target-main { position: relative; min-height: 244px; padding: 24px; border: 1px solid rgba(217,106,43,.24); border-radius: 8px; background: linear-gradient(135deg, #fff7ed, #ffffff 68%); box-shadow: 0 14px 34px rgba(184,91,32,.08); }
+    .target-main .label, .target-side .label { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 999px; font-size: 13px; font-weight: 900; }
+    .target-main .label { color: #8a4215; background: #ffedd5; border: 1px solid #fed7aa; }
+    .target-main strong { display: block; margin: 18px 0 8px; color: var(--ink); font-size: clamp(30px, 3.6vw, 48px); line-height: 1.06; font-weight: 950; }
+    .target-main p { width: min(560px, 100%); color: #4b5563; font-size: 17px; font-weight: 720; }
+    .target-pair { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 22px; }
+    .region { padding: 16px; border: 1px solid rgba(217,106,43,.22); border-radius: 8px; background: rgba(255,255,255,.86); }
+    .region small { display: block; color: var(--muted); font-size: 13px; font-weight: 850; }
+    .region b { display: block; margin-top: 5px; color: #8a4215; font-size: 25px; line-height: 1.15; font-weight: 950; }
+    .target-side { display: grid; gap: 16px; }
+    .target-card { padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 28px rgba(20,32,51,.055); }
+    .target-card.constraint { border-color: rgba(36,95,214,.22); background: linear-gradient(135deg, #eef5ff, #ffffff 70%); }
+    .target-card.observe { border-color: rgba(40,118,87,.22); background: linear-gradient(135deg, #edf8f3, #ffffff 72%); }
+    .target-card.constraint .label { color: #1f4fad; background: #dbeafe; border: 1px solid #bfdbfe; }
+    .target-card.observe .label { color: #1f6b4d; background: #dcfce7; border: 1px solid #bbf7d0; }
+    .target-card strong { display: block; margin-top: 14px; color: var(--ink); font-size: 28px; line-height: 1.12; font-weight: 950; }
+    .target-card p { margin-top: 9px; color: #536176; font-size: 15px; font-weight: 680; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
+    .chips span { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 9px; border-radius: 999px; font-size: 13px; font-weight: 800; }
+    .chip-green { color: #315f4a; background: rgba(220,252,231,.8); border: 1px solid #bbf7d0; }
+    .chip-blue { color: #1f4fad; background: rgba(219,234,254,.7); border: 1px solid #bfdbfe; }
+    .chip-orange { color: #8a4215; background: rgba(255,237,213,.7); border: 1px solid #fed7aa; }
+    .chip-cyan { color: #0a5f69; background: rgba(207,250,254,.6); border: 1px solid #a5f3fc; }
+    .target-note { margin-top: 14px; padding: 14px 16px; border: 1px dashed #cbd5e1; border-radius: 8px; background: #f8fafc; color: #4b5563; font-size: 14px; font-weight: 680; }
+
+    /* Key design (关键设计) — two matched panels */
+    .kd-exrow { margin-top: 16px; }
+    .kd-example { margin: 0; display: grid; grid-template-columns: 1.18fr 0.82fr; gap: 18px; }
+    .kd-ex-line { padding: 12px 15px; border-radius: 8px; font-size: 14px; font-weight: 700; line-height: 1.75; color: #40506a; }
+    .kd-ex-line.old { background: #f6f8fa; border: 1px solid #e2e8f0; border-left: 4px solid #94a3b8; }
+    .kd-ex-line.new { background: #eef8f3; border: 1px solid #cce9dc; border-left: 4px solid var(--green); }
+    .kd-ex-line.old b { color: #475569; }
+    .kd-ex-line.new b { color: var(--green); }
+    .kd-ex-tag { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 900; margin-right: 8px; }
+    .kd-ex-tag.tag-old { background: #e2e8f0; color: #475569; }
+    .kd-ex-tag.tag-new { background: #d6f0e2; color: #1b6b4d; }
+    .kd-cols { display: grid; grid-template-columns: 1.18fr 0.82fr; gap: 18px; margin-top: 18px; align-items: stretch; }
+    .kd-col { display: flex; flex-direction: column; }
+    .kd-head { display: grid; grid-template-columns: var(--kc, 140px) 1fr; gap: 14px; padding: 15px 18px; background: linear-gradient(180deg, #eaf7f1, #dcf0e5); border: 1px solid #c6e6d6; border-bottom: 0; border-radius: 8px 8px 0 0; color: #1b6b4d; font-weight: 900; font-size: 16px; }
+    .kd-body { display: flex; flex-direction: column; flex: 1; border: 1px solid #c6e6d6; border-top: 0; border-radius: 0 0 8px 8px; overflow: hidden; background: #fff; box-shadow: 0 10px 28px rgba(40,118,87,.07); }
+    .kd-row { flex: 1; display: grid; grid-template-columns: var(--kc, 140px) 1fr; gap: 14px; align-items: center; padding: 14px 18px; border-bottom: 1px solid #e2efe8; }
+    .kd-col.kc-l { --kc: 92px; }
+    .kd-col.kc-r { --kc: 132px; }
+    .kd-row:last-child { border-bottom: 0; }
+    .kd-row .k1 { color: #1b6b4d; font-size: 15px; font-weight: 850; }
+    .kd-row .k2 { color: #40506a; font-size: 14px; font-weight: 650; line-height: 1.55; }
+
+    /* Flow strip */
+    .flow-strip { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0; align-items: stretch; margin: 22px 0 0; }
+    .flow-node { padding: 22px; border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 26px rgba(20,32,51,.048); }
+    .flow-node.node-blue { border-top: 4px solid var(--blue); }
+    .flow-node.node-cyan { border-top: 4px solid var(--cyan); }
+    .flow-node.node-green { border-top: 4px solid var(--green); }
+    .flow-arrow { align-self: center; color: var(--muted); font-size: 26px; font-weight: 900; padding: 0 6px; }
+
+    /* Compare */
+    .compare-strip { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: stretch; margin-top: 18px; }
+    .compare-card { padding: 22px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(180deg, #fff, #fbfcff); box-shadow: 0 10px 26px rgba(20,32,51,.05); min-height: 180px; }
+    .compare-card.old { border-top: 4px solid #94a3b8; }
+    .compare-card.new { border-top: 4px solid var(--blue); }
+    .compare-arrow { align-self: center; font-size: 30px; font-weight: 900; color: var(--blue); padding: 0 10px; }
+    .compare-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 900; margin-bottom: 12px; }
+    .tag-old { color: #475569; background: #f1f5f9; border: 1px solid #cbd5e1; }
+    .tag-new { color: #1f4fad; background: #dbeafe; border: 1px solid #bfdbfe; }
+    .compare-card ul { margin: 10px 0 0; padding-left: 18px; color: #43516a; font-size: 15px; font-weight: 650; }
+    .compare-card li { margin: 5px 0; }
+
+    /* Roles */
+    .role-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 18px; }
+    .role-card { padding: 22px; border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 26px rgba(20,32,51,.048); position: relative; overflow: hidden; }
+    .role-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; }
+    .role-card.role-b::before { background: var(--blue); }
+    .role-card.role-c::before { background: var(--cyan); }
+    .role-card.role-bc::before { background: linear-gradient(90deg, var(--blue), var(--cyan)); }
+    .role-card.role-mgr::before { background: var(--green); }
+    .role-code { font-size: 13px; font-weight: 900; color: #fff; display: inline-block; padding: 3px 10px; border-radius: 999px; margin-bottom: 12px; }
+    .role-b .role-code { background: var(--blue); }
+    .role-c .role-code { background: var(--cyan); }
+    .role-bc .role-code { background: linear-gradient(90deg, var(--blue), var(--cyan)); }
+    .role-mgr .role-code { background: var(--green); }
+    .role-card h3 { font-size: 20px; }
+    .role-card ul { margin: 10px 0 0; padding-left: 18px; color: #43516a; font-size: 15px; font-weight: 650; }
+    .role-card li { margin: 5px 0; }
+
+    /* Metrics */
+    .metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+    .metric { min-height: 112px; padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 28px rgba(20,32,51,.06); display: flex; flex-direction: column; }
+    .metric small { display: block; min-height: 36px; color: var(--muted); font-size: 13px; font-weight: 850; line-height: 1.35; }
+    .metric strong { display: block; margin-top: 6px; min-height: 34px; color: var(--ink); font-size: 24px; line-height: 1.2; font-weight: 900; }
+    .metric > span { display: block; margin-top: 7px; color: #536176; font-size: 13px; font-weight: 650; }
+    .metric::before { content: ""; display: block; height: 3px; margin: -18px -18px 14px; border-radius: 8px 8px 0 0; background: var(--blue); }
+    .metric.m-cyan::before { background: var(--cyan); }
+    .metric.m-green::before { background: var(--green); }
+    .metric.m-orange::before { background: var(--orange); }
+    /* 准客量目标卡：对齐 02 项目目标橙色系并强调 */
+    .metric.m-target { border-color: rgba(217,106,43,.30); background: linear-gradient(135deg, #fff7ed, #ffffff 70%); box-shadow: 0 14px 32px rgba(184,91,32,.14); }
+    .metric.m-target::before { height: 5px; background: var(--orange); }
+    .metric.m-target small { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #8a4215; }
+    .metric.m-target strong { color: #b85b20; font-size: 28px; }
+    .metric.m-target .m-rate { flex: 0 0 auto; font-size: 12px; font-weight: 900; color: #b85b20; white-space: nowrap; }
+
+    /* Discuss */
+    .discuss-zone { margin-top: 18px; padding: 24px; border: 2px solid rgba(36,95,214,.2); border-radius: 8px; background: linear-gradient(135deg, #f0f5ff, #ffffff 60%); }
+    .discuss-zone h3 { color: var(--blue); font-size: 22px; margin-bottom: 14px; }
+    .discuss-list { margin: 0; padding: 0; list-style: none; counter-reset: dq; }
+    .discuss-list li { counter-increment: dq; display: grid; grid-template-columns: 42px 1fr; gap: 14px; align-items: start; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: #40506a; font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+    .discuss-list li:last-child { margin-bottom: 0; }
+    .discuss-list li::before { content: counter(dq); display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 6px; color: #fff; background: var(--blue); font-weight: 900; font-size: 15px; }
+
+    /* Callouts */
+    .callout { margin-top: 18px; border-left: 5px solid var(--blue); border-radius: 0 8px 8px 0; background: var(--blue-bg); padding: 18px 22px; color: #172033; font-size: 19px; font-weight: 900; }
+    .callout.callout-orange { border-left-color: var(--orange); background: var(--amber-bg); }
+    .callout.callout-green { border-left-color: var(--green); background: var(--green-bg); }
+    .callout.callout-cyan { border-left-color: var(--cyan); background: #f0fafb; }
+    .insight-box { margin-top: 16px; padding: 18px 22px; border: 1px dashed var(--line); border-radius: 8px; background: #f8fafc; }
+    .insight-box p { font-size: 15px; color: #4b5563; }
+    .insight-box strong { color: var(--ink); }
+
+    /* ===== Positioning Map ===== */
+    .pos-map { display: grid; grid-template-columns: 1fr 96px 1fr; gap: 0; align-items: stretch; margin-top: 20px; }
+    .pos-side { border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 26px rgba(20,32,51,.048); overflow: hidden; }
+    .pos-header { padding: 14px 18px; font-size: 18px; font-weight: 950; color: #fff; text-align: center; }
+    .pos-header.h-buyer { background: linear-gradient(135deg, var(--blue), var(--cyan)); }
+    .pos-header.h-seller { background: linear-gradient(135deg, var(--green), #1a8a5e); }
+    .pos-body { padding: 18px; display: flex; flex-direction: column; height: 100%; }
+    .pos-body p { font-size: 14px; margin-bottom: 8px; }
+    .pos-intro { min-height: 100px; }
+    .pos-nodes { min-height: 150px; display: flex; align-items: flex-start; }
+    .pos-tip { margin-top: 6px; min-height: 104px; }
+    .tip-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; vertical-align: middle; }
+    .pos-connector { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+    .pos-connector .conn-line { width: 3px; flex: 1; background: linear-gradient(180deg, var(--orange), #c25a1f); min-height: 24px; border-radius: 2px; }
+    .pos-connector .conn-label { writing-mode: vertical-rl; text-orientation: upright; font-size: 19px; font-weight: 900; color: #fff; letter-spacing: 3px; background: linear-gradient(180deg, var(--orange), #c25a1f); padding: 20px 11px; border-radius: 999px; box-shadow: 0 10px 26px rgba(217,106,43,.32); }
+
+    /* Buyer gravity nodes (non-linear, no connecting line / arrows) */
+    .gnode-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; }
+    .gnode { text-align: center; padding: 10px 4px 8px; border: 2px solid transparent; border-radius: 10px; }
+    .gnode.boxed { border-color: var(--orange); background: rgba(255,247,237,.7); }
+    .gnode-circle { width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 10px; display: grid; place-items: center; color: #fff; border: 4px solid #fff; box-shadow: 0 4px 16px rgba(36,95,214,.18); }
+    .gnode:nth-child(1) .gnode-circle { background: linear-gradient(135deg, #1d4ec2, #3f74e6); }
+    .gnode:nth-child(2) .gnode-circle { background: linear-gradient(135deg, #2156c9, #4479e8); }
+    .gnode:nth-child(3) .gnode-circle { background: linear-gradient(135deg, #245fd6, #4a7eea); }
+    .gnode:nth-child(4) .gnode-circle { background: linear-gradient(135deg, #2862da, #5183ec); }
+    .gnode:nth-child(5) .gnode-circle { background: linear-gradient(135deg, #2c66de, #5788ee); }
+    .gnode-circle svg { width: 26px; height: 26px; stroke: #fff; fill: none; }
+    .gnode-name { font-size: 14px; font-weight: 950; color: var(--ink); }
+    .gnode-desc { font-size: 11px; color: var(--muted); font-weight: 650; margin-top: 2px; }
+
+    /* Magnetic model vis */
+    .magnetic-vis { position: relative; margin: 20px 0 0; padding: 28px 24px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(135deg, #f8fbff, #fff 60%); overflow: hidden; }
+    .magnetic-center { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; }
+    .mag-core { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--cyan)); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; text-align: center; box-shadow: 0 0 0 8px rgba(36,95,214,.1), 0 0 0 20px rgba(36,95,214,.05); flex-shrink: 0; }
+    .mag-core .mc-title { font-size: 15px; font-weight: 950; }
+    .mag-core .mc-sub { font-size: 10px; font-weight: 700; opacity: .8; margin-top: 4px; }
+    .mag-tags { display: flex; flex-wrap: wrap; gap: 8px; max-width: 280px; }
+    .mag-tag { padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 800; }
+    .mag-tag.attract { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    .mag-tag.neutral { background: #f1f5f9; color: #475569; border: 1px dashed #94a3b8; }
+    .mag-tag.repel { background: #fef2f2; color: #991b1b; border: 1px dashed #fca5a5; }
+    .mag-orbits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
+    .mag-orbit { padding: 12px 14px; border-radius: 8px; text-align: center; }
+    .mag-orbit.o-attract { background: rgba(220,252,231,.5); border: 1px solid #bbf7d0; }
+    .mag-orbit.o-neutral { background: rgba(241,245,249,.6); border: 1px dashed #cbd5e1; }
+    .mag-orbit.o-repel { background: rgba(254,242,242,.5); border: 1px dashed #fecaca; }
+    .mag-orbit .mo-arrow { font-size: 18px; margin-bottom: 2px; }
+    .mag-orbit .mo-label { font-size: 13px; font-weight: 900; }
+    .mag-orbit .mo-desc { font-size: 11px; color: var(--muted); font-weight: 650; margin-top: 2px; }
+
+    /* Station model */
+    .station-track { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; position: relative; width: 100%; }
+    .station-track::before { content: ""; position: absolute; top: 30px; left: 30px; right: 30px; height: 4px; background: linear-gradient(90deg, #176149, #1c7a55, #228862, #28966d, #2da678); border-radius: 2px; z-index: 0; }
+    .station { position: relative; z-index: 1; text-align: center; }
+    .station-dot { width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 10px; display: grid; place-items: center; font-size: 13px; font-weight: 900; color: #fff; border: 4px solid #fff; box-shadow: 0 4px 16px rgba(20,32,51,.12); }
+    .station:nth-child(1) .station-dot { background: #176149; }
+    .station:nth-child(2) .station-dot { background: #1c7a55; }
+    .station:nth-child(3) .station-dot { background: #228862; }
+    .station:nth-child(4) .station-dot { background: #28966d; }
+    .station:nth-child(5) .station-dot { background: #2da678; }
+    .station-name { font-size: 15px; font-weight: 950; color: var(--ink); }
+    .station-desc { font-size: 11px; color: var(--muted); font-weight: 650; margin-top: 2px; }
+    .station-svc { display: inline-block; margin-top: 6px; padding: 3px 8px; border-radius: 999px; font-size: 10px; font-weight: 850; background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .station-highlight { border: 2px dashed var(--orange); border-radius: 12px; padding: 4px; margin: -4px; }
+
+    /* Production pipeline (准客生产与交付) */
+    .prod-shell { margin-top: 30px; border: 1px solid #d6e0ea; border-radius: 14px; background: linear-gradient(180deg, #f4f8fc, #ffffff 60%); box-shadow: 0 18px 48px rgba(20,32,51,.07); padding: 24px; }
+    .prod-shell-head { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .prod-shell-head .ps-pill { display: inline-flex; align-items: center; height: 28px; padding: 0 13px; border-radius: 999px; background: linear-gradient(135deg, var(--blue), var(--cyan)); color: #fff; font-size: 13px; font-weight: 900; flex-shrink: 0; }
+    .prod-shell-head h3 { margin: 0; font-size: 19px; font-weight: 900; color: var(--ink); }
+    .prod-shell .prod-card { box-shadow: 0 6px 20px rgba(20,32,51,.06); border: 0; }
+    .kd-sep { display: flex; align-items: center; gap: 14px; margin: 34px 0 22px; }
+    .kd-sep::before, .kd-sep::after { content: ""; flex: 1; height: 2px; border-radius: 2px; }
+    .kd-sep::before { background: linear-gradient(90deg, transparent, #cdd8e4); }
+    .kd-sep::after { background: linear-gradient(90deg, #cdd8e4, transparent); }
+    .kd-sep span { font-size: 18px; font-weight: 900; color: var(--muted); white-space: nowrap; }
+    .prod-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .prod-card { border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 28px rgba(20,32,51,.05); overflow: hidden; display: flex; flex-direction: column; }
+    .prod-head { display: flex; align-items: center; gap: 12px; padding: 15px 18px; }
+    .prod-num { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; color: #fff; font-size: 20px; font-weight: 900; flex-shrink: 0; box-shadow: 0 4px 12px rgba(20,32,51,.18); }
+    .prod-htext { flex: 1; min-width: 0; }
+    .prod-htext h4 { margin: 0; font-size: 17px; font-weight: 900; color: var(--ink); }
+    .prod-htext .ph-sub { font-size: 12px; font-weight: 750; color: var(--muted); margin-top: 2px; }
+    .prod-metric { padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 900; white-space: nowrap; flex-shrink: 0; }
+    .prod-body { padding: 14px 18px; flex: 1; display: flex; flex-direction: column; }
+    .prod-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+    .prod-list.two-col { grid-template-columns: 1fr 1fr; grid-auto-flow: column; grid-template-rows: repeat(5, auto); gap: 9px 18px; }
+    .prod-list li { display: grid; grid-template-columns: 14px 1fr; gap: 8px; font-size: 13.5px; font-weight: 650; color: #43516a; line-height: 1.5; }
+    .prod-list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; }
+    .prod-list li b { color: var(--ink); font-weight: 850; }
+    .prod-note { margin-top: auto; padding: 2px 0 2px 13px; border-left: 3px solid var(--line); font-size: 14px; font-weight: 750; color: var(--muted); line-height: 1.6; }
+    .prod-note b { color: inherit; font-weight: 900; }
+    .pc-blue .prod-note { border-left-color: var(--blue); color: #2a55c0; }
+    .pc-cyan .prod-note { border-left-color: var(--cyan); color: #0c7180; }
+    .pc-green .prod-note { border-left-color: var(--green); color: #1f6b4d; }
+    .prod-list { margin-bottom: 14px; }
+    .pc-blue .prod-num { background: var(--blue); } .pc-blue .prod-head { background: linear-gradient(180deg, #eef5ff, #fff); } .pc-blue .prod-metric { background: #dbeafe; color: #1f4fad; } .pc-blue .prod-list li::before { background: var(--blue); }
+    .pc-cyan .prod-num { background: var(--cyan); } .pc-cyan .prod-head { background: linear-gradient(180deg, #e8f6f8, #fff); } .pc-cyan .prod-metric { background: #cdeef1; color: #0a5f69; } .pc-cyan .prod-list li::before { background: var(--cyan); }
+    .pc-green .prod-num { background: var(--green); } .pc-green .prod-head { background: linear-gradient(180deg, #eaf7f1, #fff); } .pc-green .prod-metric { background: #d6f0e2; color: #1b6b4d; } .pc-green .prod-list li::before { background: var(--green); }
+    .prod-merge { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 14px 0; padding: 4px 0; color: var(--orange); font-size: 13.5px; font-weight: 850; text-align: center; }
+    .prod-merge .pm-arrow { color: var(--orange); font-size: 30px; font-weight: 400; line-height: 1; transform: scaleY(1.5); }
+    .prod-caliber { margin: -8px 0 16px; padding: 0 14px; text-align: center; font-size: 13px; font-weight: 700; color: var(--orange); line-height: 1.65; }
+    /* 两侧箭头：上方两模块直下到第三模块，中间夹住汇总文字 */
+    .prod-converge { display: grid; grid-template-columns: 14px minmax(0, 600px) 14px; justify-content: center; align-items: stretch; gap: 26px; margin: 8px 0 8px; }
+    .big-arrow { display: flex; flex-direction: column; align-items: center; }
+    .big-arrow .shaft { flex: 1; width: 4px; min-height: 40px; background: linear-gradient(180deg, #f0a868, var(--orange)); border-radius: 3px 3px 0 0; }
+    .big-arrow .head { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 10px solid var(--orange); }
+    .flow-box { border: 0; background: transparent; padding: 8px 0; margin: 0 auto; max-width: 600px; align-self: center; text-align: center; }
+    .flow-box .fb-title { font-size: 17px; font-weight: 900; color: var(--ink); line-height: 1.45; }
+    .flow-box .fb-title b { color: var(--orange); }
+    .flow-box .fb-sub { margin-top: 7px; font-size: 14.5px; font-weight: 850; color: var(--orange); letter-spacing: .2px; }
+    .flow-box .fb-conds { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 7px 12px; margin-top: 12px; font-size: 13px; font-weight: 700; color: var(--muted); line-height: 1.5; }
+    .flow-box .fb-conds b { color: #c2410c; font-weight: 850; }
+    .flow-box .fb-conds .dot { width: 4px; height: 4px; border-radius: 50%; background: #cbd5e1; }
+    .prod-caliber b { color: var(--orange); }
+    .prod-full { margin-top: 0; }
+    .prod-full .prod-body { padding: 18px; }
+
+    /* Phase banner */
+    .phase-banner { display: flex; align-items: center; gap: 14px; margin: 24px 0 18px; padding: 16px 20px; border-radius: 8px; }
+    .phase-banner.phase-a { background: linear-gradient(90deg, #142033, #1e3a5f); }
+    .phase-banner.phase-b { background: linear-gradient(90deg, #0f8f9d, #287657); }
+    .phase-banner .phase-num { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.18); color: #fff; font-size: 16px; font-weight: 900; flex-shrink: 0; }
+    .phase-banner .phase-text { color: #fff; font-size: 20px; font-weight: 900; }
+    .phase-banner .phase-sub { color: rgba(255,255,255,.7); font-size: 14px; font-weight: 700; margin-left: 8px; }
+
+    /* Phone mockup */
+    .phone-row { display: grid; grid-template-columns: 220px 1fr; gap: 24px; align-items: start; margin-bottom: 20px; }
+    .phone-row.reverse { grid-template-columns: 1fr 220px; }
+    .phone { width: 220px; border: 2px solid #1a1a2e; border-radius: 28px; background: #fff; overflow: hidden; box-shadow: 0 16px 48px rgba(20,32,51,.14); }
+    .phone-status { height: 32px; background: #1a1a2e; display: flex; align-items: center; justify-content: center; }
+    .phone-status .notch { width: 80px; height: 18px; background: #000; border-radius: 0 0 12px 12px; }
+    .phone-screen { padding: 16px 14px; min-height: 320px; }
+    .phone-screen .s-hero { background: linear-gradient(135deg, #e8f4f8, #d4ecf7); border-radius: 10px; padding: 16px 14px; margin-bottom: 12px; text-align: center; }
+    .phone-screen .s-hero .s-num { font-size: 28px; font-weight: 950; color: var(--cyan); margin: 4px 0; }
+    .phone-screen .s-hero .s-desc { font-size: 11px; color: var(--muted); font-weight: 650; }
+    .phone-screen .s-btn { display: block; margin: 12px auto 0; padding: 10px; background: #1a1a2e; color: #fff; border-radius: 999px; text-align: center; font-size: 14px; font-weight: 850; }
+    .phone-screen .s-section { margin-top: 14px; }
+    .phone-screen .s-label { font-size: 11px; color: var(--muted); font-weight: 850; margin-bottom: 6px; }
+    .phone-screen .s-tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+    .phone-screen .s-tag { display: inline-block; padding: 3px 8px; border-radius: 999px; font-size: 10px; font-weight: 800; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+    .phone-screen .s-tag.active { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
+    .phone-desc h4 { font-size: 18px; margin-bottom: 8px; }
+    .phone-desc p { font-size: 15px; margin-bottom: 10px; }
+    .phone-desc ul { margin: 8px 0 0; padding-left: 18px; color: #43516a; font-size: 15px; font-weight: 650; }
+    .phone-desc li { margin: 5px 0; }
+
+    /* Module grid */
+    .module-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+    .module-item { padding: 16px; border: 0; border-radius: 10px; background: #f1f8f4; box-shadow: none; position: relative; overflow: hidden; }
+    .module-item::after { content: attr(data-idx); position: absolute; top: 10px; right: 14px; font-size: 26px; font-weight: 950; color: rgba(40,118,87,.12); }
+    .module-item .m-icon { margin-bottom: 10px; }
+    .module-item .m-icon svg { width: 26px; height: 26px; stroke: var(--green); fill: none; }
+    .module-item h4 { font-size: 15px; font-weight: 900; color: var(--ink); margin: 0 0 6px; line-height: 1.35; }
+    .module-item p { font-size: 13px; color: var(--muted); font-weight: 650; line-height: 1.5; }
+    .module-item.m-highlight { background: #ddefe4; }
+    .module-item.m-highlight::after { color: rgba(40,118,87,.16); }
+
+    /* Need fields */
+    .need-fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 14px; }
+    .need-field { padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: #fff; display: flex; align-items: center; gap: 12px; }
+    .need-field .nf-badge { display: inline-grid; place-items: center; min-width: 56px; height: 26px; border-radius: 999px; font-size: 11px; font-weight: 900; flex-shrink: 0; }
+    .need-field .nf-badge.required { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+    .need-field .nf-badge.optional { background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; }
+    .need-field .nf-text { font-size: 14px; font-weight: 750; color: var(--ink); }
+    .need-field .nf-hint { font-size: 12px; color: var(--muted); font-weight: 650; }
+
+    /* Journey */
+    .journey-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin: 20px 0; position: relative; }
+    .journey-bar::before { content: ""; position: absolute; top: 19px; left: 40px; right: 40px; height: 3px; background: linear-gradient(90deg, var(--blue), var(--cyan), var(--green)); border-radius: 2px; z-index: 0; }
+    .journey-step { display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; z-index: 1; }
+    .journey-dot { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+    .journey-step:nth-child(1) .journey-dot { background: var(--blue); }
+    .journey-step:nth-child(2) .journey-dot { background: #1a7aad; }
+    .journey-step:nth-child(3) .journey-dot { background: var(--cyan); }
+    .journey-step:nth-child(4) .journey-dot { background: #1b8a6e; }
+    .journey-step:nth-child(5) .journey-dot { background: var(--green); }
+    .journey-label { font-size: 13px; font-weight: 850; color: var(--ink); }
+    .journey-sub { font-size: 11px; color: var(--muted); font-weight: 650; margin-top: 2px; max-width: 140px; }
+
+    @media (min-width: 901px) { h2 { white-space: nowrap; word-break: keep-all; } }
+    @media (max-width: 900px) {
+      * { min-width: 0; overflow-wrap: anywhere; }
+      main { width: calc(100vw - 24px); padding: 18px 0 28px; }
+      header, section { padding: 28px 22px 30px 28px; }
+      .grid-2, .grid-3, .grid-4, .metric-row, .target-board, .target-pair, .role-grid, .flow-strip, .compare-strip, .module-grid, .need-fields, .journey-bar, .pos-map, .station-track, .gnode-row, .kd-cols, .kd-exrow, .prod-cols, .prod-converge { grid-template-columns: 1fr; }
+      .big-arrow .shaft { min-height: 26px; }
+      h1 { width: 100%; max-width: 100%; font-size: 25px; line-height: 1.24; white-space: normal; word-break: break-word; }
+      h2 { font-size: 25px; }
+      .phone-row, .phone-row.reverse { grid-template-columns: 1fr; }
+      .phone { margin: 0 auto; }
+      .flow-arrow, .compare-arrow { transform: rotate(90deg); justify-self: center; padding: 6px 0; }
+      table, tbody, tr, th, td { display: block; width: 100%; }
+      tr { border-bottom: 1px solid var(--line); }
+      tr:last-child { border-bottom: 0; }
+      th { border-bottom: 0; padding-bottom: 6px; }
+      td { padding-top: 6px; }
+      .journey-bar::before { display: none; }
+      .station-track::before { display: none; }
+      .journey-step, .bf-step { flex-direction: row; gap: 12px; text-align: left; }
+      .bf-step::after { display: none; }
+      .mag-orbits { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article class="sheet">
+
+      <header>
+        <div class="eyebrow">项目 Onepage | 购房计划书</div>
+        <h1>BC 协同做大准客规模</h1>
+        <p class="subtitle">以购房计划书为枢纽，让平台线上能力与经纪人线下能力形成协同，把泛流量转化为可被清晰描述的需求</p>
+      </header>
+
+      <!-- ============ 01 项目定位 ============ -->
+      <section>
+        <div class="section-title" data-num="01"><h2>项目在决策 OS 中的定位</h2></div>
+        <p class="lead">消费者决策 OS 有两个核心模型：买家侧的"引力式决策"和卖家侧的"到站式决策"。购房计划书服务的是买家引力式决策——帮买家构建需求画像、完成匹配评估和取舍判断，最终生产出"准客"。准客从卖家到站式决策的"曝光"环节起就持续汇入，贯穿曝光、带看、出价、斡旋成交全链路。</p>
+
+        <!-- Two models side by side -->
+        <div class="pos-map">
+          <!-- Buyer side -->
+          <div class="pos-side">
+            <div class="pos-header h-buyer">买家引力式决策</div>
+            <div class="pos-body">
+              <div class="pos-intro"><p><strong>核心逻辑：</strong>买家带着需求画像（预算/家庭/通勤/学区/改善/审美），被匹配的房源产生引力或排斥。这不是线性流程，而是多重力同时作用——买家在决策视野内被吸引、被排除，反复权衡后做出最优选择。</p></div>
+              <div class="pos-nodes">
+                <div class="gnode-row">
+                  <div class="gnode boxed">
+                    <div class="gnode-circle"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20.5 20.5-3.8-3.8"/></svg></div>
+                    <div class="gnode-name">发现房源</div><div class="gnode-desc">多渠道触达</div>
+                  </div>
+                  <div class="gnode boxed">
+                    <div class="gnode-circle"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.3l-1.4-1.3C5.4 14.4 2.5 11.3 2.5 7.8 2.5 5 4.6 3 7.3 3c1.5 0 3 .7 4 1.9C12.2 3.7 13.7 3 15.2 3c2.7 0 4.8 2 4.8 4.8 0 3.5-3 6.6-8.1 11.2L12 20.3z"/></svg></div>
+                    <div class="gnode-name">兴趣产生</div><div class="gnode-desc">内容激发</div>
+                  </div>
+                  <div class="gnode boxed">
+                    <div class="gnode-circle"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="9" cy="7" r="2.2" fill="#fff" stroke="none"/><circle cx="15" cy="12" r="2.2" fill="#fff" stroke="none"/><circle cx="8" cy="17" r="2.2" fill="#fff" stroke="none"/></svg></div>
+                    <div class="gnode-name">匹配评估</div><div class="gnode-desc">引力计算</div>
+                  </div>
+                  <div class="gnode boxed">
+                    <div class="gnode-circle"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="21"/><line x1="7" y1="21" x2="17" y2="21"/><line x1="3" y1="7.5" x2="21" y2="7.5"/><path d="M5.5 7.5L3 13h5z" fill="#fff" stroke="none"/><path d="M18.5 7.5L16 13h5z" fill="#fff" stroke="none"/></svg></div>
+                    <div class="gnode-name">取舍决策</div><div class="gnode-desc">权衡取舍</div>
+                  </div>
+                  <div class="gnode boxed">
+                    <div class="gnode-circle"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.3" fill="#fff" stroke="none"/></svg></div>
+                    <div class="gnode-name">被捕获</div><div class="gnode-desc">最优匹配</div>
+                  </div>
+                </div>
+              </div>
+              <div class="pos-tip" style="padding:12px 14px;border:2px solid rgba(36,95,214,.2);border-radius:8px;background:rgba(36,95,214,.04)">
+                <p style="font-size:14px;font-weight:850;color:var(--blue)"><span class="tip-dot" style="background:var(--blue)"></span>购房计划书在这里：</p>
+                <p style="font-size:13px;margin-top:4px">帮买家<strong>构建需求画像</strong>（Tokenize 分类）、看清<strong>匹配评估</strong>（相似人群怎么买、买在哪）、完成<strong>取舍判断</strong>（AI 洞察决策路径的取与舍），最终产出"准客"。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connector -->
+          <div class="pos-connector">
+            <div class="conn-line"></div>
+            <div class="conn-label">准客汇入</div>
+            <div class="conn-line"></div>
+          </div>
+
+          <!-- Seller side -->
+          <div class="pos-side">
+            <div class="pos-header h-seller">卖家到站式决策</div>
+            <div class="pos-body">
+              <div class="pos-intro"><p><strong>核心逻辑：</strong>卖家是线性的到站式推进，从委托挂牌开始，依次经过曝光、带看、出价、斡旋成交五个站点。从"曝光"起，每一站都需要准客信息支撑决策：继续前进、暂时下车、还是调整策略。</p></div>
+              <div class="pos-nodes">
+                <div class="station-track">
+                  <div class="station"><div class="station-dot">01</div><div class="station-name">委托挂牌</div><div class="station-svc">业主委托服务</div></div>
+                  <div class="station"><div class="station-dot" style="border-color:var(--orange)">02</div><div class="station-name">曝光</div><div class="station-svc" style="background:#fff7ed;color:#92400e;border-color:#fed7aa">准客汇入 ←</div></div>
+                  <div class="station"><div class="station-dot" style="border-color:var(--orange)">03</div><div class="station-name">带看</div><div class="station-svc" style="background:#fff7ed;color:#92400e;border-color:#fed7aa">准客带看 ←</div></div>
+                  <div class="station"><div class="station-dot" style="border-color:var(--orange)">04</div><div class="station-name">出价</div><div class="station-svc" style="background:#fff7ed;color:#92400e;border-color:#fed7aa">准客出价 ←</div></div>
+                  <div class="station"><div class="station-dot" style="border-color:var(--orange)">05</div><div class="station-name">斡旋成交</div><div class="station-svc" style="background:#fff7ed;color:#92400e;border-color:#fed7aa">准客成交 ←</div></div>
+                </div>
+              </div>
+              <div class="pos-tip" style="padding:12px 14px;border:2px solid rgba(40,118,87,.2);border-radius:8px;background:rgba(40,118,87,.04)">
+                <p style="font-size:14px;font-weight:850;color:var(--green)"><span class="tip-dot" style="background:var(--green)"></span>准客从"曝光"开始就汇入卖家链路：</p>
+                <p style="font-size:13px;margin-top:4px">准客带着<strong>明确需求和决策意向</strong>，从"曝光"站点起就为卖家提供精准客户信息——曝光、带看、出价、斡旋成交<strong>每一站都需要准客信息</strong>来提升匹配精度、去化效率和成交确定性。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top:24px">购房计划书的价值：它是<strong>卖家引力模型的产品化落地</strong>——帮买家分析自身需求、形成清晰的描述，通过服务者协同完成修改、决策、确认，从流量成为准客。准客的需求汇入卖家链路，同时提升买卖两侧的效率。</div>
+      </section>
+
+      <!-- ============ 02 项目目标 ============ -->
+      <section>
+        <div class="section-title" data-num="02"><h2>项目目标</h2></div>
+
+        <div class="target-board">
+          <div class="target-main">
+            <span class="label">核心目标</span>
+            <strong>月准客用户量 15 万<br>渗透商机用户 50%</strong>
+            <p>月准客用户量达到 15 万，准客渗透商机用户 50%，实现从泛流量到可被清晰描述的需求的规模化。</p>
+            <div class="target-pair">
+              <div class="region"><small>决策力产品塑造准客/月</small><b>5 万</b></div>
+              <div class="region"><small>服务者协同用户确认/月</small><b>10 万</b></div>
+            </div>
+          </div>
+          <div class="target-side">
+            <div class="target-card constraint">
+              <span class="label">转化验证指标</span>
+              <strong>准客 → 带看 → 成交</strong>
+              <p>围绕准客需求池做触达、匹配、服务，验证"准客转带看、斡旋、交易成功率 > 非准客 X%"的因果关系。</p>
+            </div>
+            <div class="target-card observe">
+              <span class="label">过程观测指标</span>
+              <strong>看飞轮是否转起来</strong>
+              <div class="chips">
+                <span class="chip-green">决策力产品 MAU</span>
+                <span class="chip-green">连接客户 MADU</span>
+                <span class="chip-green">AI 整体满足度</span>
+                <span class="chip-green">月准客商机量</span>
+                <span class="chip-green">月准客带看量</span>
+                <span class="chip-green">月准客成交量</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="target-note" style="margin-top:14px">准客飞轮：决策力产品做大准客规模 → 准客精准触达内容及服务 → 准客精准派单给能人 → 带看转化率提升 → 准客汇入卖家到站链路 → 成交因果性增强。</div>
+      </section>
+
+      <!-- ============ 03 关键设计 ============ -->
+      <section>
+        <div class="section-title" data-num="03"><h2>关键设计</h2></div>
+        <p class="lead">关键设计不是堆叠功能，而是把用户原本散落在线下的"探需—对比—判断"动作，放进一条线上可执行、可沉淀的规则里，让泛流量层层收敛成"准客"。</p>
+        <div class="kd-exrow">
+          <div class="kd-example">
+            <div class="kd-ex-line old"><span class="kd-ex-tag tag-old">过去</span>用户浏览 → 翻找货架 → 产生咨询 → <b>随机派单</b> → 盲目带看 → 需求未沉淀，平均 1 个成交用户要联系 16 个经纪人。</div>
+            <div class="kd-ex-line new"><span class="kd-ex-tag tag-new">现在</span>用户浏览 → <b>互动探需</b> → 生成《购房计划书》→ <b>自主确认</b> → <b>精准派单</b> → 需求进一步沉淀。</div>
+          </div>
+        </div>
+        <div class="kd-cols">
+          <div class="kd-col kc-r">
+            <div class="kd-head"><span>机制设计</span><span>背后的原因</span></div>
+            <div class="kd-body">
+              <div class="kd-row"><div class="k1">购房计划书作为新的中间件</div><div class="k2">"委托/带看"只是动作，计划书衡量的是需求收敛与决策深度，才是真正的准客里程碑。</div></div>
+              <div class="kd-row"><div class="k1">准客严格口径</div><div class="k2">口径为"被分类 + 自确认"，告别"所有商机一视同仁"的概率运营，把资源集中到真实意向用户。</div></div>
+              <div class="kd-row"><div class="k1">AI 管家先承接</div><div class="k2">不急于推线下，AI 在前端完成最费时的需求教育和预期管理，留给线下的是"懂行"的客户。</div></div>
+              <div class="kd-row"><div class="k1">博弈库透传</div><div class="k2">详情页透传"大家还在看""意向明细"等真实行为信号，缓解情报荒，建立决策安全感。</div></div>
+              <div class="kd-row"><div class="k1">能人精准派单</div><div class="k2">重建带看—成交因果，告别"找经纪人开盲盒"，缩短转化周期、提升二次带看率。</div></div>
+            </div>
+          </div>
+          <div class="kd-col kc-l">
+            <div class="kd-head"><span>决策阶段</span><span>含义</span></div>
+            <div class="kd-body">
+              <div class="kd-row"><div class="k1">泛浏览</div><div class="k2">隐性需求、未被分类，资源容易浪费在低意向用户上。</div></div>
+              <div class="kd-row"><div class="k1">互动探需</div><div class="k2">辅助决策产品体系 → 7×24h AI 管家承接，通过产品互动及在线问答让需求开始显性化。</div></div>
+              <div class="kd-row"><div class="k1">购房计划书</div><div class="k2">结构化需求 + 决策辅助，完成需求收敛，达到准客门槛。</div></div>
+              <div class="kd-row"><div class="k1">自主确认</div><div class="k2">服务者协同，用户对需求完成修改、决策、确认，正式成为准客。</div></div>
+              <div class="kd-row"><div class="k1">派单能人</div><div class="k2">带着计划书进入线下，重建"带看—成交"的因果关系。</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-shell">
+        <div class="prod-shell-head"><span class="ps-pill">准客飞轮</span><h3>准客怎么产生，及时交付给用户什么</h3></div>
+
+        <div class="prod-cols">
+          <div class="prod-card pc-blue">
+            <div class="prod-head">
+              <span class="prod-num">1</span>
+              <div class="prod-htext"><h4>C 端准客塑造</h4><div class="ph-sub">10 类辅助决策互动场景 · 全站探需</div></div>
+              <span class="prod-metric">目标月塑造准客 5 万</span>
+            </div>
+            <div class="prod-body">
+              <ul class="prod-list two-col">
+                <li><span><b>主动更新</b>：新用户填写 + 管理需求</span></li>
+                <li><span><b>系统探需</b>：行为信号触发探需组件</span></li>
+                <li><span><b>触发探需</b>：Max「日核访 N 次」</span></li>
+                <li><span><b>主动约看房</b>：预约后引导补充确认</span></li>
+                <li><span><b>管家建联探需</b>：建联与推送</span></li>
+                <li><span><b>AI 咨询探需</b>：AI 管家问答过程中</span></li>
+                <li><span><b>AI 搜房探需</b>：模糊意图转 AI 搜索</span></li>
+                <li><span><b>AI 问房探需</b>：多轮上下文追问</span></li>
+                <li><span><b>AI 地图探需</b>：时圈 / 动态扩缩圈</span></li>
+                <li><span><b>IM 探需</b>：7 天内首次咨询触发</span></li>
+              </ul>
+              <div class="prod-note">用户在贝壳 C 端被多场景探需触达，确认「3+X」需求后写入 <b>用户需求 profile</b>。</div>
+            </div>
+          </div>
+          <div class="prod-card pc-cyan">
+            <div class="prod-head">
+              <span class="prod-num">2</span>
+              <div class="prod-htext"><h4>B 端服务者协同确认</h4><div class="ph-sub">3 个作业节点 · 服务者协同 · 用户确认</div></div>
+              <span class="prod-metric">目标月产生准客 10 万</span>
+            </div>
+            <div class="prod-body">
+              <ul class="prod-list">
+                <li><span><b>录客环节</b>：画像识别预填充，服务者转发，用户确认需求</span></li>
+                <li><span><b>约带看及带看</b>：画像识别预填充，服务者转发 / 用户扫码确认需求</span></li>
+                <li><span><b>录带看环节</b>：画像识别预填充，服务者转发，用户确认需求</span></li>
+              </ul>
+              <div class="prod-note">经纪人通过<b>作业工具</b>在关键作业节点协同用户确认；用户确认后实时更新需求 profile。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-converge">
+          <div class="big-arrow"><span class="shaft"></span><span class="head"></span></div>
+          <div class="flow-box">
+            <div class="fb-title">协同生产准客，写入用户需求 <b>profile</b></div>
+            <div class="fb-sub">3+X 计算相似客　→　实时生成《购房计划书》</div>
+            <div class="fb-conds">
+              <span><b>3+X</b>：预算 / 区域 / 居室 ＋ 家庭 · 教育 · 通勤</span>
+              <span class="dot"></span>
+              <span>需求经<b>用户自主确认</b></span>
+              <span class="dot"></span>
+              <span>沉默 <b>≤ 90 天</b>，超期失效</span>
+            </div>
+          </div>
+          <div class="big-arrow"><span class="shaft"></span><span class="head"></span></div>
+        </div>
+
+        <div class="prod-card prod-full pc-green">
+          <div class="prod-head">
+            <span class="prod-num">3</span>
+            <div class="prod-htext"><h4>交付购房计划书</h4><div class="ph-sub">8 大信息模块 · 对用户 / 经纪人 / OSA 客服可见</div></div>
+            <span class="prod-metric">准客交付物</span>
+          </div>
+          <div class="prod-body">
+            <div class="module-grid">
+          <div class="module-item m-highlight" data-idx="1">
+            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5v6.8a2 2 0 0 0 .6 1.4l7 7a2 2 0 0 0 2.8 0l6.3-6.3a2 2 0 0 0 0-2.8l-7-7A2 2 0 0 0 11.3 3H4.5a1.5 1.5 0 0 0-1.5 1.5z"/><circle cx="7.5" cy="7.5" r="1.4"/></svg></div>
+            <h4>我被归类到什么样的人</h4>
+            <p>城市·大类·小类标签分类，需求越详细画像越精准，可随时编辑</p>
+          </div>
+          <div class="module-item" data-idx="2">
+            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5.5-5.5 3.5 3.5L21 6"/><path d="M16 6h5v5"/></svg></div>
+            <h4>像我这样的人怎么买房</h4>
+            <p>相似人群半年数据：多少人在看、议价、买到了，主流决策路径</p>
+          </div>
+          <div class="module-item" data-idx="3">
+            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s7-6.2 7-11.5a7 7 0 1 0-14 0c0 5.3 7 11.5 7 11.5z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+            <h4>他们买在了哪</h4>
+            <p>过去 60 天成交数据，热门小区排列、地图呈现，可查详情</p>
+          </div>
+          <div class="module-item" data-idx="4">
+            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <h4>大家正在看哪</h4>
+            <p>过去 30 天带看议价的热门房源，标注看房人数、出价状态</p>
+          </div>
+          <div class="module-item m-highlight" data-idx="5">
+            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1"/></svg></div>
+            <h4>这些人怎么决策的</h4>
+            <p>大模型推理：关注→咨询→带看→议价→成交路径，展示取舍逻辑</p>
+          </div>
+          <div class="module-item" data-idx="6">
+            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 18h5"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.8 10.6c.7.6 1.1 1.4 1.2 2.4h5.2c.1-1 .5-1.8 1.2-2.4A6 6 0 0 0 12 3z"/></svg></div>
+            <h4>决策路径中的洞察</h4>
+            <p>AI 总结核心洞察，给出"决策的取"和"决策的舍"，建立判断框架</p>
+          </div>
+          <div class="module-item" data-idx="7">
+            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 9.8V20h14V9.8"/><path d="M9.5 20v-5.5h5V20"/></svg></div>
+            <h4>每天推 10 套好房</h4>
+            <p>需求 + 近 7 天上新情况，同类人用脚投票的房源排行榜</p>
+          </div>
+          <div class="module-item m-highlight" data-idx="8">
+            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2.5L11 13"/><path d="M21.5 2.5l-6.5 19-4-8.5-8.5-4 19-6.5z"/></svg></div>
+            <h4>下一步建议</h4>
+            <p>引导补充/修改需求，确认后发给 AI 管家承接，推荐服务者进入转化</p>
+          </div>
+        </div>
+
+            <div class="prod-note" style="margin-top:16px">八大模块对应引力模型的完整路径：模块 1-4 帮用户<b>看清引力场</b>（我是谁、别人怎么选、市场在哪里）→ 模块 5-6 帮用户<b>完成取舍判断</b>（决策路径、洞察启发）→ 模块 7-8 推动用户<b>采取行动</b>（推荐房源、AI 盯动态、推荐经纪人）。</div>
+          </div>
+        </div>
+        </div>
+
+      </section>
+
+      <!-- ============ 04 阶段实践和复盘 ============ -->
+      <section>
+        <div class="section-title" data-num="04"><h2>阶段进展</h2></div>
+        <p class="lead">当前阶段<strong>重点做规模</strong>，让每一个用户都能够被刻画、被描述、被记录，沉淀为平台的<strong>新资产</strong>，进而围绕需求做服务。</p>
+
+        <div class="metric-row">
+          <div class="metric">
+            <small>新辅助决策产品 DAU</small>
+            <strong>3.2 万</strong>
+            <span>提供辅助决策产品互动中捕捉用户需求，当前渗透二手核访用户 30%</span>
+          </div>
+          <div class="metric m-cyan">
+            <small>进一步连接用户 DAU</small>
+            <strong>400</strong>
+            <span>线索及商机用户去重，AI 管家 7×24h 接待咨询意向用户</span>
+          </div>
+          <div class="metric m-target">
+            <small><span>C 端塑造准客日 UV</span><span class="m-rate">完成率 54%</span></small>
+            <strong>900</strong>
+            <span>画像识别预填充、探需互动用户确认，目标天均准客 UV 1700</span>
+          </div>
+          <div class="metric m-target">
+            <small><span>B 端协同准客日 UV</span><span class="m-rate">完成率 12%</span></small>
+            <strong>400</strong>
+            <span>服务者转发 / 用户扫码、确认自身需求，目标天均准客 UV 3400</span>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top:6px">
+          <div class="card">
+            <h3>① C 端规模化塑造</h3>
+            <ul class="clean-list">
+              <li>10 类探需场景全站覆盖，规模化捕捉用户需求</li>
+              <li>持续渗透二手核访用户，目标天均准客 UV 1700</li>
+              <li>探需不打扰：让用户觉得"更清楚"而非"被骚扰"</li>
+            </ul>
+          </div>
+          <div class="card cyan">
+            <h3>② B 端协同确认</h3>
+            <ul class="clean-list">
+              <li>3 个作业节点嵌入日常作业，不增加额外负担</li>
+              <li>服务者转发 / 用户扫码确认，目标天均准客 UV 1700</li>
+              <li>服务者愿意用：与身份、评价、收益绑定</li>
+            </ul>
+          </div>
+          <div class="card green">
+            <h3>③ 需求资产沉淀与服务</h3>
+            <ul class="clean-list">
+              <li>每个用户被刻画、描述、记录，沉淀为需求 profile 资产</li>
+              <li>需求资产驱动精准触达、匹配与派单</li>
+              <li>围绕需求做服务，提升带看转化与成交确定性</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 05 讨论议题 ============ -->
+      <section>
+        <div class="section-title" data-num="05"><h2>研讨议题</h2></div>
+        <div class="callout callout-orange" style="margin-top:6px">研讨议题：围绕"做大规模、沉淀用户需求池"的现阶段重点，城市和平台如何协同达成目标？
+          <span style="display:block;margin-top:10px;font-size:15px;font-weight:650;color:#7a5230;line-height:1.7">如：如何将"邀请客户确认需求"置入录客、约带看、线下带看、录带看等业务节点中，让服务者更关注客户需求的同时带来准客规模的增长。</span>
+        </div>
+      </section>
+
+    </article>
+  </main>
+</body>
+</html>
