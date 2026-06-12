@@ -2,7 +2,22 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=1180">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    /**
+     * 手机端按桌面宽度等比缩放，保持桌面布局；电脑端维持原响应式布局。
+     * 以屏幕较小边判断是否为手机，避免误伤窗口缩窄的电脑。
+     */
+    (function () {
+      try {
+        var minSide = Math.min(window.screen.width, window.screen.height);
+        if (minSide < 600) {
+          var vp = document.querySelector('meta[name="viewport"]');
+          if (vp) vp.setAttribute('content', 'width=1180');
+        }
+      } catch (e) {}
+    })();
+  </script>
   <meta name="color-scheme" content="light">
   <title>购房计划书 — BC 协同做大准客规模</title>
   <style>
