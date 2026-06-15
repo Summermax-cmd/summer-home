@@ -281,10 +281,18 @@
     .prod-htext h4 { margin: 0; font-size: 17px; font-weight: 900; color: var(--ink); }
     .prod-htext .ph-sub { font-size: 12px; font-weight: 750; color: var(--muted); margin-top: 2px; }
     .prod-metric { padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 900; white-space: nowrap; flex-shrink: 0; }
-    .prod-body { padding: 14px 18px; flex: 1; display: flex; flex-direction: column; }
+    .prod-body { padding: 2px 18px 14px; flex: 1; display: flex; flex-direction: column; }
     .prod-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
     .prod-list.cols-3 { grid-template-columns: repeat(3, 1fr); gap: 8px 14px; align-content: start; }
     .prod-list.cols-3 li span { white-space: nowrap; }
+    /* B 端：带浅底色的纵向小卡片（呼应交付计划书模块） */
+    .bnode-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-bottom: 14px; }
+    .bnode { padding: 12px 14px; border-radius: 9px; background: #eef7f1; }
+    .bnode b { display: flex; align-items: center; color: var(--ink); font-weight: 850; font-size: 13px; white-space: nowrap; }
+    .bnode span { display: block; margin-top: 3px; color: var(--muted); font-size: 13px; font-weight: 650; line-height: 1.5; }
+    /* C 端：浅底色小块块（无序号） */
+    .cnode-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; align-content: start; margin-bottom: 14px; }
+    .cnode { display: flex; align-items: center; justify-content: center; min-height: 30px; padding: 7px 6px; border-radius: 7px; background: #eef7f1; color: var(--ink); font-weight: 850; font-size: 12.5px; white-space: nowrap; text-align: center; }
     .prod-list li { display: grid; grid-template-columns: 14px 1fr; gap: 8px; font-size: 13.5px; font-weight: 650; color: #43516a; line-height: 1.5; }
     .prod-list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; }
     .prod-list li b { color: var(--ink); font-weight: 850; }
@@ -306,8 +314,8 @@
     /* 两侧箭头：上方两模块直下到第三模块，中间夹住汇总文字 */
     .prod-converge { display: grid; grid-template-columns: 14px minmax(0, 600px) 14px; justify-content: center; align-items: stretch; gap: 26px; margin: 8px 0 8px; }
     .big-arrow { display: flex; flex-direction: column; align-items: center; }
-    .big-arrow .shaft { flex: 1; width: 4px; min-height: 40px; background: linear-gradient(180deg, #f0a868, var(--orange)); border-radius: 3px 3px 0 0; }
-    .big-arrow .head { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 10px solid var(--orange); }
+    .big-arrow .shaft { flex: 1; width: 4px; min-height: 40px; background: linear-gradient(180deg, #6fc4a0, var(--green)); border-radius: 3px 3px 0 0; }
+    .big-arrow .head { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 10px solid var(--green); }
     .flow-box { border: 0; background: transparent; padding: 2px 0; margin: 0 auto; max-width: 600px; align-self: center; text-align: center; }
     .flow-box .fb-title { font-size: 17px; font-weight: 900; color: var(--ink); line-height: 1.3; }
     .flow-box .fb-title b { color: var(--orange); }
@@ -350,12 +358,13 @@
 
     /* Module grid */
     .module-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 0; }
-    .module-item { padding: 16px; border: 0; border-radius: 10px; background: #f1f8f4; box-shadow: none; position: relative; overflow: hidden; }
-    .module-item::after { content: attr(data-idx); position: absolute; top: 10px; right: 14px; font-size: 26px; font-weight: 950; color: rgba(40,118,87,.12); }
-    .module-item .m-icon { margin-bottom: 10px; }
-    .module-item .m-icon svg { width: 26px; height: 26px; stroke: var(--green); fill: none; }
-    .module-item h4 { font-size: 15px; font-weight: 900; color: var(--ink); margin: 0 0 6px; line-height: 1.35; }
-    .module-item p { font-size: 13px; color: var(--muted); font-weight: 650; line-height: 1.5; }
+    .module-item { padding: 16px; border: 0; border-radius: 10px; background: #f1f8f4; box-shadow: none; position: relative; overflow: hidden; display: flex; flex-wrap: wrap; align-items: center; align-content: flex-start; }
+    .module-item::after { content: none; }
+    .module-item .m-icon { margin: 0 8px 0 0; display: flex; flex: 0 0 auto; }
+    .module-item .m-icon svg { width: 22px; height: 22px; stroke: var(--green); fill: none; }
+    .module-item h4 { font-size: 14px; font-weight: 900; color: var(--ink); margin: 0; line-height: 1.3; white-space: nowrap; }
+    .bnode b .m-no { color: var(--green); font-weight: 900; font-size: 16px; margin-right: 5px; flex: 0 0 auto; }
+    .module-item p { flex: 0 0 100%; margin-top: 9px; font-size: 13px; color: var(--muted); font-weight: 650; line-height: 1.5; }
     .module-item.m-highlight { background: #ddefe4; }
     .module-item.m-highlight::after { color: rgba(40,118,87,.16); }
 
@@ -571,18 +580,18 @@
               <span class="prod-metric">目标月塑造准客 5 万</span>
             </div>
             <div class="prod-body">
-              <ul class="prod-list cols-3">
-                <li><span><b>主动更新</b></span></li>
-                <li><span><b>系统探需</b></span></li>
-                <li><span><b>触发探需</b></span></li>
-                <li><span><b>主动约看房</b></span></li>
-                <li><span><b>管家建联探需</b></span></li>
-                <li><span><b>AI 咨询探需</b></span></li>
-                <li><span><b>AI 搜房探需</b></span></li>
-                <li><span><b>AI 问房探需</b></span></li>
-                <li><span><b>AI 地图探需</b></span></li>
-                <li><span><b>IM 探需</b></span></li>
-              </ul>
+              <div class="cnode-list">
+                <div class="cnode">主动更新</div>
+                <div class="cnode">系统探需</div>
+                <div class="cnode">触发探需</div>
+                <div class="cnode">主动约看房</div>
+                <div class="cnode">管家建联探需</div>
+                <div class="cnode">AI 咨询探需</div>
+                <div class="cnode">AI 搜房探需</div>
+                <div class="cnode">AI 问房探需</div>
+                <div class="cnode">AI 地图探需</div>
+                <div class="cnode">IM 探需</div>
+              </div>
               <div class="prod-note">用户在贝壳 C 端被多场景探需触达，确认「3+X」需求后写入 <b>用户需求 profile</b>。</div>
             </div>
           </div>
@@ -592,11 +601,11 @@
               <span class="prod-metric">目标月产生准客 10 万</span>
             </div>
             <div class="prod-body">
-              <ul class="prod-list">
-                <li><span><b>录客环节</b>：画像识别预填充，服务者转发，用户确认需求</span></li>
-                <li><span><b>约带看及带看</b>：画像识别预填充，服务者转发 / 用户扫码确认需求</span></li>
-                <li><span><b>录带看环节</b>：画像识别预填充，服务者转发，用户确认需求</span></li>
-              </ul>
+              <div class="bnode-list">
+                <div class="bnode"><b><span class="m-no">①</span>录客环节</b><span>画像识别预填充，服务者转发，用户确认</span></div>
+                <div class="bnode"><b><span class="m-no">②</span>约带看及带看</b><span>画像识别预填充，服务者转发 / 用户扫码确认</span></div>
+                <div class="bnode"><b><span class="m-no">③</span>录带看环节</b><span>画像识别预填充，服务者转发，用户确认</span></div>
+              </div>
               <div class="prod-note">经纪人通过<b>作业工具</b>在关键作业节点协同用户确认；用户确认后实时更新需求 profile。</div>
             </div>
           </div>
