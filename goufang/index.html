@@ -262,7 +262,7 @@
     .station-highlight { border: 2px dashed var(--orange); border-radius: 12px; padding: 4px; margin: -4px; }
 
     /* Production pipeline (准客生产与交付) */
-    .prod-shell { margin-top: 30px; border: 1px solid #cfe7da; border-radius: 14px; background: linear-gradient(180deg, #f1faf5, #ffffff 60%); box-shadow: 0 18px 48px rgba(20,32,51,.07); padding: 30px 28px; }
+    .prod-shell { margin-top: 22px; border: 0; border-radius: 0; background: transparent; box-shadow: none; padding: 0; }
     .prod-shell-head { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 26px; text-align: center; }
     .prod-shell-head .ps-pill { display: inline-flex; align-items: center; height: 28px; padding: 0 13px; border-radius: 999px; background: linear-gradient(135deg, #1f8a63, #2da678); color: #fff; font-size: 13px; font-weight: 900; flex-shrink: 0; }
     .prod-shell-head h3 { margin: 0; font-size: 22px; font-weight: 900; color: var(--ink); line-height: 1.3; }
@@ -294,14 +294,11 @@
     .bnode b { display: flex; align-items: center; color: var(--ink); font-weight: 900; font-size: 15px; white-space: nowrap; }
     .bnode span { display: block; color: var(--muted); font-size: 13.5px; font-weight: 650; line-height: 1.55; }
     /* C 端：4 类探需场景分组 */
-    .cnode-groups { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px 14px; flex: 1; margin-bottom: 4px; }
-    .cnode-group { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 9px; padding: 18px 18px; border-radius: 10px; background: #eef7f1; min-height: 80px; }
-    .cn-label { display: inline-flex; align-items: center; padding: 3px 11px; border-radius: 999px; font-size: 12px; font-weight: 900; flex-shrink: 0; letter-spacing: .3px; }
-    .cn-l-user { background: #d3e8da; color: #176149; }
-    .cn-l-sys { background: #d6f0e2; color: #1b6b4d; }
-    .cn-l-ai { background: #cce9dc; color: #1f6b4d; }
-    .cn-l-svc { background: #e3f1ea; color: #287657; }
-    .cn-items { font-size: 14.5px; color: var(--ink); font-weight: 750; line-height: 1.55; }
+    .cnode-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+    .cnode-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 4px; padding: 13px 15px; border-radius: 10px; background: #eef7f1; }
+    .cn-label { color: #176149; font-weight: 900; font-size: 14px; white-space: nowrap; }
+    .cn-l-user, .cn-l-sys, .cn-l-ai, .cn-l-svc { background: transparent; }
+    .cn-items { font-size: 14px; color: var(--ink); font-weight: 700; line-height: 1.5; }
     .prod-list li { display: grid; grid-template-columns: 14px 1fr; gap: 8px; font-size: 13.5px; font-weight: 650; color: #43516a; line-height: 1.5; }
     .prod-list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; }
     .prod-list li b { color: var(--ink); font-weight: 850; }
@@ -388,6 +385,50 @@
     .module-stage-tags .s2 i { background: var(--green); }
     .module-stage-tags .s3 i { background: #176149; }
 
+    /* 03 — B端 highlight + weakened context */
+    .prod-slim { display: flex; align-items: center; gap: 10px 16px; flex-wrap: wrap; padding: 13px 18px; border: 1px solid #e6ebf1; border-radius: 10px; background: #fafbfc; }
+    .prod-slim .ps-t { font-size: 16px; font-weight: 900; color: #475569; }
+    .prod-slim .ps-m { font-size: 12px; font-weight: 900; color: #5b6776; background: #eef1f5; border: 1px solid #e2e8f0; padding: 3px 10px; border-radius: 999px; }
+    .prod-slim .ps-d { font-size: 13px; font-weight: 700; color: var(--muted); }
+    .prod-slim .ps-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .prod-slim .ps-chips span { font-size: 12px; font-weight: 750; color: #6b7686; background: #f1f5f9; border: 1px solid #e6ebf1; padding: 3px 9px; border-radius: 999px; }
+
+    .bc-hero { border: 1px solid var(--line); border-top: 4px solid var(--green); border-radius: 8px; background: #fff; box-shadow: 0 12px 30px rgba(20,32,51,.07); padding: 22px; margin: 0; }
+    .bc-hero-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .bc-hero-tag { display: inline-block; background: var(--green); color: #fff; font-size: 12px; font-weight: 900; padding: 2px 11px; border-radius: 999px; margin-right: 10px; vertical-align: middle; }
+    .bc-hero-head h3 { display: inline; margin: 0; font-size: 21px; font-weight: 900; color: var(--ink); }
+    .bc-hero-sub { font-size: 13px; font-weight: 700; color: var(--muted); margin-top: 6px; }
+    .bc-hero-metric { padding: 5px 13px; border-radius: 999px; background: var(--green); color: #fff; font-size: 13px; font-weight: 900; white-space: nowrap; }
+    .bc-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .bc-step { background: #fff; border: 1px solid #d4eade; border-radius: 10px; overflow: hidden; box-shadow: 0 6px 18px rgba(20,32,51,.06); display: flex; flex-direction: column; }
+    .bc-step-h { display: flex; align-items: center; gap: 8px; padding: 12px 14px 9px; }
+    .bc-step-no { width: 24px; height: 24px; border-radius: 50%; background: var(--green); color: #fff; font-size: 13px; font-weight: 900; display: grid; place-items: center; flex-shrink: 0; }
+    .bc-step-name { font-size: 16px; font-weight: 900; color: var(--ink); }
+    .bc-step-img { position: relative; margin: 0 14px; aspect-ratio: 750 / 1624; border-radius: 10px; overflow: hidden; background: #f4f6f9; border: 1px solid #e3e8ee; }
+    .bc-step-img .bc-ph { position: absolute; inset: 0; display: grid; place-items: center; color: #9aa6b4; font-size: 12.5px; font-weight: 800; }
+    .bc-step-img img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .bc-step-img .bc-mark { position: absolute; z-index: 3; border: 3px solid #ff5a36; border-radius: 8px; box-shadow: 0 2px 12px rgba(255,90,54,.4); pointer-events: none; }
+    .bc-step-d { padding: 9px 14px 14px; font-size: 12.5px; font-weight: 650; color: var(--muted); line-height: 1.5; }
+    /* 03 bottom cards (C端 / 交付) */
+    .kd-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .kd-card-head h3 { margin: 0; }
+    .kd-pill { padding: 5px 13px; border-radius: 999px; background: var(--green); color: #fff; font-size: 13px; font-weight: 900; white-space: nowrap; }
+    .kd-amt { font-size: inherit; font-weight: inherit; color: inherit; }
+    .kd-sub { font-size: 13px; font-weight: 700; color: var(--muted); margin-top: 6px; }
+    .deliver-groups { display: grid; gap: 11px; }
+    .dg-row { display: flex; align-items: flex-start; gap: 10px; }
+    .dg-tag { flex-shrink: 0; min-width: 78px; text-align: center; padding: 4px 10px; border-radius: 6px; font-size: 12.5px; font-weight: 850; color: #fff; }
+    .dg-tag.s1 { background: #6fc4a0; } .dg-tag.s2 { background: var(--green); } .dg-tag.s3 { background: #176149; }
+    .dg-items { font-size: 13px; font-weight: 700; color: #43516a; line-height: 1.55; padding-top: 3px; }
+    /* 03 bottom merge layout (C端 ↔ 购房计划书 ↕ B端) */
+    .kd-merge { display: grid; grid-template-columns: 1.1fr 52px 0.9fr; grid-template-rows: auto 1fr; align-items: stretch; margin-top: 14px; }
+    .km-varrow { grid-column: 3; grid-row: 1; display: flex; align-items: center; justify-content: center; padding-bottom: 8px; }
+    .km-cend { grid-column: 1; grid-row: 2; }
+    .km-harrow { grid-column: 2; grid-row: 2; display: flex; align-items: center; justify-content: center; }
+    .km-deliver { grid-column: 3; grid-row: 2; }
+    .km-arrow-svg { width: 42px; height: 18px; display: block; }
+    .km-varrow .km-arrow-svg { transform: rotate(90deg); }
+
     /* Need fields */
     .need-fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 14px; }
     .need-field { padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: #fff; display: flex; align-items: center; gap: 12px; }
@@ -415,7 +456,7 @@
       * { min-width: 0; overflow-wrap: anywhere; }
       main { width: calc(100vw - 24px); padding: 18px 0 28px; }
       header, section { padding: 28px 22px 30px 28px; }
-      .grid-2, .grid-3, .grid-4, .metric-row, .target-board, .target-pair, .role-grid, .flow-strip, .compare-strip, .module-grid, .need-fields, .journey-bar, .pos-map, .station-track, .gnode-row, .kd-cols, .kd-exrow, .prod-cols, .prod-converge { grid-template-columns: 1fr; }
+      .grid-2, .grid-3, .grid-4, .metric-row, .target-board, .target-pair, .role-grid, .flow-strip, .compare-strip, .module-grid, .need-fields, .journey-bar, .pos-map, .station-track, .gnode-row, .kd-cols, .kd-exrow, .prod-cols, .prod-converge, .bc-steps, .kd-merge { grid-template-columns: 1fr; }
       .big-arrow .shaft { min-height: 26px; }
       h1 { width: 100%; max-width: 100%; font-size: 25px; line-height: 1.24; white-space: normal; word-break: break-word; }
       h2 { font-size: 25px; }
@@ -447,52 +488,34 @@
 
       <!-- ============ 01 项目定位 ============ -->
       <section>
-        <div class="section-title" data-num="01"><h2>项目在决策 OS 中的定位</h2></div>
-        <p class="lead">决策 OS 含买家「引力式决策」与卖家「到站式决策」。<strong style="color:var(--ink);font-weight:900">购房计划书</strong>做买家引力侧——把泛流量塑造为准客；准客从卖家「曝光」站起持续汇入，贯穿带看、出价、成交全链路。</p>
+        <div class="section-title" data-num="01"><h2>项目背景与定位</h2></div>
+        <p class="lead">市场已从「卖方市场」进入「买方市场」：量价双杀、库存高企（北京约 19 万套，供过于求），客户从「买到房」转向「买对房」，业主最核心的诉求变成<strong style="color:var(--ink);font-weight:900">合理定价</strong>与<strong style="color:var(--ink);font-weight:900">提高交易确定性</strong>。居住交易的本质回到<strong style="color:var(--ink);font-weight:900">供需匹配</strong>——把对的房子匹配给对的客户；去化的关键不在更多曝光，而在能否把"对的客户"精准<strong style="color:var(--ink);font-weight:900">调度</strong>到"对的房子"上。</p>
 
-        <!-- Two models side by side -->
-        <div class="pos-map">
-          <!-- Buyer side -->
-          <div class="pos-side">
-            <div class="pos-header h-buyer">买家引力式决策</div>
-            <div class="pos-body">
-              <div class="pos-intro"><p><strong>核心逻辑：</strong>买家带需求画像（预算/家庭/通勤/学区/改善），多重引力同时作用，反复权衡后被最匹配的房源捕获，非线性流程。</p></div>
-              <div class="pos-nodes">
-                <div class="gnode-row">
-                  <div class="gnode"><div class="gnode-circle">1</div><div class="gnode-name">发现房源</div></div>
-                  <div class="gnode"><div class="gnode-circle">2</div><div class="gnode-name">兴趣产生</div></div>
-                  <div class="gnode"><div class="gnode-circle">3</div><div class="gnode-name">匹配评估</div></div>
-                  <div class="gnode"><div class="gnode-circle">4</div><div class="gnode-name">取舍决策</div></div>
-                  <div class="gnode"><div class="gnode-circle">5</div><div class="gnode-name">被捕获</div></div>
-                </div>
-              </div>
-            </div>
+        <div class="grid-3">
+          <div class="card">
+            <h3>去化需要可调度的客户</h3>
+            <ul>
+              <li>帮业主端、新房去化，本质是<b>调度客户</b>：把有真实意向的客户，定向匹配并触达到适配房源。</li>
+              <li>"可调度"的前提，是知道客户要什么、且能定向找到他。</li>
+            </ul>
           </div>
-
-          <!-- Connector -->
-          <div class="pos-connector">
-            <div class="conn-line"></div>
-            <div class="conn-label">准客汇入</div>
-            <div class="conn-line"></div>
+          <div class="card orange">
+            <h3>痛点①：没画像，无法调度</h3>
+            <ul>
+              <li>平台有海量泛流量，但大多只是 UV/PV，<b>不知道他们要买什么</b>。</li>
+              <li>没有结构化需求画像的用户，调度无从谈起，资源只能广撒网。</li>
+            </ul>
           </div>
-
-          <!-- Seller side -->
-          <div class="pos-side">
-            <div class="pos-header h-seller">卖家到站式决策</div>
-            <div class="pos-body">
-              <div class="pos-intro"><p><strong>核心逻辑：</strong>卖家线性 5 站：委托挂牌→曝光→带看→出价→斡旋成交。从「曝光」起每一站都需要准客信息支撑决策。</p></div>
-              <div class="pos-nodes">
-                <div class="station-track">
-                  <div class="station"><div class="station-dot">1</div><div class="station-name">委托挂牌</div></div>
-                  <div class="station"><div class="station-dot" style="border-color:var(--orange)">2</div><div class="station-name">曝光</div></div>
-                  <div class="station"><div class="station-dot" style="border-color:var(--orange)">3</div><div class="station-name">带看</div></div>
-                  <div class="station"><div class="station-dot" style="border-color:var(--orange)">4</div><div class="station-name">出价</div></div>
-                  <div class="station"><div class="station-dot" style="border-color:var(--orange)">5</div><div class="station-name">斡旋成交</div></div>
-                </div>
-              </div>
-            </div>
+          <div class="card red">
+            <h3>痛点②：算法画像，不够可信</h3>
+            <ul>
+              <li>仅靠行为数据反推的画像，<b>噪音大、偏差大</b>，难以直接用于调度。</li>
+              <li>不可信的画像去调度，容易错配、打扰，反而消耗用户信任。</li>
+            </ul>
           </div>
         </div>
+
+        <div class="callout callout-green">所以，我们需要以<strong>《购房计划书》</strong>为节点，沉淀一个"<strong>可信 + 可调度</strong>"的准客池——用户自己确认的真实需求，为业主端、新房去化备好可被精准调度的客户弹药，支撑平台"<strong>准客对能人</strong>"的精准匹配。</div>
 
       </section>
 
@@ -537,114 +560,61 @@
       <section>
         <div class="section-title" data-num="03"><h2>关键设计</h2></div>
         <p class="lead">把线下散落的「探需—对比—判断」动作搬到线上一条可执行、可沉淀的规则里，让泛流量层层收敛成准客。</p>
-        <div class="prod-shell">
-        <div class="prod-shell-head"><h3>准客产生过程</h3></div>
-
-        <div class="prod-cols">
-          <div class="prod-card pc-g1">
-            <div class="prod-head">
-              <div class="prod-htext">
-                <div class="h4-row"><h4>C 端准客塑造</h4><span class="prod-metric">目标月塑造 5 万</span></div>
-                <div class="ph-sub">10 类场景全站探需 · 「3+X」自确认</div>
-              </div>
-            </div>
-            <div class="prod-body">
-              <div class="cnode-groups">
-                <div class="cnode-group"><span class="cn-label cn-l-user">用户主动</span><span class="cn-items">主动更新 · 主动约看</span></div>
-                <div class="cnode-group"><span class="cn-label cn-l-sys">系统触发</span><span class="cn-items">系统探需 · 触发探需</span></div>
-                <div class="cnode-group"><span class="cn-label cn-l-ai">AI 互动</span><span class="cn-items">咨询 · 搜房 · 问房 · 地图</span></div>
-                <div class="cnode-group"><span class="cn-label cn-l-svc">服务接触</span><span class="cn-items">管家建联 · IM 探需</span></div>
-              </div>
-            </div>
+        <!-- B 端服务者协同（核心，置顶通栏） -->
+        <div class="bc-hero">
+          <div class="bc-hero-head">
+            <div><h3>B 端服务者协同生产准客<span class="kd-amt">（月目标 10 万）</span></h3><div class="bc-hero-sub">4 个作业节点 · 画像识别预填充 → 服务者转发 → 用户确认</div></div>
           </div>
-          <div class="prod-card pc-g1">
-            <div class="prod-head">
-              <div class="prod-htext">
-                <div class="h4-row"><h4>B 端服务者协同</h4><span class="prod-metric">目标月产生 10 万</span></div>
-                <div class="ph-sub">3 个作业节点 · 画像预填充 → 用户确认</div>
-              </div>
+          <div class="bc-steps">
+            <div class="bc-step">
+              <div class="bc-step-h"><span class="bc-step-no">1</span><span class="bc-step-name">录客</span></div>
+              <div class="bc-step-img"><span class="bc-ph">示意图</span><img src="bc-1.png" alt="录客示意图" onerror="this.style.display='none'"></div>
+              <p class="bc-step-d">录入客源，转发客户解锁并确认需求</p>
             </div>
-            <div class="prod-body">
-              <div class="bnode-list">
-                <div class="bnode"><b><span class="m-no">①</span>录客</b><span>服务者转发确认</span></div>
-                <div class="bnode"><b><span class="m-no">②</span>约/带看</b><span>转发或用户扫码</span></div>
-                <div class="bnode"><b><span class="m-no">③</span>录带看</b><span>服务者转发确认</span></div>
-              </div>
+            <div class="bc-step">
+              <div class="bc-step-h"><span class="bc-step-no">2</span><span class="bc-step-name">约带看</span></div>
+              <div class="bc-step-img"><span class="bc-ph">示意图</span><img src="bc-2.png" alt="约带看示意图" onerror="this.style.display='none'"></div>
+              <p class="bc-step-d">约带看时展示需求，转发客户确认</p>
+            </div>
+            <div class="bc-step">
+              <div class="bc-step-h"><span class="bc-step-no">3</span><span class="bc-step-name">带看扫码</span></div>
+              <div class="bc-step-img"><span class="bc-ph">示意图</span><img src="bc-3.png" alt="带看扫码示意图" onerror="this.style.display='none'"></div>
+              <p class="bc-step-d">带看现场客户扫码，确认需求与行程</p>
+            </div>
+            <div class="bc-step">
+              <div class="bc-step-h"><span class="bc-step-no">4</span><span class="bc-step-name">录带看</span></div>
+              <div class="bc-step-img"><span class="bc-ph">示意图</span><img src="bc-4.png" alt="录带看示意图" onerror="this.style.display='none'"></div>
+              <p class="bc-step-d">录带看环节兜底，服务者转发确认</p>
             </div>
           </div>
         </div>
 
-        <div class="prod-converge">
-          <div class="big-arrow"><span class="head-up"></span><span class="shaft"></span><span class="head"></span></div>
-          <div class="flow-box">
-            <div class="fb-title">协同生产准客 → 实时生成《<b>购房计划书</b>》</div>
-            <div class="fb-conds" style="margin-top:6px">
-              <span><b>3+X</b>：预算/区域/居室 ＋ 家庭·教育·通勤</span>
-              <span class="dot"></span>
-              <span>沉默 <b>≤ 90 天</b></span>
+        <!-- C 端塑造（左，宽）↔ 购房计划书（右，窄）；购房计划书 ↕ B 端 -->
+        <div class="kd-merge">
+          <div class="km-varrow"><svg class="km-arrow-svg" viewBox="0 0 48 20" fill="none" stroke="var(--green)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h40"/><path d="M11 4 4 10l7 6"/><path d="M37 4l7 6-7 6"/></svg></div>
+          <div class="card green km-cend">
+            <div class="kd-card-head"><h3>C 端塑造准客<span class="kd-amt">（月目标 5 万）</span></h3></div>
+            <p class="kd-sub">10 类场景全站探需 ·「3+X」自确认</p>
+            <div class="cnode-groups" style="margin-top:14px">
+              <div class="cnode-group"><span class="cn-label cn-l-user">用户主动：</span><span class="cn-items">主动更新 · 主动约看</span></div>
+              <div class="cnode-group"><span class="cn-label cn-l-sys">系统触发：</span><span class="cn-items">系统探需 · 触发探需</span></div>
+              <div class="cnode-group"><span class="cn-label cn-l-ai">AI 互动：</span><span class="cn-items">咨询 · 搜房 · 问房 · 地图</span></div>
+              <div class="cnode-group"><span class="cn-label cn-l-svc">服务接触：</span><span class="cn-items">管家建联 · IM 探需</span></div>
             </div>
           </div>
-          <div class="big-arrow"><span class="head-up"></span><span class="shaft"></span><span class="head"></span></div>
+          <div class="km-harrow"><svg class="km-arrow-svg" viewBox="0 0 48 20" fill="none" stroke="var(--green)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h40"/><path d="M11 4 4 10l7 6"/><path d="M37 4l7 6-7 6"/></svg></div>
+          <div class="card green km-deliver">
+            <div class="kd-card-head"><h3>购房计划书<span class="kd-amt">（准客交付物）</span></h3></div>
+            <p class="kd-sub">8 大信息模块 · 对用户 / 经纪人 / OSA 客服可见</p>
+            <div class="deliver-groups" style="margin-top:14px">
+              <div class="dg-row"><span class="dg-tag s1">看清引力场</span><span class="dg-items">我被归类到谁 · 同类人怎么买 · 买在哪 · 正在看</span></div>
+              <div class="dg-row"><span class="dg-tag s2">取舍判断</span><span class="dg-items">怎么做决策 · 决策的取与舍</span></div>
+              <div class="dg-row"><span class="dg-tag s3">行动</span><span class="dg-items">每天 10 套好房 · 下一步建议</span></div>
+            </div>
+          </div>
         </div>
 
-        <div class="prod-card prod-full pc-green">
-          <div class="prod-head">
-            <div class="prod-htext">
-              <div class="h4-row"><h4>交付购房计划书</h4><span class="prod-metric">准客及时交付物</span></div>
-              <div class="ph-sub">8 大信息模块 · 对用户 / 经纪人 / OSA 客服可见</div>
-            </div>
-          </div>
-          <div class="prod-body">
-            <div class="module-stage-tags">
-              <span class="s1"><i></i>看清引力场（1-4）</span>
-              <span class="s2"><i></i>取舍判断（5-6）</span>
-              <span class="s3"><i></i>行动（7-8）</span>
-            </div>
-            <div class="module-grid">
-          <div class="module-item m-stage1" data-idx="1">
-            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5v6.8a2 2 0 0 0 .6 1.4l7 7a2 2 0 0 0 2.8 0l6.3-6.3a2 2 0 0 0 0-2.8l-7-7A2 2 0 0 0 11.3 3H4.5a1.5 1.5 0 0 0-1.5 1.5z"/><circle cx="7.5" cy="7.5" r="1.4"/></svg></div>
-            <h4>我被归类到谁</h4>
-            <p>城市·大类·小类标签，可编辑</p>
-          </div>
-          <div class="module-item m-stage1" data-idx="2">
-            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5.5-5.5 3.5 3.5L21 6"/><path d="M16 6h5v5"/></svg></div>
-            <h4>同类人怎么买</h4>
-            <p>半年看/议/成数据 + 主流路径</p>
-          </div>
-          <div class="module-item m-stage1" data-idx="3">
-            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s7-6.2 7-11.5a7 7 0 1 0-14 0c0 5.3 7 11.5 7 11.5z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
-            <h4>他们买在哪</h4>
-            <p>近 60 天成交热门小区</p>
-          </div>
-          <div class="module-item m-stage1" data-idx="4">
-            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
-            <h4>大家正在看</h4>
-            <p>近 30 天热门房源 + 出价状态</p>
-          </div>
-          <div class="module-item m-stage2" data-idx="5">
-            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1"/></svg></div>
-            <h4>怎么做决策</h4>
-            <p>关注→咨询→带看→议价→成交</p>
-          </div>
-          <div class="module-item m-stage2" data-idx="6">
-            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 18h5"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.8 10.6c.7.6 1.1 1.4 1.2 2.4h5.2c.1-1 .5-1.8 1.2-2.4A6 6 0 0 0 12 3z"/></svg></div>
-            <h4>决策的取与舍</h4>
-            <p>AI 提炼核心洞察与判断框架</p>
-          </div>
-          <div class="module-item m-stage3" data-idx="7">
-            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 9.8V20h14V9.8"/><path d="M9.5 20v-5.5h5V20"/></svg></div>
-            <h4>每天 10 套好房</h4>
-            <p>同类人用脚投票的上新榜</p>
-          </div>
-          <div class="module-item m-stage3" data-idx="8">
-            <div class="m-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2.5L11 13"/><path d="M21.5 2.5l-6.5 19-4-8.5-8.5-4 19-6.5z"/></svg></div>
-            <h4>下一步建议</h4>
-            <p>转 AI 管家或推荐服务者</p>
-          </div>
-        </div>
-          </div>
-        </div>
-        </div>
+        <div class="callout callout-green" style="margin-top:18px">B 端协同生产准客 ＋ C 端塑造准客，<strong>用户确认</strong>「<strong>3+X</strong>」需求后<strong>实时生成《购房计划书》</strong>。<span style="display:block;margin-top:8px;font-size:15px;font-weight:700;color:#2f6b4f;line-height:1.7">准客口径：3+X（预算 / 区域 / 居室<strong>必有</strong> ＋ 家庭·教育·通勤<strong>等非必须</strong>）＋ 用户确认 ＋ 沉默 ≤ 90 天</span></div>
 
       </section>
 
