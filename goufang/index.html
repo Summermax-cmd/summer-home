@@ -164,11 +164,11 @@
     .role-card li { margin: 5px 0; }
 
     /* Metrics */
-    .metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+    .metric-row { display: grid; grid-template-columns: 0.92fr 0.92fr 1.08fr 1.08fr; gap: 14px; margin-bottom: 18px; }
     .metric { min-height: 112px; padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 28px rgba(20,32,51,.06); display: flex; flex-direction: column; }
-    .metric small { display: block; min-height: 36px; color: var(--muted); font-size: 13px; font-weight: 850; line-height: 1.35; }
-    .metric strong { display: block; margin-top: 6px; min-height: 34px; color: var(--ink); font-size: 24px; line-height: 1.2; font-weight: 900; }
-    .metric > span { display: block; margin-top: 7px; color: #536176; font-size: 13px; font-weight: 650; }
+    .metric small { display: flex; align-items: center; min-height: 38px; color: var(--muted); font-size: 13px; font-weight: 850; line-height: 1.35; }
+    .metric strong { display: flex; align-items: flex-end; margin-top: 2px; min-height: 32px; color: var(--ink); font-size: 24px; line-height: 1.1; font-weight: 900; }
+    .metric > span { display: block; margin-top: 8px; color: #536176; font-size: 13px; font-weight: 650; }
     .metric::before { content: ""; display: block; height: 3px; margin: -18px -18px 14px; border-radius: 8px 8px 0 0; background: var(--blue); }
     .metric.m-cyan::before { background: var(--cyan); }
     .metric.m-green::before { background: var(--green); }
@@ -263,9 +263,9 @@
     .station-highlight { border: 2px dashed var(--orange); border-radius: 12px; padding: 4px; margin: -4px; }
 
     /* Production pipeline (准客生产与交付) */
-    .prod-shell { margin-top: 30px; border: 1px solid #d6e0ea; border-radius: 14px; background: linear-gradient(180deg, #f4f8fc, #ffffff 60%); box-shadow: 0 18px 48px rgba(20,32,51,.07); padding: 24px; }
+    .prod-shell { margin-top: 30px; border: 1px solid #cfe7da; border-radius: 14px; background: linear-gradient(180deg, #f1faf5, #ffffff 60%); box-shadow: 0 18px 48px rgba(20,32,51,.07); padding: 24px; }
     .prod-shell-head { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .prod-shell-head .ps-pill { display: inline-flex; align-items: center; height: 28px; padding: 0 13px; border-radius: 999px; background: linear-gradient(135deg, var(--blue), var(--cyan)); color: #fff; font-size: 13px; font-weight: 900; flex-shrink: 0; }
+    .prod-shell-head .ps-pill { display: inline-flex; align-items: center; height: 28px; padding: 0 13px; border-radius: 999px; background: linear-gradient(135deg, #1f8a63, #2da678); color: #fff; font-size: 13px; font-weight: 900; flex-shrink: 0; }
     .prod-shell-head h3 { margin: 0; font-size: 19px; font-weight: 900; color: var(--ink); }
     .prod-shell .prod-card { box-shadow: 0 6px 20px rgba(20,32,51,.06); border: 0; }
     .kd-sep { display: flex; align-items: center; gap: 14px; margin: 34px 0 22px; }
@@ -283,7 +283,8 @@
     .prod-metric { padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 900; white-space: nowrap; flex-shrink: 0; }
     .prod-body { padding: 14px 18px; flex: 1; display: flex; flex-direction: column; }
     .prod-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
-    .prod-list.two-col { grid-template-columns: 1fr 1fr; grid-auto-flow: column; grid-template-rows: repeat(5, auto); gap: 9px 18px; }
+    .prod-list.cols-3 { grid-template-columns: repeat(3, 1fr); gap: 8px 14px; align-content: start; }
+    .prod-list.cols-3 li span { white-space: nowrap; }
     .prod-list li { display: grid; grid-template-columns: 14px 1fr; gap: 8px; font-size: 13.5px; font-weight: 650; color: #43516a; line-height: 1.5; }
     .prod-list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; }
     .prod-list li b { color: var(--ink); font-weight: 850; }
@@ -296,6 +297,9 @@
     .pc-blue .prod-num { background: var(--blue); } .pc-blue .prod-head { background: linear-gradient(180deg, #eef5ff, #fff); } .pc-blue .prod-metric { background: #dbeafe; color: #1f4fad; } .pc-blue .prod-list li::before { background: var(--blue); }
     .pc-cyan .prod-num { background: var(--cyan); } .pc-cyan .prod-head { background: linear-gradient(180deg, #e8f6f8, #fff); } .pc-cyan .prod-metric { background: #cdeef1; color: #0a5f69; } .pc-cyan .prod-list li::before { background: var(--cyan); }
     .pc-green .prod-num { background: var(--green); } .pc-green .prod-head { background: linear-gradient(180deg, #eaf7f1, #fff); } .pc-green .prod-metric { background: #d6f0e2; color: #1b6b4d; } .pc-green .prod-list li::before { background: var(--green); }
+    /* 准客飞轮：①② 并列同色，③ 交付物略深区分阶段 */
+    .pc-g1 .prod-num { background: #1f8a63; } .pc-g1 .prod-head { background: linear-gradient(180deg, #e8f6ef, #fff); } .pc-g1 .prod-metric { background: #d2ecdf; color: #1b6b4d; } .pc-g1 .prod-list li::before { background: #1f8a63; } .pc-g1 .prod-note { border-left-color: #1f8a63; color: #1f6b4d; }
+    .prod-num svg { width: 20px; height: 20px; }
     .prod-merge { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 14px 0; padding: 4px 0; color: var(--orange); font-size: 13.5px; font-weight: 850; text-align: center; }
     .prod-merge .pm-arrow { color: var(--orange); font-size: 30px; font-weight: 400; line-height: 1; transform: scaleY(1.5); }
     .prod-caliber { margin: -8px 0 16px; padding: 0 14px; text-align: center; font-size: 13px; font-weight: 700; color: var(--orange); line-height: 1.65; }
@@ -304,16 +308,16 @@
     .big-arrow { display: flex; flex-direction: column; align-items: center; }
     .big-arrow .shaft { flex: 1; width: 4px; min-height: 40px; background: linear-gradient(180deg, #f0a868, var(--orange)); border-radius: 3px 3px 0 0; }
     .big-arrow .head { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 10px solid var(--orange); }
-    .flow-box { border: 0; background: transparent; padding: 8px 0; margin: 0 auto; max-width: 600px; align-self: center; text-align: center; }
-    .flow-box .fb-title { font-size: 17px; font-weight: 900; color: var(--ink); line-height: 1.45; }
+    .flow-box { border: 0; background: transparent; padding: 2px 0; margin: 0 auto; max-width: 600px; align-self: center; text-align: center; }
+    .flow-box .fb-title { font-size: 17px; font-weight: 900; color: var(--ink); line-height: 1.3; }
     .flow-box .fb-title b { color: var(--orange); }
-    .flow-box .fb-sub { margin-top: 7px; font-size: 14.5px; font-weight: 850; color: var(--orange); letter-spacing: .2px; }
-    .flow-box .fb-conds { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 7px 12px; margin-top: 12px; font-size: 13px; font-weight: 700; color: var(--muted); line-height: 1.5; }
+    .flow-box .fb-sub { margin-top: 1px; font-size: 14.5px; font-weight: 850; color: var(--orange); letter-spacing: .2px; }
+    .flow-box .fb-conds { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 12px; margin-top: 3px; font-size: 13px; font-weight: 700; color: var(--muted); line-height: 1.35; }
     .flow-box .fb-conds b { color: #c2410c; font-weight: 850; }
     .flow-box .fb-conds .dot { width: 4px; height: 4px; border-radius: 50%; background: #cbd5e1; }
     .prod-caliber b { color: var(--orange); }
     .prod-full { margin-top: 0; }
-    .prod-full .prod-body { padding: 18px; }
+    .prod-full .prod-body { padding: 2px 18px 18px; }
 
     /* Phase banner */
     .phase-banner { display: flex; align-items: center; gap: 14px; margin: 24px 0 18px; padding: 16px 20px; border-radius: 8px; }
@@ -345,7 +349,7 @@
     .phone-desc li { margin: 5px 0; }
 
     /* Module grid */
-    .module-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+    .module-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 0; }
     .module-item { padding: 16px; border: 0; border-radius: 10px; background: #f1f8f4; box-shadow: none; position: relative; overflow: hidden; }
     .module-item::after { content: attr(data-idx); position: absolute; top: 10px; right: 14px; font-size: 26px; font-weight: 950; color: rgba(40,118,87,.12); }
     .module-item .m-icon { margin-bottom: 10px; }
@@ -561,31 +565,29 @@
         <div class="prod-shell-head"><span class="ps-pill">准客飞轮</span><h3>准客怎么产生，及时交付给用户什么</h3></div>
 
         <div class="prod-cols">
-          <div class="prod-card pc-blue">
+          <div class="prod-card pc-g1">
             <div class="prod-head">
-              <span class="prod-num">1</span>
               <div class="prod-htext"><h4>C 端准客塑造</h4><div class="ph-sub">10 类辅助决策互动场景 · 全站探需</div></div>
               <span class="prod-metric">目标月塑造准客 5 万</span>
             </div>
             <div class="prod-body">
-              <ul class="prod-list two-col">
-                <li><span><b>主动更新</b>：新用户填写 + 管理需求</span></li>
-                <li><span><b>系统探需</b>：行为信号触发探需组件</span></li>
-                <li><span><b>触发探需</b>：Max「日核访 N 次」</span></li>
-                <li><span><b>主动约看房</b>：预约后引导补充确认</span></li>
-                <li><span><b>管家建联探需</b>：建联与推送</span></li>
-                <li><span><b>AI 咨询探需</b>：AI 管家问答过程中</span></li>
-                <li><span><b>AI 搜房探需</b>：模糊意图转 AI 搜索</span></li>
-                <li><span><b>AI 问房探需</b>：多轮上下文追问</span></li>
-                <li><span><b>AI 地图探需</b>：时圈 / 动态扩缩圈</span></li>
-                <li><span><b>IM 探需</b>：7 天内首次咨询触发</span></li>
+              <ul class="prod-list cols-3">
+                <li><span><b>主动更新</b></span></li>
+                <li><span><b>系统探需</b></span></li>
+                <li><span><b>触发探需</b></span></li>
+                <li><span><b>主动约看房</b></span></li>
+                <li><span><b>管家建联探需</b></span></li>
+                <li><span><b>AI 咨询探需</b></span></li>
+                <li><span><b>AI 搜房探需</b></span></li>
+                <li><span><b>AI 问房探需</b></span></li>
+                <li><span><b>AI 地图探需</b></span></li>
+                <li><span><b>IM 探需</b></span></li>
               </ul>
               <div class="prod-note">用户在贝壳 C 端被多场景探需触达，确认「3+X」需求后写入 <b>用户需求 profile</b>。</div>
             </div>
           </div>
-          <div class="prod-card pc-cyan">
+          <div class="prod-card pc-g1">
             <div class="prod-head">
-              <span class="prod-num">2</span>
               <div class="prod-htext"><h4>B 端服务者协同确认</h4><div class="ph-sub">3 个作业节点 · 服务者协同 · 用户确认</div></div>
               <span class="prod-metric">目标月产生准客 10 万</span>
             </div>
@@ -618,7 +620,6 @@
 
         <div class="prod-card prod-full pc-green">
           <div class="prod-head">
-            <span class="prod-num">3</span>
             <div class="prod-htext"><h4>交付购房计划书</h4><div class="ph-sub">8 大信息模块 · 对用户 / 经纪人 / OSA 客服可见</div></div>
             <span class="prod-metric">准客交付物</span>
           </div>
@@ -676,7 +677,7 @@
       <!-- ============ 04 阶段实践和复盘 ============ -->
       <section>
         <div class="section-title" data-num="04"><h2>阶段进展</h2></div>
-        <p class="lead">当前阶段<strong>重点做规模</strong>，让每一个用户都能够被刻画、被描述、被记录，沉淀为平台的<strong>新资产</strong>，进而围绕需求做服务。</p>
+        <p class="lead">北京 0610 开启试点，当前阶段<strong>重点做规模</strong>，让每一个用户都能够被刻画、被描述、被记录，沉淀为平台的<strong>新资产</strong>，进而围绕需求做服务。</p>
 
         <div class="metric-row">
           <div class="metric">
@@ -690,13 +691,13 @@
             <span>线索及商机用户去重，AI 管家 7×24h 接待咨询意向用户</span>
           </div>
           <div class="metric m-target">
-            <small><span>C 端塑造准客日 UV</span><span class="m-rate">完成率 54%</span></small>
-            <strong>900</strong>
-            <span>画像识别预填充、探需互动用户确认，目标天均准客 UV 1700</span>
+            <small><span>C 端塑造准客日 UV</span><span class="m-rate">完成率 29%</span></small>
+            <strong>500</strong>
+            <span>画像识别预填充、探需互动用户确认，目标天均准客 UV 1700，全量后预计 900</span>
           </div>
           <div class="metric m-target">
-            <small><span>B 端协同准客日 UV</span><span class="m-rate">完成率 12%</span></small>
-            <strong>400</strong>
+            <small><span>B 端协同准客日 UV</span><span class="m-rate">完成率 29%</span></small>
+            <strong>1000</strong>
             <span>服务者转发 / 用户扫码、确认自身需求，目标天均准客 UV 3400</span>
           </div>
         </div>
@@ -714,7 +715,7 @@
             <h3>② B 端协同确认</h3>
             <ul class="clean-list">
               <li>3 个作业节点嵌入日常作业，不增加额外负担</li>
-              <li>服务者转发 / 用户扫码确认，目标天均准客 UV 1700</li>
+              <li>服务者转发 / 用户扫码确认，目标天均准客 UV 3400</li>
               <li>服务者愿意用：与身份、评价、收益绑定</li>
             </ul>
           </div>
