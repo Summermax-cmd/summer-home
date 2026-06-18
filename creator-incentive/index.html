@@ -281,6 +281,12 @@
     .punch { margin-top: 20px; padding: 20px 22px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(135deg, #f4f8ff, #ffffff 70%); font-size: 20px; font-weight: 900; line-height: 1.55; color: var(--ink); }
     .punch em { font-style: normal; color: var(--green); }
 
+    /* embedded product-design preview + bidirectional check */
+    .ui-preview { position: relative; width: 100%; overflow: hidden; margin-top: 14px; border: 1px solid var(--line); border-radius: 16px; background: #e9efeb; box-shadow: 0 18px 44px rgba(20,50,36,.12); }
+    .ui-preview iframe { border: 0; display: block; transform-origin: top left; background: #e9efeb; }
+    .ui-cap { margin: 10px 0 0; text-align: center; color: var(--muted); font-size: 13px; font-weight: 700; }
+    .chk { display: inline-block; padding: 3px 10px; border-radius: 999px; background: #dcfce7; color: #1f6b4d; font-size: 12px; font-weight: 900; white-space: nowrap; }
+
     footer { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 22px 4px 0; color: var(--muted); font-size: 14px; font-weight: 700; }
 
     @media (max-width: 900px) {
@@ -562,6 +568,35 @@
             <p>内容价值评分 CVS 驱动 · 激励三件套 + 贝壳币 + 等级 + 任务 + 风控 + 后台</p>
           </div>
         </div>
+
+        <h3 style="margin:26px 0 0; font-size:20px;">产品设计 · 创作者激励中心（经纪人作业端）</h3>
+        <p class="lead" style="margin-top:10px;">激励策略在作业端的落地形态——三块界面构成「内容被消费 → 赚贝壳币 → 涨级得曝光」的反馈闭环，是下方各节策略的产品出口。</p>
+        <div class="ui-preview" data-w="1340" data-h="1290">
+          <iframe src="创作者激励中心-界面设计.html" title="创作者激励中心界面设计" loading="lazy"></iframe>
+        </div>
+        <p class="ui-cap">① 激励首页　·　② 任务中心　·　③ 内容表现诊断　（界面可滚动查看细节）</p>
+
+        <h3 style="margin:32px 0 0; font-size:20px;">产品 ↔ 策略 · 双向检验</h3>
+        <p class="lead" style="margin-top:10px;">确保产品与策略一一对应：<b>正向</b>——界面上每个数字、按钮、标签都能在下方策略中找到规则与权重；<b>反向</b>——每条策略规则都在界面有明确落点，不存在“写了却看不到”的设计。</p>
+        <div class="grid-2" style="margin-top:0;">
+          <article class="card blue"><span class="tag">正向 · 产品 → 策略</span><p class="muted">界面上的钱包收益、价值分、任务奖励、等级进度、诊断建议，逐项可回溯到 3.4–3.10 的规则与权重定义。</p></article>
+          <article class="card green"><span class="tag">反向 · 策略 → 产品</span><p class="muted">CVS、激励三件套、贝壳币结算、等级特权、任务、风控、后台，逐条在三块界面中有承载，无悬空策略。</p></article>
+        </div>
+        <div class="table-wrap" style="margin-top:16px;">
+          <table>
+            <thead><tr><th>策略章节</th><th>策略要点</th><th>对应界面元素</th><th>界面页</th><th>一致性</th></tr></thead>
+            <tbody>
+              <tr><td>3.4 价值评分 CVS</td><td>四维评分作为激励与分发统一依据</td><td>内容卡「价值分」圆环、诊断页 CVS 四维分解</td><td>① ③</td><td><span class="chk">✓ 一致</span></td></tr>
+              <tr><td>3.5 激励三件套</td><td>投稿 / 消费 / 质量 + 稀缺补贴</td><td>任务两段奖励、钱包本周收益、稀缺补贴 banner</td><td>① ②</td><td><span class="chk">✓ 一致</span></td></tr>
+              <tr><td>3.6 贝壳币结算</td><td>即时 + 次日 + 延迟，四类来源</td><td>钱包余额与本周收益、「本条 +180 · 次日结算」</td><td>① ③</td><td><span class="chk">✓ 一致</span></td></tr>
+              <tr><td>3.7 等级与曝光特权</td><td>Lv.1–5 晋升权重与曝光特权</td><td>等级进度卡（Lv.3→Lv.4、晋升四维、解锁详情页挂载）</td><td>①</td><td><span class="chk">✓ 一致</span></td></tr>
+              <tr><td>3.8 任务系统</td><td>高消费 / 高收藏 / 高互动 + 两段结算</td><td>任务中心分类切换、两段奖励、连续投稿进度</td><td>②</td><td><span class="chk">✓ 一致</span></td></tr>
+              <tr><td>3.9 风控治理</td><td>负反馈扣减 / 熔断、行为封顶</td><td>首页负反馈安全提示、诊断页负反馈行</td><td>① ③</td><td><span class="chk">✓ 一致</span></td></tr>
+              <tr><td>3.10 创作者后台</td><td>消费数据看板 + 诊断反馈</td><td>本周内容表现四宫格、内容卡与诊断页优化建议</td><td>① ③</td><td><span class="chk">✓ 一致</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout blue">检验结论：界面与策略已逐条对应。两处待后续细化——「延迟结算（转化 / 风控）」当前仅在收益明细体现，建议钱包增加“待结算”状态；「行为封顶」属后台规则，创作者侧默认不展示，仅在触发时提示。</div>
       </section>
 
       <section id="cvs">
@@ -803,6 +838,30 @@
       document.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update);
       update();
+    })();
+
+    /* fit embedded UI preview: render the design board at its natural width, scale to column */
+    (function () {
+      var boxes = document.querySelectorAll('.ui-preview');
+      Array.prototype.forEach.call(boxes, function (box) {
+        var fr = box.querySelector('iframe');
+        if (!fr) return;
+        var fw = parseFloat(box.getAttribute('data-w')) || 1340;
+        var fh = parseFloat(box.getAttribute('data-h')) || 1290;
+        function fit() {
+          var w = box.clientWidth;
+          var s = w / fw;
+          var h = fh;
+          try { if (fr.contentDocument && fr.contentDocument.body) { h = fr.contentDocument.body.scrollHeight; } } catch (e) {}
+          fr.style.width = fw + 'px';
+          fr.style.height = h + 'px';
+          fr.style.transform = 'scale(' + s + ')';
+          box.style.height = (h * s) + 'px';
+        }
+        fr.addEventListener('load', fit);
+        window.addEventListener('resize', fit);
+        fit();
+      });
     })();
   </script>
 </body>

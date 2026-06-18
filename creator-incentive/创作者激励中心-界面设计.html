@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>创作者激励中心 · 界面设计稿</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15211b; --ink2:#33453b; --muted:#6f7e76;
+    --brand:#06a36a; --brand-d:#04794f; --brand-l:#e6f5ee; --brand-ll:#f1faf5;
+    --coin:#e0982a; --coin-d:#b9791a; --coin-l:#fcf2dd;
+    --bg:#eaf0ec; --paper:#ffffff; --line:#e7ede9; --line2:#eef3f0;
+    --up:#06a36a; --down:#cf5750; --warn:#cf5750; --warn-l:#fdecea;
+    --teal:#0e8f8f;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    --num:"Space Grotesk",var(--sans);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:var(--sans); color:var(--ink);
+    background:
+      radial-gradient(900px 600px at 12% -5%, #e8f4ee 0%, transparent 55%),
+      radial-gradient(900px 700px at 100% 0%, #eef1f4 0%, transparent 50%),
+      linear-gradient(180deg,#eef2ef 0%, #e6ece9 100%);
+    -webkit-font-smoothing:antialiased;
+  }
+  .num{font-family:var(--num); font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;}
+
+  /* ---------- presentation board ---------- */
+  .board{max-width:1340px; margin:0 auto; padding:46px 28px 64px;}
+  .board-head{margin:0 4px 34px;}
+  .kicker{display:inline-flex; align-items:center; gap:9px; padding:7px 13px; border-radius:999px;
+    background:#fff; border:1px solid var(--line); color:var(--brand-d); font-size:13px; font-weight:800; box-shadow:0 6px 18px rgba(20,60,40,.06);}
+  .kicker::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--brand);}
+  .board-head h1{margin:16px 0 0; font-size:clamp(28px,3.4vw,42px); font-weight:850; letter-spacing:-.01em; line-height:1.12;}
+  .board-head p{margin:12px 0 0; max-width:760px; color:var(--ink2); font-size:16px; line-height:1.7;}
+  .legend{display:flex; flex-wrap:wrap; gap:18px; margin:20px 4px 0; color:var(--muted); font-size:13px; font-weight:650;}
+  .legend span{display:inline-flex; align-items:center; gap:7px;}
+  .legend i{width:13px; height:13px; border-radius:4px; display:inline-block;}
+
+  .stage{display:flex; gap:34px; justify-content:center; flex-wrap:wrap; align-items:flex-start; margin-top:40px;}
+  .frame{display:flex; flex-direction:column; align-items:center; gap:16px;}
+  .frame-cap{order:2; text-align:center; max-width:390px;}
+  .frame-cap b{display:block; font-size:15px; font-weight:800;}
+  .frame-cap span{display:block; margin-top:3px; color:var(--muted); font-size:13px; font-weight:600;}
+  .frame-cap .step{display:inline-grid; place-items:center; width:24px; height:24px; border-radius:7px; background:var(--ink); color:#fff; font-size:12px; font-weight:800; margin-bottom:8px; font-family:var(--num);}
+
+  /* ---------- phone ---------- */
+  .phone{order:1; width:390px; height:846px; border-radius:52px; background:#0b1310; padding:13px;
+    box-shadow:0 50px 90px rgba(11,30,21,.30), 0 14px 30px rgba(11,30,21,.20), inset 0 0 0 2px #20292550;
+    position:relative; flex:0 0 auto;}
+  .island{position:absolute; top:22px; left:50%; transform:translateX(-50%); width:116px; height:32px; background:#0b1310; border-radius:18px; z-index:30;}
+  .screen{position:relative; width:100%; height:100%; border-radius:40px; overflow:hidden; background:var(--bg); display:flex; flex-direction:column;}
+  .scroll{flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch;}
+  .scroll::-webkit-scrollbar{width:0; display:none;}
+
+  .statusbar{height:54px; display:flex; align-items:flex-end; justify-content:space-between; padding:0 26px 7px; flex:0 0 auto;}
+  .statusbar .t{font-family:var(--num); font-weight:600; font-size:15px;}
+  .statusbar .ic{display:flex; align-items:center; gap:6px;}
+  .statusbar svg{display:block;}
+
+  /* app top nav */
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:6px 18px 14px; flex:0 0 auto;}
+  .nav .back{width:34px; height:34px; display:grid; place-items:center; border-radius:11px; background:rgba(255,255,255,.7); border:1px solid var(--line);}
+  .nav .title{font-size:17px; font-weight:800;}
+  .nav .link{color:var(--muted); font-size:13px; font-weight:700;}
+
+  .pad{padding:0 18px;}
+  .sec-h{display:flex; align-items:baseline; justify-content:space-between; margin:22px 2px 12px;}
+  .sec-h h3{margin:0; font-size:16px; font-weight:850;}
+  .sec-h a{color:var(--muted); font-size:13px; font-weight:700;}
+
+  /* identity */
+  .who{display:flex; align-items:center; gap:12px; padding:2px 2px 4px;}
+  .avatar{width:46px; height:46px; border-radius:15px; background:linear-gradient(145deg,#0bbf7e,#067a50); color:#fff; display:grid; place-items:center; font-size:21px; font-weight:800; box-shadow:0 8px 18px rgba(6,122,80,.32);}
+  .who .nm{font-size:17px; font-weight:850; line-height:1.2;}
+  .who .role{color:var(--muted); font-size:12.5px; font-weight:600; margin-top:2px;}
+  .lv-chip{margin-left:auto; display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border-radius:999px;
+    background:linear-gradient(135deg,#fff4d8,#fde9bd); border:1px solid #f3d99a; color:#8a5a12; font-size:12px; font-weight:800;}
+  .lv-chip b{font-family:var(--num); font-weight:700;}
+
+  /* wallet hero */
+  .wallet{position:relative; margin-top:14px; border-radius:24px; overflow:hidden; color:#eafff5;
+    background:linear-gradient(150deg,#067a50 0%, #06a36a 52%, #14b97f 100%);
+    box-shadow:0 22px 44px rgba(5,110,73,.34);}
+  .wallet::after{content:""; position:absolute; right:-60px; top:-70px; width:230px; height:230px; border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.22), transparent 62%);}
+  .wallet .in{position:relative; padding:20px 20px 18px; z-index:1;}
+  .wallet .cap{display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; color:#c9f4e0; letter-spacing:.02em;}
+  .coin{display:inline-grid; place-items:center; width:20px; height:20px; border-radius:50%; background:linear-gradient(145deg,#ffd980,#e0982a);
+    color:#7a4d09; font-size:11px; font-weight:900; box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.45);}
+  .wallet .bal{display:flex; align-items:flex-end; gap:10px; margin-top:8px;}
+  .wallet .bal .big{font-family:var(--num); font-weight:600; font-size:42px; line-height:1; letter-spacing:-.5px;}
+  .wallet .bal .wk{margin-bottom:5px; padding:3px 8px; border-radius:999px; background:rgba(255,255,255,.18); font-size:12px; font-weight:700;}
+  .wallet .wk b{font-family:var(--num);}
+  .wallet .spark{margin:14px 0 2px;}
+  .wallet .feed{display:flex; align-items:center; justify-content:space-between; margin-top:10px; padding-top:13px; border-top:1px solid rgba(255,255,255,.16);}
+  .wallet .feed .ln{font-size:12.5px; font-weight:650; color:#d6f6e7;}
+  .wallet .feed .ln b{font-family:var(--num); color:#fff; font-weight:700;}
+  .wallet .acts{display:flex; gap:8px;}
+  .wallet .acts button{font-family:var(--sans); border:0; cursor:pointer; padding:8px 13px; border-radius:11px; font-size:12.5px; font-weight:800;}
+  .wallet .acts .ghost{background:rgba(255,255,255,.16); color:#fff;}
+  .wallet .acts .solid{background:#fff; color:var(--brand-d);}
+
+  /* card base */
+  .card{background:var(--paper); border:1px solid var(--line); border-radius:20px; box-shadow:0 12px 26px rgba(20,50,36,.06);}
+
+  /* level progress */
+  .level{margin-top:14px; padding:16px 17px;}
+  .level .top{display:flex; align-items:center; justify-content:space-between;}
+  .level .top .now{font-size:14.5px; font-weight:850;}
+  .level .top .nxt{color:var(--muted); font-size:12.5px; font-weight:700;}
+  .level .top .nxt b{color:var(--brand-d);}
+  .bar{height:9px; border-radius:999px; background:var(--line2); margin:12px 0 9px; overflow:hidden;}
+  .bar i{display:block; height:100%; border-radius:999px; background:linear-gradient(90deg,#06a36a,#1fc78a);}
+  .level .hint{font-size:12.5px; color:var(--ink2); font-weight:650; line-height:1.55;}
+  .level .hint b{color:var(--ink); font-family:var(--num);}
+  .dims{display:flex; gap:7px; margin-top:13px;}
+  .dim{flex:1; text-align:center; padding:8px 4px; border-radius:11px; background:var(--brand-ll); border:1px solid #e3f1ea;}
+  .dim .v{font-family:var(--num); font-size:15px; font-weight:700; color:var(--brand-d);}
+  .dim .k{font-size:10.5px; color:var(--muted); font-weight:700; margin-top:2px;}
+
+  /* stat tiles */
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:2px;}
+  .stat{padding:13px 14px; border-radius:16px;}
+  .stat .k{font-size:12px; color:var(--muted); font-weight:700;}
+  .stat .v{display:flex; align-items:baseline; gap:5px; margin-top:5px;}
+  .stat .v .n{font-family:var(--num); font-size:23px; font-weight:600; letter-spacing:-.5px;}
+  .stat .v .u{font-size:12px; color:var(--muted); font-weight:700;}
+  .trend{display:inline-flex; align-items:center; gap:3px; margin-top:8px; padding:2px 7px; border-radius:999px; font-size:11px; font-weight:800;}
+  .trend.u{background:var(--brand-l); color:var(--brand-d);}
+  .trend.d{background:var(--warn-l); color:var(--warn);}
+  .trend.flat{background:#eef1f4; color:#5a6b7a;}
+  .neg-note{margin-top:10px; display:flex; align-items:center; gap:8px; padding:10px 13px; border-radius:14px; background:#f3f7f4; border:1px solid var(--line); font-size:12.5px; color:var(--ink2); font-weight:650;}
+  .neg-note .ok{color:var(--brand-d); font-weight:800;}
+  .neg-note b{font-family:var(--num);}
+
+  /* task card */
+  .task{padding:15px 16px; margin-bottom:0;}
+  .task .tags{display:flex; align-items:center; gap:7px;}
+  .ttag{padding:3px 9px; border-radius:8px; font-size:11px; font-weight:800;}
+  .ttag.consume{background:#e6f5ee; color:var(--brand-d);}
+  .ttag.collect{background:#e6f1fb; color:#1f6fc0;}
+  .ttag.engage{background:#fbeede; color:#b9791a;}
+  .ttag.kind{background:#f0f2f1; color:#5a6b62;}
+  .task .due{margin-left:auto; color:var(--muted); font-size:11.5px; font-weight:700;}
+  .task h4{margin:11px 0 0; font-size:16px; font-weight:800; line-height:1.4;}
+  .reward{display:flex; align-items:center; gap:8px; margin-top:13px; flex-wrap:wrap;}
+  .rstage{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:11px; background:var(--coin-l); color:var(--coin-d); font-size:12px; font-weight:800;}
+  .rstage .seg{font-family:var(--num); font-size:13px;}
+  .rstage .lbl{color:#9a7a3a; font-weight:700;}
+  .rarrow{color:#cdb37a; font-weight:800;}
+  .task .go{margin-top:14px; width:100%; border:0; cursor:pointer; padding:12px; border-radius:13px; background:var(--brand); color:#fff; font-size:14px; font-weight:800; font-family:var(--sans);}
+
+  /* content row */
+  .content{display:flex; gap:13px; padding:14px; margin-bottom:10px;}
+  .thumb{flex:0 0 auto; width:74px; height:96px; border-radius:13px; position:relative; overflow:hidden; background:linear-gradient(160deg,#dfeee7,#cfe6db);}
+  .thumb .pl{position:absolute; inset:0; display:grid; place-items:center; color:#7fae99;}
+  .thumb .badge{position:absolute; left:6px; bottom:6px; padding:2px 7px; border-radius:7px; background:rgba(11,30,21,.62); color:#fff; font-size:10px; font-weight:700; backdrop-filter:blur(2px);}
+  .content .body{flex:1; min-width:0;}
+  .content .body h4{margin:0; font-size:14px; font-weight:800; line-height:1.42; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .cmeta{display:flex; gap:12px; margin-top:8px; color:var(--muted); font-size:11.5px; font-weight:650;}
+  .cmeta b{font-family:var(--num); color:var(--ink2); font-weight:700;}
+  .tip{display:flex; gap:7px; margin-top:9px; padding:8px 10px; border-radius:11px; font-size:11.5px; font-weight:650; line-height:1.45;}
+  .tip.up{background:#fbf3e6; color:#8a5a12;}
+  .tip.ok{background:var(--brand-l); color:var(--brand-d);}
+  .tip .mk{font-weight:900;}
+  /* cvs dial small */
+  .dial{flex:0 0 auto; width:54px; text-align:center;}
+  .dial svg{display:block;}
+  .dial .lab{font-size:10px; color:var(--muted); font-weight:700; margin-top:3px;}
+
+  /* bottom tab bar */
+  .tabbar{flex:0 0 auto; display:flex; padding:9px 8px calc(9px + env(safe-area-inset-bottom)); background:rgba(255,255,255,.96); border-top:1px solid var(--line); backdrop-filter:blur(10px);}
+  .tab{flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; color:#94a39a; font-size:10.5px; font-weight:700;}
+  .tab svg{display:block;}
+  .tab.on{color:var(--brand);}
+  .homebar{height:6px; width:128px; background:#0b1310; border-radius:999px; margin:7px auto 8px; opacity:.85;}
+
+  /* ===== screen 2 — tasks ===== */
+  .progress-strip{margin-top:6px; padding:14px 16px;}
+  .progress-strip .row{display:flex; align-items:center; justify-content:space-between;}
+  .progress-strip .row .l{font-size:13.5px; font-weight:800;}
+  .progress-strip .row .r{font-family:var(--num); font-size:13px; font-weight:700; color:var(--brand-d);}
+  .progress-strip .sub{font-size:12px; color:var(--ink2); font-weight:650; margin-top:9px;}
+  .progress-strip .sub b{font-family:var(--num); color:var(--coin-d);}
+  .seg{display:flex; gap:6px; margin:16px 0 14px; padding:5px; background:#e3e9e5; border-radius:13px;}
+  .seg button{flex:1; border:0; cursor:pointer; padding:9px 0; border-radius:9px; background:transparent; color:#5a6b62; font-size:13px; font-weight:800; font-family:var(--sans);}
+  .seg button.on{background:#fff; color:var(--brand-d); box-shadow:0 4px 12px rgba(20,50,36,.1);}
+  .subsidy{margin-bottom:14px; padding:15px 16px; border-radius:18px; color:#7a4d09; position:relative; overflow:hidden;
+    background:linear-gradient(135deg,#fdeecb,#fbe3a6); border:1px solid #f1d391;}
+  .subsidy .h{display:flex; align-items:center; gap:8px; font-size:13.5px; font-weight:850;}
+  .subsidy p{margin:7px 0 0; font-size:12px; font-weight:650; line-height:1.5; color:#8a5e1a;}
+  .subsidy p b{font-family:var(--num); color:var(--coin-d);}
+  .foot-note{margin:14px 2px 2px; font-size:11.5px; color:var(--muted); font-weight:650; line-height:1.6;}
+
+  /* ===== screen 3 — content detail ===== */
+  .det-head{padding:4px 2px 0;}
+  .det-head .st{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; background:var(--brand-l); color:var(--brand-d); font-size:11.5px; font-weight:800;}
+  .det-head h2{margin:11px 0 0; font-size:18px; font-weight:850; line-height:1.4;}
+  .det-head .m{margin-top:8px; color:var(--muted); font-size:12px; font-weight:650;}
+  .cvs-card{margin-top:16px; padding:18px 16px; display:flex; gap:18px; align-items:center;}
+  .cvs-big{flex:0 0 auto; text-align:center;}
+  .cvs-big .lab{font-size:11px; color:var(--muted); font-weight:800; margin-top:4px;}
+  .cvs-breaks{flex:1; display:flex; flex-direction:column; gap:11px;}
+  .brk .bt{display:flex; justify-content:space-between; font-size:12px; font-weight:700;}
+  .brk .bt .s{font-family:var(--num); color:var(--ink2);}
+  .brk .track{height:7px; border-radius:999px; background:var(--line2); margin-top:6px; overflow:hidden;}
+  .brk .track i{display:block; height:100%; border-radius:999px;}
+  .brk.c1 .track i{background:var(--brand);}
+  .brk.c2 .track i{background:var(--teal);}
+  .brk.c3 .track i{background:#1fc78a;}
+  .brk.c4 .track i{background:var(--coin);}
+
+  .funnel{padding:16px; margin-top:12px;}
+  .frow{display:flex; align-items:center; gap:12px; margin-bottom:11px;}
+  .frow:last-child{margin-bottom:0;}
+  .frow .meter{flex:1; height:38px; border-radius:11px; display:flex; align-items:center; padding:0 13px; color:#fff; font-weight:800;}
+  .frow .meter .fn{font-family:var(--num); font-size:15px;}
+  .frow .meter .fl{font-size:12px; font-weight:700; margin-right:auto;}
+  .frow .pct{flex:0 0 56px; text-align:right; font-family:var(--num); font-size:13px; font-weight:700; color:var(--brand-d);}
+  .frow .pct.mut{color:var(--muted);}
+
+  .diag{margin-top:12px; padding:6px 0;}
+  .diag .row{display:flex; gap:11px; padding:13px 16px; border-bottom:1px solid var(--line2);}
+  .diag .row:last-child{border-bottom:0;}
+  .diag .ico{flex:0 0 auto; width:26px; height:26px; border-radius:9px; display:grid; place-items:center; font-size:13px; font-weight:900;}
+  .diag .ico.up{background:#fbf3e6; color:#b9791a;}
+  .diag .ico.ok{background:var(--brand-l); color:var(--brand-d);}
+  .diag .ico.flag{background:#eef1f4; color:#5a6b7a;}
+  .diag .tx{font-size:13px; font-weight:650; line-height:1.55; color:var(--ink2);}
+  .diag .tx b{color:var(--ink); font-family:var(--num);}
+
+  .earn{margin:14px 0 4px; padding:15px 17px; border-radius:18px; color:#eafff5; position:relative; overflow:hidden;
+    background:linear-gradient(135deg,#067a50,#0aa46c);}
+  .earn .l{display:flex; align-items:center; gap:9px;}
+  .earn .l .amt{font-family:var(--num); font-size:22px; font-weight:600;}
+  .earn .l .cap{font-size:12px; font-weight:700; color:#c9f4e0;}
+  .earn p{margin:9px 0 0; font-size:12px; font-weight:650; color:#d6f6e7; line-height:1.5;}
+
+  @media (max-width:560px){
+    .board{padding:30px 14px 48px;}
+    .phone{transform:scale(.92); transform-origin:top center;}
+  }
+
+  /* tasteful load-in, respectful of motion prefs */
+  @media (prefers-reduced-motion:no-preference){
+    .frame{opacity:0; transform:translateY(16px); animation:rise .6s cubic-bezier(.2,.7,.3,1) forwards;}
+    .frame:nth-child(2){animation-delay:.1s;}
+    .frame:nth-child(3){animation-delay:.2s;}
+    @keyframes rise{to{opacity:1; transform:none;}}
+  }
+</style>
+</head>
+<body>
+<div class="board">
+  <div class="board-head">
+    <span class="kicker">经纪人作业端 · 界面设计稿</span>
+    <h1>创作者激励中心</h1>
+    <p>把「内容被用户消费 → 赚到贝壳币 → 涨等级、得曝光」做成经纪人每天看得懂、用得上的反馈闭环。核心是每条内容的 <b>价值分（CVS）</b> 与一句可执行的优化建议——告诉创作者得了多少分，以及怎么拿更多。</p>
+    <div class="legend">
+      <span><i style="background:#06a36a"></i>贝壳/消费表现</span>
+      <span><i style="background:#e0982a"></i>贝壳币 · 收益</span>
+      <span><i style="background:#cf5750"></i>负反馈 · 风险</span>
+      <span><i style="background:#15211b"></i>文字/结构</span>
+    </div>
+  </div>
+
+  <div class="stage">
+
+    <!-- ============ SCREEN 1 · 激励首页 ============ -->
+    <div class="frame">
+      <div class="phone">
+        <div class="island"></div>
+        <div class="screen">
+          <div class="statusbar">
+            <span class="t num">9:41</span>
+            <span class="ic">
+              <svg width="18" height="11" viewBox="0 0 18 11"><g fill="#15211b"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="4.5" width="3" height="6.5" rx="1"/><rect x="10" y="2" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></g></svg>
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 10.2 1 4.3a10 10 0 0 1 14 0L8 10.2Z" stroke="#15211b" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              <svg width="26" height="12" viewBox="0 0 26 12"><rect x="0.6" y="0.6" width="21" height="10.8" rx="3" fill="none" stroke="#15211b" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16" height="7.6" rx="1.6" fill="#15211b"/><rect x="23" y="3.6" width="2" height="4.8" rx="1" fill="#15211b" fill-opacity=".5"/></svg>
+            </span>
+          </div>
+          <div class="nav">
+            <div class="back"><svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M7.5 1 1.5 8l6 7" stroke="#15211b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="title">创作者激励中心</div>
+            <a class="link">激励规则</a>
+          </div>
+
+          <div class="scroll">
+            <div class="pad">
+              <div class="who">
+                <div class="avatar">明</div>
+                <div>
+                  <div class="nm">张明</div>
+                  <div class="role">楼盘主理人 · 朝阳望京</div>
+                </div>
+                <div class="lv-chip">★ <b>Lv.3</b> 优质消费创作者</div>
+              </div>
+
+              <!-- HERO wallet -->
+              <div class="wallet">
+                <div class="in">
+                  <div class="cap"><span class="coin">贝</span>贝壳币 · 可用余额</div>
+                  <div class="bal">
+                    <span class="big num">12,840</span>
+                    <span class="wk">本周 +<b class="num">1,260</b></span>
+                  </div>
+                  <svg class="spark" width="100%" height="50" viewBox="0 0 320 50" preserveAspectRatio="none" fill="none">
+                    <defs>
+                      <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#ffffff" stop-opacity=".42"/>
+                        <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M0 38 L46 34 L92 36 L138 26 L184 28 L230 16 L276 18 L320 8 L320 50 L0 50 Z" fill="url(#sg)"/>
+                    <path d="M0 38 L46 34 L92 36 L138 26 L184 28 L230 16 L276 18 L320 8" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="320" cy="8" r="3.4" fill="#fff"/>
+                  </svg>
+                  <div class="feed">
+                    <div class="ln">本周内容被有效消费 <b class="num">8,632</b> 次</div>
+                    <div class="acts">
+                      <button class="ghost">明细</button>
+                      <button class="solid">兑换商机</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- level -->
+              <div class="card level">
+                <div class="top">
+                  <div class="now">Lv.3 → <span style="color:var(--brand-d)">Lv.4 专业内容创作者</span></div>
+                  <div class="nxt"><b class="num">68%</b></div>
+                </div>
+                <div class="bar"><i style="width:68%"></i></div>
+                <div class="hint">再发 <b>2</b> 篇高完播内容，并保持收藏率同类前 <b>20%</b>，即可晋级，解锁详情页内容挂载。</div>
+                <div class="dims">
+                  <div class="dim"><div class="v num">稳</div><div class="k">投稿 30%</div></div>
+                  <div class="dim"><div class="v num">优</div><div class="k">质量 25%</div></div>
+                  <div class="dim"><div class="v num">强</div><div class="k">消费 35%</div></div>
+                  <div class="dim"><div class="v num">·</div><div class="k">转化 10%</div></div>
+                </div>
+              </div>
+
+              <!-- stats -->
+              <div class="sec-h"><h3>本周内容表现</h3><a>近 7 天 ›</a></div>
+              <div class="stats">
+                <div class="card stat">
+                  <div class="k">完播率</div>
+                  <div class="v"><span class="n num">62</span><span class="u">%</span></div>
+                  <span class="trend u">▲ 同类前 15%</span>
+                </div>
+                <div class="card stat">
+                  <div class="k">有效阅读率</div>
+                  <div class="v"><span class="n num">54</span><span class="u">%</span></div>
+                  <span class="trend u">▲ 较上周 +6%</span>
+                </div>
+                <div class="card stat">
+                  <div class="k">平均停留</div>
+                  <div class="v"><span class="n num">48</span><span class="u">s</span></div>
+                  <span class="trend u">▲ 高于同类 30%</span>
+                </div>
+                <div class="card stat">
+                  <div class="k">收藏率</div>
+                  <div class="v"><span class="n num">6.8</span><span class="u">%</span></div>
+                  <span class="trend flat">— 持平</span>
+                </div>
+              </div>
+              <div class="neg-note"><span class="ok">✓ 安全</span> 负反馈率 <b>1.2%</b>，低于警戒线 3%，内容分发正常。</div>
+
+              <!-- today task -->
+              <div class="sec-h"><h3>今日任务</h3><a>任务中心 ›</a></div>
+              <div class="card task">
+                <div class="tags">
+                  <span class="ttag consume">高消费</span>
+                  <span class="ttag kind">房源讲解</span>
+                  <span class="due">今日 23:59 截止</span>
+                </div>
+                <h4>「这个小区适合什么人买？」</h4>
+                <div class="reward">
+                  <span class="rstage"><span class="lbl">完成投稿</span><span class="seg num">+50</span></span>
+                  <span class="rarrow">→</span>
+                  <span class="rstage"><span class="lbl">消费达标</span><span class="seg num">+120</span></span>
+                </div>
+                <button class="go">去创作</button>
+              </div>
+
+              <!-- my content -->
+              <div class="sec-h"><h3>我的内容</h3><a>全部 ›</a></div>
+
+              <div class="card content">
+                <div class="thumb"><div class="pl"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 8.5v7l6-3.5-6-3.5Z" fill="#7fae99"/><rect x="3" y="4" width="18" height="16" rx="3" stroke="#7fae99" stroke-width="1.6"/></svg></div><span class="badge">视频 1:12</span></div>
+                <div class="body">
+                  <h4>望京西园四区｜总价怎么这么低？三个原因说清楚</h4>
+                  <div class="cmeta"><span>播放 <b>1.2万</b></span><span>完播 <b>63%</b></span><span>收藏 <b>214</b></span></div>
+                  <div class="tip up"><span class="mk">↑</span><span>点击率不错，完播偏低——前 5 秒直接抛结论，完播有机会再涨。</span></div>
+                </div>
+                <div class="dial">
+                  <svg width="54" height="54" viewBox="0 0 54 54">
+                    <circle cx="27" cy="27" r="22" fill="none" stroke="#eef3f0" stroke-width="6"/>
+                    <circle cx="27" cy="27" r="22" fill="none" stroke="#06a36a" stroke-width="6" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="19.3" transform="rotate(-90 27 27)"/>
+                    <text x="27" y="31" text-anchor="middle" font-family="Space Grotesk" font-size="18" font-weight="700" fill="#15211b">86</text>
+                  </svg>
+                  <div class="lab">价值分</div>
+                </div>
+              </div>
+
+              <div class="card content">
+                <div class="thumb" style="background:linear-gradient(160deg,#e3edf7,#cfe0f0)"><div class="pl"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="#7f9cb6" stroke-width="1.6"/><path d="M7 14l3-3 3 3 4-5" stroke="#7f9cb6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="badge">图文</span></div>
+                <div class="body">
+                  <h4>5 号线沿线 3 个小两居，预算 500 万怎么选</h4>
+                  <div class="cmeta"><span>阅读 <b>8.6千</b></span><span>停留 <b>71s</b></span><span>收藏 <b>503</b></span></div>
+                  <div class="tip ok"><span class="mk">✓</span><span>收藏率同类前 10%，决策价值高——适合做成系列内容。</span></div>
+                </div>
+                <div class="dial">
+                  <svg width="54" height="54" viewBox="0 0 54 54">
+                    <circle cx="27" cy="27" r="22" fill="none" stroke="#eef3f0" stroke-width="6"/>
+                    <circle cx="27" cy="27" r="22" fill="none" stroke="#1fc78a" stroke-width="6" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="12.4" transform="rotate(-90 27 27)"/>
+                    <text x="27" y="31" text-anchor="middle" font-family="Space Grotesk" font-size="18" font-weight="700" fill="#15211b">91</text>
+                  </svg>
+                  <div class="lab">价值分</div>
+                </div>
+              </div>
+
+              <div style="height:14px"></div>
+            </div>
+          </div>
+
+          <!-- tab bar -->
+          <div class="tabbar">
+            <div class="tab on">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="13" rx="2" stroke="#06a36a" stroke-width="1.7"/><path d="M3 12h18M12 8v13" stroke="#06a36a" stroke-width="1.7"/><path d="M12 8s-1-4-3.5-4S6 7 12 8Zm0 0s1-4 3.5-4S18 7 12 8Z" stroke="#06a36a" stroke-width="1.7" stroke-linejoin="round"/></svg>
+              <span>激励</span>
+            </div>
+            <div class="tab">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="#94a39a" stroke-width="1.7"/><circle cx="12" cy="12" r="4" stroke="#94a39a" stroke-width="1.7"/><circle cx="12" cy="12" r=".8" fill="#94a39a"/></svg>
+              <span>任务</span>
+            </div>
+            <div class="tab">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 20V10M10 20V5M16 20v-8M22 20H2" stroke="#94a39a" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <span>数据</span>
+            </div>
+            <div class="tab">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="#94a39a" stroke-width="1.7"/><path d="M5 20c0-3.9 3.1-6.5 7-6.5s7 2.6 7 6.5" stroke="#94a39a" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <span>我的</span>
+            </div>
+          </div>
+          <div class="homebar"></div>
+        </div>
+      </div>
+      <div class="frame-cap">
+        <span class="step num">1</span>
+        <b>激励首页</b>
+        <span>钱包（本周收益 × 有效消费次数）· 等级进度 · 内容表现 · 今日任务 · 内容清单</span>
+      </div>
+    </div>
+
+    <!-- ============ SCREEN 2 · 任务中心 ============ -->
+    <div class="frame">
+      <div class="phone">
+        <div class="island"></div>
+        <div class="screen">
+          <div class="statusbar">
+            <span class="t num">9:41</span>
+            <span class="ic">
+              <svg width="18" height="11" viewBox="0 0 18 11"><g fill="#15211b"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="4.5" width="3" height="6.5" rx="1"/><rect x="10" y="2" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></g></svg>
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 10.2 1 4.3a10 10 0 0 1 14 0L8 10.2Z" stroke="#15211b" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              <svg width="26" height="12" viewBox="0 0 26 12"><rect x="0.6" y="0.6" width="21" height="10.8" rx="3" fill="none" stroke="#15211b" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16" height="7.6" rx="1.6" fill="#15211b"/><rect x="23" y="3.6" width="2" height="4.8" rx="1" fill="#15211b" fill-opacity=".5"/></svg>
+            </span>
+          </div>
+          <div class="nav">
+            <div class="back"><svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M7.5 1 1.5 8l6 7" stroke="#15211b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="title">任务中心</div>
+            <a class="link">规则</a>
+          </div>
+
+          <div class="scroll">
+            <div class="pad">
+              <!-- 连续投稿 -->
+              <div class="card progress-strip">
+                <div class="row"><span class="l">连续投稿 · 本周</span><span class="r num">2 / 3 篇</span></div>
+                <div class="bar"><i style="width:66%"></i></div>
+                <div class="sub">再发 1 篇合格内容，得连续投稿奖 <b>+80</b> 贝壳币；连续 4 周达标解锁月度稳定创作者奖。</div>
+              </div>
+
+              <!-- segment -->
+              <div class="seg">
+                <button class="on">高消费</button>
+                <button>高收藏</button>
+                <button>高互动</button>
+              </div>
+
+              <!-- subsidy banner -->
+              <div class="subsidy">
+                <div class="h"><span class="coin">贝</span> 内容空白小区补贴</div>
+                <p>望京南、东湖湾等 <b>6</b> 个高搜索低内容小区，每发布 1 篇合格内容，额外 <b>+200</b> 贝壳币。</p>
+              </div>
+
+              <!-- task list -->
+              <div class="card task" style="margin-bottom:12px">
+                <div class="tags"><span class="ttag consume">高消费</span><span class="ttag kind">房源讲解</span><span class="due">今日截止</span></div>
+                <h4>这套房为什么便宜？</h4>
+                <div class="reward">
+                  <span class="rstage"><span class="lbl">完成投稿</span><span class="seg num">+50</span></span>
+                  <span class="rarrow">→</span>
+                  <span class="rstage"><span class="lbl">消费达标</span><span class="seg num">+120</span></span>
+                </div>
+                <button class="go">去创作</button>
+              </div>
+
+              <div class="card task" style="margin-bottom:12px">
+                <div class="tags"><span class="ttag consume">高消费</span><span class="ttag kind">板块解读</span><span class="due">名额 23/50</span></div>
+                <h4>同预算怎么选两个板块？</h4>
+                <div class="reward">
+                  <span class="rstage"><span class="lbl">完成投稿</span><span class="seg num">+50</span></span>
+                  <span class="rarrow">→</span>
+                  <span class="rstage"><span class="lbl">消费达标</span><span class="seg num">+150</span></span>
+                </div>
+                <button class="go">去创作</button>
+              </div>
+
+              <div class="card task" style="margin-bottom:2px">
+                <div class="tags"><span class="ttag consume">高消费</span><span class="ttag kind">看房指南</span><span class="due">长期有效</span></div>
+                <h4>第一次看房要注意什么？</h4>
+                <div class="reward">
+                  <span class="rstage"><span class="lbl">完成投稿</span><span class="seg num">+40</span></span>
+                  <span class="rarrow">→</span>
+                  <span class="rstage"><span class="lbl">消费达标</span><span class="seg num">+100</span></span>
+                </div>
+                <button class="go">去创作</button>
+              </div>
+
+              <p class="foot-note">完成投稿并通过审核即得基础奖励；发布 24–48 小时后，按完播率、停留、收藏等消费表现追加奖励。重复、灌水内容不计入任务完成。</p>
+              <div style="height:12px"></div>
+            </div>
+          </div>
+
+          <div class="tabbar">
+            <div class="tab">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="13" rx="2" stroke="#94a39a" stroke-width="1.7"/><path d="M3 12h18M12 8v13" stroke="#94a39a" stroke-width="1.7"/><path d="M12 8s-1-4-3.5-4S6 7 12 8Zm0 0s1-4 3.5-4S18 7 12 8Z" stroke="#94a39a" stroke-width="1.7" stroke-linejoin="round"/></svg>
+              <span>激励</span>
+            </div>
+            <div class="tab on">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="#06a36a" stroke-width="1.7"/><circle cx="12" cy="12" r="4" stroke="#06a36a" stroke-width="1.7"/><circle cx="12" cy="12" r=".8" fill="#06a36a"/></svg>
+              <span>任务</span>
+            </div>
+            <div class="tab">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 20V10M10 20V5M16 20v-8M22 20H2" stroke="#94a39a" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <span>数据</span>
+            </div>
+            <div class="tab">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="#94a39a" stroke-width="1.7"/><path d="M5 20c0-3.9 3.1-6.5 7-6.5s7 2.6 7 6.5" stroke="#94a39a" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <span>我的</span>
+            </div>
+          </div>
+          <div class="homebar"></div>
+        </div>
+      </div>
+      <div class="frame-cap">
+        <span class="step num">2</span>
+        <b>任务中心</b>
+        <span>高消费 / 高收藏 / 高互动三类任务 · 两段式奖励 · 连续投稿 · 稀缺内容补贴</span>
+      </div>
+    </div>
+
+    <!-- ============ SCREEN 3 · 内容表现诊断 ============ -->
+    <div class="frame">
+      <div class="phone">
+        <div class="island"></div>
+        <div class="screen">
+          <div class="statusbar">
+            <span class="t num">9:41</span>
+            <span class="ic">
+              <svg width="18" height="11" viewBox="0 0 18 11"><g fill="#15211b"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="4.5" width="3" height="6.5" rx="1"/><rect x="10" y="2" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></g></svg>
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 10.2 1 4.3a10 10 0 0 1 14 0L8 10.2Z" stroke="#15211b" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              <svg width="26" height="12" viewBox="0 0 26 12"><rect x="0.6" y="0.6" width="21" height="10.8" rx="3" fill="none" stroke="#15211b" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16" height="7.6" rx="1.6" fill="#15211b"/><rect x="23" y="3.6" width="2" height="4.8" rx="1" fill="#15211b" fill-opacity=".5"/></svg>
+            </span>
+          </div>
+          <div class="nav">
+            <div class="back"><svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M7.5 1 1.5 8l6 7" stroke="#15211b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="title">内容表现</div>
+            <a class="link">分享</a>
+          </div>
+
+          <div class="scroll">
+            <div class="pad">
+              <div class="det-head">
+                <span class="st">● 推荐池分发中</span>
+                <h2>望京西园四区｜总价怎么这么低？三个原因说清楚</h2>
+                <div class="m">视频 1:12 · 2 天前发布 · 房源讲解任务</div>
+              </div>
+
+              <!-- CVS -->
+              <div class="card cvs-card">
+                <div class="cvs-big">
+                  <svg width="92" height="92" viewBox="0 0 92 92">
+                    <circle cx="46" cy="46" r="38" fill="none" stroke="#eef3f0" stroke-width="9"/>
+                    <circle cx="46" cy="46" r="38" fill="none" stroke="url(#cg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="238.8" stroke-dashoffset="33.4" transform="rotate(-90 46 46)"/>
+                    <defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#06a36a"/><stop offset="1" stop-color="#1fc78a"/></linearGradient></defs>
+                    <text x="46" y="50" text-anchor="middle" font-family="Space Grotesk" font-size="30" font-weight="700" fill="#15211b">86</text>
+                    <text x="46" y="65" text-anchor="middle" font-family="Space Grotesk" font-size="10" font-weight="600" fill="#6f7e76">/100</text>
+                  </svg>
+                  <div class="lab">价值分 CVS</div>
+                </div>
+                <div class="cvs-breaks">
+                  <div class="brk c1"><div class="bt"><span>投稿行为</span><span class="s">92</span></div><div class="track"><i style="width:92%"></i></div></div>
+                  <div class="brk c2"><div class="bt"><span>内容质量</span><span class="s">88</span></div><div class="track"><i style="width:88%"></i></div></div>
+                  <div class="brk c3"><div class="bt"><span>内容消费</span><span class="s">81</span></div><div class="track"><i style="width:81%"></i></div></div>
+                  <div class="brk c4"><div class="bt"><span>商机转化</span><span class="s">74</span></div><div class="track"><i style="width:74%"></i></div></div>
+                </div>
+              </div>
+
+              <!-- funnel -->
+              <div class="sec-h"><h3>消费漏斗</h3><a>对比同类 ›</a></div>
+              <div class="card funnel">
+                <div class="frow"><div class="meter" style="background:#0e8f8f; width:100%"><span class="fl">曝光</span><span class="fn num">12,400</span></div><div class="pct mut">100%</div></div>
+                <div class="frow"><div class="meter" style="background:#149a7e; width:84%"><span class="fl">点击</span><span class="fn num">3,720</span></div><div class="pct">30.0%</div></div>
+                <div class="frow"><div class="meter" style="background:#06a36a; width:64%"><span class="fl">完播</span><span class="fn num">2,306</span></div><div class="pct">62.0%</div></div>
+                <div class="frow"><div class="meter" style="background:#1fb582; width:40%"><span class="fl">收藏</span><span class="fn num">412</span></div><div class="pct mut">11.1%</div></div>
+                <div class="frow"><div class="meter" style="background:#3cc795; width:24%"><span class="fl">关注</span><span class="fn num">38</span></div><div class="pct mut">·</div></div>
+              </div>
+
+              <!-- diagnosis -->
+              <div class="sec-h"><h3>诊断建议</h3></div>
+              <div class="card diag">
+                <div class="row"><div class="ico up">↑</div><div class="tx">点击率高于同类，但完播率 <b>62%</b> 偏低——试着<b style="font-family:var(--sans)">前 5 秒直接讲结论</b>，完播有望再涨。</div></div>
+                <div class="row"><div class="ico ok">✓</div><div class="tx">平均停留 <b>48s</b>，高于同类 30%，用户愿意看——建议沿用做成系列内容。</div></div>
+                <div class="row"><div class="ico flag">⚑</div><div class="tx">负反馈率 <b>1.2%</b>，低于警戒线，分发安全。</div></div>
+              </div>
+
+              <!-- earnings -->
+              <div class="earn">
+                <div class="l"><span class="coin">贝</span><span class="amt num">+180</span><span class="cap">本条已结算 · 次日消费奖励</span></div>
+                <p>消费表现持续达标，内容进入长效分发池可再获曝光与追加奖励。</p>
+              </div>
+              <div style="height:14px"></div>
+            </div>
+          </div>
+          <div class="homebar"></div>
+        </div>
+      </div>
+      <div class="frame-cap">
+        <span class="step num">3</span>
+        <b>内容表现诊断</b>
+        <span>单条内容的 CVS 四维分解 · 消费漏斗 · 可执行优化建议 · 贝壳币结算</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
