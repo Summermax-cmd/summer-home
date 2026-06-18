@@ -48,6 +48,10 @@
   .frame-cap b{display:block; font-size:15px; font-weight:800;}
   .frame-cap span{display:block; margin-top:3px; color:var(--muted); font-size:13px; font-weight:600;}
   .frame-cap .step{display:inline-grid; place-items:center; width:24px; height:24px; border-radius:7px; background:var(--ink); color:#fff; font-size:12px; font-weight:800; margin-bottom:7px; font-family:var(--num);}
+  .cat-tag{display:inline-block; margin-bottom:7px; padding:3px 11px; border-radius:999px; font-size:12px; font-weight:850;}
+  .cat-tag.search{background:var(--blue-l); color:var(--blue-d);}
+  .cat-tag.feeds{background:var(--orange-l); color:var(--orange-d);}
+  .cat-tag.detail{background:#dcf2ee; color:#0e7a6a;}
 
   .phone{order:1; width:390px; height:846px; border-radius:52px; background:#0b0f14; padding:13px;
     box-shadow:0 50px 90px rgba(13,22,40,.30),0 14px 30px rgba(13,22,40,.18); position:relative; flex:0 0 auto;}
@@ -258,14 +262,7 @@
     <p>按用户触点分为<b>搜索结果、推荐 Feeds、详情页</b>三类阵地——同一位主理人的视频、图文、播客，在用户找房决策的不同场景出现，并就近承接咨询商机。</p>
   </div>
 
-  <!-- ============ 一、搜索结果 ============ -->
-  <div class="cat search">
-    <div class="cat-head">
-      <span class="cat-no">一</span>
-      <div><h2>搜索结果</h2><p class="desc">用户主动搜索小区 / 商圈 / 区域时的结果页</p></div>
-      <span class="meta">主理人内容横卡优先展现</span>
-    </div>
-    <div class="stage">
+  <div class="stage">
       <div class="frame">
         <div class="phone"><div class="island"></div><div class="screen">
           <div class="statusbar">
@@ -309,19 +306,8 @@
           </div>
           <div class="homebar"></div>
         </div></div>
-        <div class="frame-cap"><span class="step num">1</span><b>搜索结果页</b><span>踩盘榜地图 + 主理人内容横卡，承接高意向搜索流量</span></div>
+        <div class="frame-cap"><span class="cat-tag search">搜索结果</span><b>搜索结果页</b><span>踩盘榜地图 + 主理人内容横卡，承接高意向搜索流量</span></div>
       </div>
-    </div>
-  </div>
-
-  <!-- ============ 二、推荐 Feeds ============ -->
-  <div class="cat feeds">
-    <div class="cat-head">
-      <span class="cat-no">二</span>
-      <div><h2>推荐 Feeds</h2><p class="desc">城市频道 / 关注流，按购房画像精准分发</p></div>
-      <span class="meta">沉浸式内容流 · 高 CVS 优先</span>
-    </div>
-    <div class="stage">
       <div class="frame">
         <div class="phone"><div class="island"></div><div class="screen">
           <div class="feed"></div>
@@ -349,19 +335,8 @@
           </div>
           <div class="homebar light" style="position:absolute;left:50%;transform:translateX(-50%);bottom:8px"></div>
         </div></div>
-        <div class="frame-cap"><span class="step num">2</span><b>沉浸式内容流</b><span>右侧就近咨询、关注与挂载房源卡，边看边转化</span></div>
+        <div class="frame-cap"><span class="cat-tag feeds">推荐 Feeds</span><b>沉浸式内容流</b><span>右侧就近咨询、关注与挂载房源卡，边看边转化</span></div>
       </div>
-    </div>
-  </div>
-
-  <!-- ============ 三、详情页 ============ -->
-  <div class="cat detail">
-    <div class="cat-head">
-      <span class="cat-no">三</span>
-      <div><h2>详情页</h2><p class="desc">房源 / 小区决策核心场，与主理人内容详情</p></div>
-      <span class="meta">头部内容分发 + 底部商机承接</span>
-    </div>
-    <div class="stage">
 
       <!-- 房源详情页 -->
       <div class="frame">
@@ -421,7 +396,7 @@
           </div>
           <div class="homebar"></div>
         </div></div>
-        <div class="frame-cap"><span class="step num">3</span><b>房源详情页 · 核心场</b><span>头部主理人讲房（VR/视频）· 底部咨询TA / 约看房</span></div>
+        <div class="frame-cap"><span class="cat-tag detail">详情页</span><b>房源详情页 · 核心场</b><span>头部主理人讲房（VR/视频）· 底部咨询TA / 约看房</span></div>
       </div>
 
       <!-- 小区详情 AI -->
@@ -458,7 +433,7 @@
           </div>
           <div class="homebar"></div>
         </div></div>
-        <div class="frame-cap"><span class="step num">4</span><b>小区详情 · AI 决策聚合</b><span>AI 综合主理人内容生成结论 + 视频/图文/成交走势内容流</span></div>
+        <div class="frame-cap"><span class="cat-tag detail">详情页</span><b>小区详情 · AI 决策聚合</b><span>AI 综合主理人内容生成结论 + 视频/图文/成交走势内容流</span></div>
       </div>
 
       <!-- 播客 / 长文 -->
@@ -508,12 +483,9 @@
           </div>
           <div class="homebar"></div>
         </div></div>
-        <div class="frame-cap"><span class="step num">5</span><b>主理人播客 / 长文</b><span>视频、图文、播客多元形态，承载专业深度与信任沉淀</span></div>
+        <div class="frame-cap"><span class="cat-tag detail">详情页</span><b>主理人播客 / 长文</b><span>视频、图文、播客多元形态，承载专业深度与信任沉淀</span></div>
       </div>
-
-    </div>
   </div>
-
 </div>
 </body>
 </html>
