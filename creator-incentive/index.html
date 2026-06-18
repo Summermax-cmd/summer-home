@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function () {
+      try {
+        var minSide = Math.min(window.screen.width, window.screen.height);
+        if (minSide < 600) {
+          var vp = document.querySelector('meta[name="viewport"]');
+          if (vp) vp.setAttribute('content', 'width=1180');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta name="color-scheme" content="light">
+  <title>内容营销阵地及作者激励计划</title>
+  <style>
+    :root{
+      --ink:#142033; --text:#334155; --muted:#64748b; --paper:#f6f8fb; --panel:#fff;
+      --line:#dbe3ef; --soft:#edf1f6;
+      --blue:#245fd6; --cyan:#0f8f9d; --orange:#d96a2b; --green:#287657; --red:#b04444;
+      --amber-bg:#fff7ed; --blue-bg:#eef5ff; --green-bg:#edf8f3;
+      --shadow:0 24px 72px rgba(20,32,51,.10);
+      --body:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0; color:var(--ink); font-family:var(--body); line-height:1.62;
+      background:repeating-linear-gradient(90deg,rgba(20,32,51,.022) 0,rgba(20,32,51,.022) 1px,transparent 1px,transparent 72px),linear-gradient(180deg,#f8fafc 0%,#eef2f6 52%,#e8edf4 100%);}
+    main{width:min(1180px,calc(100% - 48px)); margin:0 auto; padding:30px 0 46px;}
+    .sheet{position:relative; overflow:hidden; background:rgba(255,255,255,.97); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow);}
+    .sheet::before{content:""; position:absolute; inset:0 auto 0 0; width:8px; background:linear-gradient(180deg,var(--blue),var(--cyan) 40%,var(--green) 70%,var(--orange));}
+
+    header{padding:44px 56px 34px 64px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,rgba(238,245,255,.92),rgba(255,255,255,.98) 64%);}
+    .eyebrow{display:inline-flex; align-items:center; gap:10px; margin-bottom:15px; padding:7px 12px; color:var(--blue); background:rgba(36,95,214,.08); border:1px solid rgba(36,95,214,.16); border-radius:999px; font-size:14px; font-weight:850;}
+    .eyebrow::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--blue);}
+    h1{width:min(980px,100%); margin:0; color:var(--ink); font-size:clamp(34px,4vw,52px); line-height:1.13; font-weight:900;}
+    .subtitle{width:min(900px,100%); margin:15px 0 0; color:#4b5563; font-size:19px; font-weight:720;}
+
+    section{padding:32px 56px 36px 64px; border-bottom:1px solid var(--line);}
+    section:last-of-type{border-bottom:0;}
+    .section-title{display:flex; align-items:center; gap:14px; margin-bottom:18px;}
+    .section-title::before{content:attr(data-num); display:inline-grid; place-items:center; width:44px; height:44px; color:#fff; background:var(--ink); border-radius:6px; font-size:15px; font-weight:900; flex:0 0 auto;}
+    h2{margin:0; font-size:29px; line-height:1.2; font-weight:900;}
+    h3{margin:0 0 9px; font-size:18px; line-height:1.32; font-weight:900;}
+    p{margin:0; color:#40506a; font-size:16px; font-weight:650;}
+    .lead{margin:0 0 18px; color:#40506a; font-size:18px; font-weight:700;}
+    .lead strong{color:var(--ink); font-weight:900;}
+
+    .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+    .card{position:relative; padding:18px 18px 20px; border:1px solid var(--line); border-radius:8px; background:linear-gradient(180deg,#fff,#fbfcff); box-shadow:0 10px 26px rgba(20,32,51,.052);}
+    .card::before{content:""; display:block; width:32px; height:4px; margin-bottom:13px; border-radius:99px; background:var(--blue);}
+    .card.orange::before{background:var(--orange);}
+    .card.green::before{background:var(--green);}
+    .card.cyan::before{background:var(--cyan);}
+    .card.red::before{background:var(--red);}
+    .card p{font-size:15px;}
+    .card ul{margin:8px 0 0; padding-left:18px; color:#43516a; font-size:15px; font-weight:650;}
+    .card li{margin:5px 0;}
+    .card li b{color:var(--ink); font-weight:850;}
+    .tag{display:inline-block; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:900; margin-bottom:10px; background:#dbeafe; color:#1f4fad;}
+    .card.orange .tag{background:#ffedd5; color:#8a4215;}
+    .card.green .tag{background:#dcfce7; color:#1f6b4d;}
+
+    /* target board */
+    .target-board{display:grid; grid-template-columns:1.5fr 1fr; gap:18px; align-items:stretch;}
+    .target-main{position:relative; padding:24px; border:1px solid rgba(40,118,87,.24); border-radius:8px; background:linear-gradient(135deg,#edf8f3,#ffffff 68%); box-shadow:0 14px 34px rgba(40,118,87,.08);}
+    .label{display:inline-flex; align-items:center; height:28px; padding:0 11px; border-radius:999px; font-size:13px; font-weight:900;}
+    .target-main .label{color:#1f6b4d; background:#dcfce7; border:1px solid #bbf7d0;}
+    .target-main strong{display:block; margin:16px 0 8px; color:var(--ink); font-size:clamp(26px,3.4vw,40px); line-height:1.1; font-weight:950;}
+    .target-main p{width:min(560px,100%); color:#4b5563; font-size:16px; font-weight:700;}
+    .target-pair{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:20px;}
+    .region{padding:15px; border:1px solid rgba(40,118,87,.22); border-radius:8px; background:rgba(255,255,255,.86);}
+    .region small{display:block; color:var(--muted); font-size:13px; font-weight:850;}
+    .region b{display:block; margin-top:5px; color:#1f6b4d; font-size:22px; line-height:1.15; font-weight:950;}
+    .target-side{display:grid; gap:16px;}
+    .target-card{padding:18px 20px; border:1px solid var(--line); border-radius:8px; background:#fff; box-shadow:0 10px 28px rgba(20,32,51,.055);}
+    .target-card.constraint{border-color:rgba(36,95,214,.22); background:linear-gradient(135deg,#eef5ff,#ffffff 70%);}
+    .target-card.observe{border-color:rgba(217,106,43,.22); background:linear-gradient(135deg,#fff7ed,#ffffff 72%);}
+    .target-card.constraint .label{color:#1f4fad; background:#dbeafe; border:1px solid #bfdbfe;}
+    .target-card.observe .label{color:#8a4215; background:#ffedd5; border:1px solid #fed7aa;}
+    .target-card strong{display:block; margin-top:12px; color:var(--ink); font-size:22px; line-height:1.14; font-weight:950;}
+    .target-card p{margin-top:8px; color:#536176; font-size:14.5px; font-weight:680;}
+    .chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:11px;}
+    .chips span{display:inline-flex; align-items:center; min-height:26px; padding:3px 9px; border-radius:999px; font-size:12.5px; font-weight:800; color:#8a4215; background:rgba(255,237,213,.8); border:1px solid #fed7aa;}
+    .target-note{margin-top:14px; padding:14px 16px; border:1px dashed #cbd5e1; border-radius:8px; background:#f8fafc; color:#4b5563; font-size:14.5px; font-weight:700;}
+    .target-note strong{color:var(--ink); font-weight:900;}
+
+    /* CVS line + weights */
+    .cvs-line{margin:0 0 16px; padding:18px; text-align:center; border:1px solid rgba(36,95,214,.22); border-radius:8px; background:linear-gradient(135deg,#eef5ff,#ffffff 70%); box-shadow:0 12px 30px rgba(36,95,214,.07);}
+    .cvs-line b{color:var(--ink); font-size:17px; font-weight:900;}
+    .wstrip{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+    .stagecard{padding:18px 18px 20px; border:1px solid var(--line); border-radius:8px; background:linear-gradient(180deg,#fff,#fbfcff); box-shadow:0 10px 26px rgba(20,32,51,.05); border-top:4px solid var(--blue);}
+    .stagecard.s2{border-top-color:var(--green);}
+    .stagecard.s3{border-top-color:var(--orange);}
+    .stagecard .ph{font-size:12.5px; font-weight:900; color:var(--muted);}
+    .stagecard h3{margin:6px 0 4px;}
+    .stagecard .goal{color:#536176; font-size:13.5px; font-weight:700; margin-bottom:12px;}
+    .wrow{display:flex; align-items:center; justify-content:space-between; padding:6px 0; border-top:1px dashed #e2e8f0; font-size:14px; font-weight:700; color:#43516a;}
+    .wrow:first-of-type{border-top:0;}
+    .wrow b{font-weight:950; color:var(--ink);}
+
+    .sub-h{margin:26px 0 0; font-size:17px; font-weight:900; display:flex; align-items:center; gap:9px;}
+    .sub-h::before{content:""; width:18px; height:4px; border-radius:99px; background:var(--orange);}
+    .sub-h.b::before{background:var(--blue);}
+    .ui-preview{position:relative; width:100%; overflow:hidden; margin-top:10px; border:1px solid var(--line); border-radius:8px; background:#e9efeb; box-shadow:0 14px 34px rgba(20,32,51,.10);}
+    .ui-preview iframe{border:0; display:block; transform-origin:top left; background:#e9efeb;}
+    .ui-cap{margin:8px 0 0; text-align:center; color:var(--muted); font-size:13px; font-weight:700;}
+
+    .shot-row{margin-top:18px;}
+    .shot-group-label{display:inline-block; margin-bottom:14px; padding:5px 12px; border-radius:999px; background:rgba(36,95,214,.08); border:1px solid rgba(36,95,214,.18); color:var(--blue); font-size:13px; font-weight:900;}
+    .shot-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; justify-items:center;}
+    .shot-grid figure{margin:0; display:flex; flex-direction:column; align-items:center; gap:12px;}
+    .shot-grid figcaption{order:-1; color:var(--ink); font-size:15px; font-weight:900; letter-spacing:.4px;}
+    .phone{position:relative; width:230px; padding:4px 3px; background:#1e293b; border-radius:28px; box-shadow:0 14px 30px rgba(15,23,42,.18), 0 0 0 1px #334155 inset;}
+    .phone::before{content:""; position:absolute; top:5px; left:50%; transform:translateX(-50%); width:60px; height:12px; background:#0b1220; border-radius:0 0 10px 10px; z-index:2;}
+    .phone::after{content:""; position:absolute; bottom:2px; left:50%; transform:translateX(-50%); width:80px; height:3px; background:#475569; border-radius:99px;}
+    .phone-screen{position:relative; width:100%; aspect-ratio:9/19.5; overflow:hidden; border-radius:24px; background:#fff;}
+    .phone-screen img{display:block; width:100%; height:100%; object-fit:cover; object-position:top center;}
+    .phone-embed .phone-screen iframe{position:absolute; inset:0; width:100%; height:100%; border:0; background:#eaf0ec;}
+    .shot-group-label.b{background:rgba(6,163,106,.08); border-color:rgba(6,163,106,.22); color:#04794f;}
+
+    footer{width:min(1180px,calc(100% - 48px)); margin:0 auto; padding:20px 4px 0; color:var(--muted); font-size:14px; font-weight:700;}
+
+    @media (max-width:900px){
+      header, section{padding-left:26px; padding-right:26px;}
+      .grid-2, .grid-3, .target-board, .wstrip{grid-template-columns:1fr;}
+      h2{font-size:24px;}
+    }
+    @media print{
+      body{background:#fff;}
+      .sheet{box-shadow:none;}
+      .card, .target-main, .target-card, .stagecard{box-shadow:none; break-inside:avoid;}
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="sheet">
+      <header>
+        <span class="eyebrow">贝壳 C 端内容流量调控系统</span>
+        <h1>内容营销阵地及作者激励计划</h1>
+        <p class="subtitle">以鼓励投稿和提升内容消费为核心，构建“经纪人持续发内容、用户持续愿意看内容”的内容生态。</p>
+      </header>
+
+      <!-- 01 -->
+      <section>
+        <div class="section-title" data-num="01"><h2>项目背景</h2></div>
+        <p class="lead">内容生态建设要同时解决三件事：让长尾经纪人<strong>敢创作</strong>、让稳定创作者<strong>有长期动力</strong>、让贝壳币驱动下的内容<strong>不灌水</strong>。核心愿景——构建基于内容质量与转化概率的动态「内容流量调控系统」，实现供给侧资产收益可视、消费侧决策成本降低。</p>
+        <div class="grid-3">
+          <div class="card"><span class="tag">冷启动</span><h3>冷启激励扶持</h3><p>为长尾与新经纪人提供分发确定性，降低试错成本，完成从 0 到 1 的创作。</p></div>
+          <div class="card green"><span class="tag">长期动力</span><h3>长期创作激励</h3><p>用等级、贝壳币与持续任务，让稳定创作者获得可积累的流量与收益。</p></div>
+          <div class="card red"><span class="tag">生态防护</span><h3>内容泡沫应对</h3><p>防止贝壳币驱动下的洗稿、灌水、标题党侵蚀 C 端体验。</p></div>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section>
+        <div class="section-title" data-num="02"><h2>项目目标</h2></div>
+        <div class="target-board">
+          <div class="target-main">
+            <span class="label">北极星指标</span>
+            <strong>有效内容消费量</strong>
+            <p>有效播放 / 阅读量 × 内容消费质量系数。当前阶段先做大供给与消费规模，商机转化作为后置观察指标。</p>
+            <div class="target-pair">
+              <div class="region"><small>高活创作者 MAU-C 渗透</small><b>30%</b></div>
+              <div class="region"><small>冷启动池次日通关率</small><b>12–15%</b></div>
+            </div>
+          </div>
+          <div class="target-side">
+            <div class="target-card constraint">
+              <span class="label">留存指标</span>
+              <strong>Lv.4+ 双周留存 80%</strong>
+              <p>高阶创作者持续投稿，沉淀稳定的优质内容供给。</p>
+            </div>
+            <div class="target-card observe">
+              <span class="label">消费过程指标</span>
+              <div class="chips">
+                <span>完播率</span><span>有效阅读率</span><span>平均停留</span><span>收藏率</span><span>关注率</span><span>负反馈率</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="target-note"><strong>愿意发 · 愿意看 · 不灌水</strong>：先建立“经纪人持续发、用户持续看”的生态基础，待供给与消费习惯成熟后，再逐步提高商机转化权重。</div>
+      </section>
+
+      <!-- 03 -->
+      <section>
+        <div class="section-title" data-num="03"><h2>系统设计</h2></div>
+        <p class="lead">系统由两端组成：<strong>C 端</strong>把优质内容送达用户决策场，<strong>B 端</strong>驱动经纪人持续创作。</p>
+        <div class="grid-2">
+          <div class="card orange">
+            <span class="tag">C 端 · 内容营销阵地</span>
+            <h3>楼盘主理人内容触达决策场</h3>
+            <ul>
+              <li>内容形态：<b>视频 / VR、图文、播客</b></li>
+              <li>三类触点：<b>搜索结果、推荐 Feeds、详情页</b>（房源 / 小区），就近承接咨询</li>
+              <li>三层流量漏斗：冷启动池 → 推荐池 → 长效分发池</li>
+            </ul>
+          </div>
+          <div class="card">
+            <span class="tag">B 端 · 创作者激励计划</span>
+            <h3>以 CVS 价值分驱动创作</h3>
+            <ul>
+              <li>激励三件套：<b>投稿 / 消费 / 质量</b>，贝壳币即时反馈</li>
+              <li>Lv.1–Lv.5 等级与曝光特权，任务系统两段奖励</li>
+              <li>风控治理 + 创作者后台（消费看板 + 诊断建议）</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 class="sub-h">C 端产品示意 · 内容营销阵地</h3>
+        <div class="shot-row">
+          <div class="shot-group-label">三类体裁</div>
+          <div class="shot-grid">
+            <figure><figcaption>视频</figcaption><div class="phone"><div class="phone-screen"><img src="image视频详情页.png" alt="视频"></div></div></figure>
+            <figure><figcaption>图文</figcaption><div class="phone"><div class="phone-screen"><img src="image图文详情页.png" alt="图文"></div></div></figure>
+            <figure><figcaption>播客</figcaption><div class="phone"><div class="phone-screen"><img src="image播客详情页.png" alt="播客"></div></div></figure>
+          </div>
+        </div>
+        <div class="shot-row">
+          <div class="shot-group-label">三类场景</div>
+          <div class="shot-grid">
+            <figure><figcaption>搜索</figcaption><div class="phone"><div class="phone-screen"><img src="image搜索小区楼盘-内容横卡.png" alt="搜索"></div></div></figure>
+            <figure><figcaption>推荐 Feeds</figcaption><div class="phone"><div class="phone-screen"><img src="image推荐feeds-播客卡.png" alt="推荐"></div></div></figure>
+            <figure><figcaption>房源 / 小区详情页</figcaption><div class="phone"><div class="phone-screen"><img src="image房源详情页-内容分发.png" alt="详情页"></div></div></figure>
+          </div>
+        </div>
+
+        <h3 class="sub-h b">B 端产品示意 · 创作者激励中心（经纪人作业端）</h3>
+        <div class="shot-row">
+          <div class="shot-group-label b">三个核心页面</div>
+          <div class="shot-grid">
+            <figure>
+              <figcaption>任务广场</figcaption>
+              <div class="phone phone-embed"><div class="phone-screen"><iframe src="创作者激励中心-界面设计.html?screen=1" title="任务广场" loading="lazy"></iframe></div></div>
+            </figure>
+            <figure>
+              <figcaption>我的钱包</figcaption>
+              <div class="phone phone-embed"><div class="phone-screen"><iframe src="创作者激励中心-界面设计.html?screen=2" title="我的钱包" loading="lazy"></iframe></div></div>
+            </figure>
+            <figure>
+              <figcaption>我的任务</figcaption>
+              <div class="phone phone-embed"><div class="phone-screen"><iframe src="创作者激励中心-界面设计.html?screen=3" title="我的任务" loading="lazy"></iframe></div></div>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section>
+        <div class="section-title" data-num="04"><h2>核心机制</h2></div>
+        <p class="lead">一切以内容价值评分 <strong>CVS</strong> 为统一标尺，决定激励发放与流量分发。</p>
+        <div class="cvs-line"><b>CVS = 投稿行为 × 0.30 ＋ 内容质量 × 0.25 ＋ 内容消费 × 0.35 ＋ 商机转化 × 0.10</b></div>
+        <div class="grid-3">
+          <div class="card"><h3>激励三件套</h3><ul><li><b>投稿激励</b>：首投、连续投稿、任务、稀缺补贴</li><li><b>消费激励</b>：完播、有效阅读、停留、收藏关注</li><li><b>质量约束</b>：门槛 + 奖励递减 + 负反馈扣减</li></ul></div>
+          <div class="card green"><h3>贝壳币结算</h3><ul><li>投稿即时 · 消费次日 · 转化延迟校验</li><li>四类来源：投稿 / 消费 / 质量 / 转化</li><li>消费类占比最高（35–40%）</li></ul></div>
+          <div class="card red"><h3>风控三道防线</h3><ul><li>投稿前置门槛（查重、AI 质检 80 分）</li><li>消费奖励扣减（高点击低停留等）</li><li>投稿行为封顶，负反馈熔断</li></ul></div>
+        </div>
+      </section>
+
+      <!-- 05 -->
+      <section>
+        <div class="section-title" data-num="05"><h2>落地节奏</h2></div>
+        <p class="lead">激励权重随生态成熟度三阶段迁移：先让经纪人<strong>发起来</strong>，再让用户<strong>愿意看</strong>，最后在保证体验下<strong>提升商机</strong>。</p>
+        <div class="wstrip">
+          <div class="stagecard s1">
+            <div class="ph">第一阶段 · 上线 1–2 个月</div>
+            <h3>投稿冷启动期</h3>
+            <div class="goal">目标：让经纪人发起来</div>
+            <div class="wrow"><span>投稿行为</span><b>40%</b></div>
+            <div class="wrow"><span>内容质量</span><b>25%</b></div>
+            <div class="wrow"><span>消费表现</span><b>30%</b></div>
+            <div class="wrow"><span>商机转化</span><b>5%</b></div>
+          </div>
+          <div class="stagecard s2">
+            <div class="ph">第二阶段 · 供给起量后</div>
+            <h3>消费优化期</h3>
+            <div class="goal">目标：让用户愿意看</div>
+            <div class="wrow"><span>投稿行为</span><b>30%</b></div>
+            <div class="wrow"><span>内容质量</span><b>25%</b></div>
+            <div class="wrow"><span>消费表现</span><b>35%</b></div>
+            <div class="wrow"><span>商机转化</span><b>10%</b></div>
+          </div>
+          <div class="stagecard s3">
+            <div class="ph">第三阶段 · 生态稳定后</div>
+            <h3>转化增强期</h3>
+            <div class="goal">目标：保体验下提升商机</div>
+            <div class="wrow"><span>投稿行为</span><b>20%</b></div>
+            <div class="wrow"><span>内容质量</span><b>25%</b></div>
+            <div class="wrow"><span>消费表现</span><b>30%</b></div>
+            <div class="wrow"><span>商机转化</span><b>25%</b></div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer>贝壳 C 端内容流量调控系统 · 内容创作者激励计划 One Page · 内部研讨稿</footer>
+  </main>
+  <script>
+    (function () {
+      var boxes = document.querySelectorAll('.ui-preview');
+      Array.prototype.forEach.call(boxes, function (box) {
+        var fr = box.querySelector('iframe');
+        if (!fr) return;
+        var fw = parseFloat(box.getAttribute('data-w')) || 1340;
+        var fh = parseFloat(box.getAttribute('data-h')) || 1290;
+        function fit() {
+          var w = box.clientWidth, s = w / fw, h = fh;
+          try { if (fr.contentDocument && fr.contentDocument.body) { h = fr.contentDocument.body.scrollHeight; } } catch (e) {}
+          fr.style.width = fw + 'px';
+          fr.style.height = h + 'px';
+          fr.style.transform = 'scale(' + s + ')';
+          box.style.height = (h * s) + 'px';
+        }
+        fr.addEventListener('load', fit);
+        window.addEventListener('resize', fit);
+        fit();
+      });
+    })();
+  </script>
+</body>
+</html>
