@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>贝壳 × 腾讯元宝 Agent 联合方案</title>
+<style>
+  :root{
+    --tx:#07C160;          /* 腾讯元宝绿 */
+    --tx-deep:#05974A;
+    --tx-light:#E7F8EF;
+    --ke:#1A66FF;          /* 贝壳蓝 */
+    --ke-deep:#0A4FD6;
+    --ke-light:#EAF1FF;
+    --ink:#0E1116;
+    --ink-2:#3A424E;
+    --ink-3:#6B7480;
+    --line:#E6E9EF;
+    --bg:#F6F8FB;
+    --card:#FFFFFF;
+    --radius:18px;
+    --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Helvetica Neue",Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font);background:var(--bg);color:var(--ink);
+    -webkit-font-smoothing:antialiased;line-height:1.65;
+  }
+  ::selection{background:var(--ke);color:#fff}
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- Layout primitives ---------- */
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  section{padding:84px 0}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--tx);margin-bottom:18px;
+  }
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--tx);border-radius:2px}
+  h2.sec{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:14px}
+  .sec-sub{font-size:17px;color:var(--ink-3);max-width:640px;margin-bottom:46px}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* ---------- Top nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;background:rgba(246,248,251,.82);
+    backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line);
+  }
+  .nav-inner{max-width:1080px;margin:0 auto;padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between}
+  .brandmark{display:flex;align-items:center;gap:11px;font-weight:800;font-size:15px;letter-spacing:-.01em}
+  .dot{width:10px;height:10px;border-radius:50%}
+  .dot.tx{background:var(--tx)}
+  .dot.ke{background:var(--ke)}
+  .nav-links{display:flex;gap:26px;font-size:14px;font-weight:600;color:var(--ink-3)}
+  .nav-links a:hover{color:var(--ink)}
+  @media(max-width:760px){.nav-links{display:none}}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+    background:
+      radial-gradient(1100px 520px at 12% -10%, rgba(7,193,96,.14), transparent 60%),
+      radial-gradient(900px 520px at 92% 0%, rgba(26,102,255,.13), transparent 58%),
+      linear-gradient(180deg,#fff, var(--bg));
+    border-bottom:1px solid var(--line);
+  }
+  .hero .wrap{padding-top:78px;padding-bottom:90px}
+  .pill{
+    display:inline-flex;align-items:center;gap:10px;padding:7px 14px;border-radius:999px;
+    background:#fff;border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--ink-2);
+    box-shadow:0 1px 2px rgba(16,17,22,.04);margin-bottom:26px;
+  }
+  .pill b{color:var(--tx)}
+  .pill .x{color:var(--ink-3);font-weight:600}
+  .pill b.o{color:var(--ke)}
+  h1{font-size:clamp(34px,5.4vw,60px);font-weight:850;letter-spacing:-.035em;line-height:1.05;max-width:16ch}
+  h1 .grad{
+    background:linear-gradient(100deg,var(--tx) 0%,#18C29E 45%,var(--ke) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .lede{font-size:19px;color:var(--ink-2);max-width:600px;margin:26px 0 12px}
+  .lede b{color:var(--ink);font-weight:700}
+  .hero-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:42px;max-width:720px}
+  @media(max-width:620px){.hero-cards{grid-template-columns:1fr}}
+  .hcard{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px 20px;position:relative}
+  .hcard .tag{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .hcard.tx .tag{color:var(--tx)}
+  .hcard.ke .tag{color:var(--ke)}
+  .hcard h3{font-size:19px;font-weight:800;margin:8px 0 6px}
+  .hcard p{font-size:14px;color:var(--ink-3)}
+  .hcard .ico{position:absolute;top:20px;right:20px;font-size:22px;opacity:.9}
+
+  /* ---------- Vision: before / after ---------- */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:760px){.compare{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 26px}
+  .panel.now{opacity:.92}
+  .panel.future{border-color:rgba(7,193,96,.35);box-shadow:0 18px 50px -28px rgba(7,193,96,.4)}
+  .panel-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+  .panel-h .label{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .panel.future .panel-h .label{color:var(--tx)}
+  .panel-h .meta{font-size:12px;font-weight:700;color:var(--ink-3)}
+  .flow{display:flex;flex-direction:column;gap:0}
+  .step{
+    display:flex;align-items:center;gap:13px;padding:11px 14px;border-radius:12px;
+    background:#fafbfd;border:1px solid var(--line);font-size:14.5px;font-weight:600;
+  }
+  .panel.future .step{background:var(--tx-light);border-color:rgba(7,193,96,.16)}
+  .step .si{
+    width:26px;height:26px;border-radius:8px;flex:none;display:grid;place-items:center;
+    font-size:14px;background:#fff;border:1px solid var(--line)
+  }
+  .step small{display:block;font-size:12px;font-weight:600;color:var(--ink-3);margin-top:1px}
+  .arrowv{height:16px;width:2px;background:var(--line);margin:0 auto;position:relative}
+  .panel.future .arrowv{background:rgba(7,193,96,.3)}
+  .quote{
+    margin-top:24px;padding:16px 18px;border-left:3px solid var(--ke);background:var(--ke-light);
+    border-radius:0 12px 12px 0;font-size:15px;font-weight:600;color:var(--ke-deep);font-style:italic
+  }
+
+  /* ---------- Architecture ---------- */
+  .arch{background:linear-gradient(180deg,#0E1116,#161B24);color:#fff;border-radius:28px;padding:46px 40px}
+  @media(max-width:620px){.arch{padding:32px 22px;border-radius:20px}}
+  .arch .lab{text-align:center;font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#7E8AA0;margin-bottom:30px}
+  .layer{
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;
+    padding:20px 22px;backdrop-filter:blur(2px)
+  }
+  .layer.user{text-align:center;background:rgba(255,255,255,.06)}
+  .layer .lh{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+  .layer .lh .chip{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:6px}
+  .chip.tx{background:rgba(7,193,96,.22);color:#7FE3AC;border:1px solid rgba(7,193,96,.4)}
+  .chip.ke{background:rgba(26,102,255,.18);color:#9BBBFF;border:1px solid rgba(26,102,255,.4)}
+  .chip.mid{background:rgba(255,255,255,.1);color:#C7CFDD;border:1px solid rgba(255,255,255,.18)}
+  .layer h4{font-size:18px;font-weight:800;margin-bottom:3px}
+  .layer .desc{font-size:13px;color:#94A0B4;margin-bottom:14px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px}
+  .t{font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#D4DAE6}
+  /* bidirectional connectors: green=request down, blue=result up */
+  .conn{display:flex;justify-content:center;gap:46px;padding:15px 0}
+  @media(max-width:620px){.conn{gap:30px}}
+  .dir{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .dir .dl{font-size:10.5px;font-weight:700;letter-spacing:.05em;font-family:var(--mono);white-space:nowrap}
+  .dir .stem{width:2px;height:26px;position:relative}
+  .dir.down .stem{background:linear-gradient(180deg,rgba(7,193,96,.75),rgba(7,193,96,.2))}
+  .dir.down .stem::after{content:"";position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid rgba(7,193,96,.9)}
+  .dir.down .dl{color:#7FE3AC}
+  .dir.up{flex-direction:column-reverse}
+  .dir.up .stem{background:linear-gradient(180deg,rgba(26,102,255,.2),rgba(26,102,255,.75))}
+  .dir.up .stem::after{content:"";position:absolute;top:-2px;left:50%;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7px solid rgba(26,102,255,.95)}
+  .dir.up .dl{color:#9BBBFF}
+  .archlegend{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin:-12px 0 26px;font-size:12px;font-weight:600;color:#94A0B4}
+  .archlegend i{display:inline-block;width:16px;height:3px;border-radius:2px;margin-right:7px;vertical-align:middle}
+  .archlegend .g{background:var(--tx)}.archlegend .b{background:var(--ke)}
+  .userio{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+  .io{padding:10px 18px;border-radius:11px;font-size:13.5px;font-weight:700;display:flex;flex-direction:column;gap:2px;min-width:200px;text-align:left}
+  .io .iol{font-size:10.5px;font-weight:800;letter-spacing:.08em;font-family:var(--mono)}
+  .io.in{background:rgba(7,193,96,.12);border:1px solid rgba(7,193,96,.32)}
+  .io.in .iol{color:#7FE3AC}
+  .io.out{background:rgba(26,102,255,.12);border:1px solid rgba(26,102,255,.32)}
+  .io.out .iol{color:#9BBBFF}
+  .skills{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
+  @media(max-width:620px){.skills{grid-template-columns:1fr}}
+  .skill{background:rgba(26,102,255,.08);border:1px solid rgba(26,102,255,.25);border-radius:12px;padding:14px 16px;text-align:center}
+  .skill .se{font-size:20px}
+  .skill .sn{font-size:14px;font-weight:800;margin-top:5px}
+  .skill .sd{font-size:11.5px;color:#94A0B4;margin-top:2px}
+
+  /* ---------- Authorization steps ---------- */
+  .princ{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:46px}
+  @media(max-width:760px){.princ{grid-template-columns:1fr}}
+  .pr{border-radius:14px;padding:20px;border:1px solid var(--line);background:#fff}
+  .pr .pe{font-size:22px}
+  .pr h4{font-size:15px;font-weight:800;margin:9px 0 4px}
+  .pr p{font-size:13.5px;color:var(--ink-3)}
+  .pr.tx{background:var(--tx-light);border-color:rgba(7,193,96,.2)}
+  .pr.ke{background:var(--ke-light);border-color:rgba(26,102,255,.25)}
+
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+  @media(max-width:860px){.steps{grid-template-columns:1fr;gap:14px}}
+  .sc{position:relative;padding:0 14px}
+  @media(min-width:861px){.sc:not(:last-child)::after{content:"";position:absolute;top:19px;right:-0px;width:calc(100% - 38px);left:50px;height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 12px)}}
+  .sc .sb{width:38px;height:38px;border-radius:11px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;margin-bottom:14px}
+  .sc:nth-child(1) .sb{background:var(--tx)}
+  .sc:nth-child(2) .sb{background:var(--tx)}
+  .sc:nth-child(3) .sb{background:linear-gradient(135deg,var(--tx),var(--ke))}
+  .sc:nth-child(4) .sb{background:var(--ke)}
+  .sc:nth-child(5) .sb{background:var(--ke)}
+  .sc h4{font-size:15px;font-weight:800;margin-bottom:6px}
+  .sc p{font-size:13px;color:var(--ink-3);margin-bottom:12px}
+  pre{
+    font-family:var(--mono);font-size:12px;line-height:1.6;background:#0E1116;color:#D4DAE6;
+    border-radius:10px;padding:13px 14px;overflow:auto;border:1px solid rgba(255,255,255,.08)
+  }
+  pre .k{color:#7FE3AC}.v{color:#9BBBFF}.c{color:#6B7480}
+
+  /* ---------- Product demos ---------- */
+  .demos{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:820px){.demos{grid-template-columns:1fr}}
+  .demo{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .demo-h{padding:20px 22px;border-bottom:1px solid var(--line)}
+  .demo-h .pk{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--tx)}
+  .demo.b .demo-h .pk{color:var(--ke)}
+  .demo-h h3{font-size:19px;font-weight:800;margin-top:4px}
+  .demo-h p{font-size:13.5px;color:var(--ink-3);margin-top:3px}
+  .phone{background:var(--bg);padding:24px 22px}
+  .screen{max-width:300px;margin:0 auto;background:#fff;border-radius:22px;box-shadow:0 14px 40px -18px rgba(16,17,22,.35);overflow:hidden;border:1px solid var(--line)}
+  .sct{height:34px;background:linear-gradient(135deg,var(--tx),#34D17E);display:flex;align-items:center;gap:7px;padding:0 16px;color:#fff;font-size:12px;font-weight:700}
+  .demo.b .sct{background:linear-gradient(135deg,var(--ke),#4D85FF)}
+  .sct .bk{margin-left:auto;opacity:.85}
+  .screen-body{padding:16px}
+  .entry{background:linear-gradient(135deg,var(--tx-light),#fff);border:1px solid rgba(7,193,96,.18);border-radius:14px;padding:15px}
+  .demo.b .entry{background:linear-gradient(135deg,var(--ke-light),#fff);border-color:rgba(26,102,255,.2)}
+  .entry .rt{font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
+  .entry .rs{font-size:12.5px;color:var(--ink-3);margin-top:6px}
+  .entry .rb{font-size:13px;font-weight:700;color:var(--tx);margin-top:10px}
+  .demo.b .entry .rb{color:var(--ke)}
+  .bubble{padding:11px 13px;border-radius:13px;font-size:13px;line-height:1.55;margin-top:10px;max-width:88%}
+  .bubble.ai{background:#F1F3F7;color:var(--ink);border-bottom-left-radius:4px}
+  .bubble.me{background:var(--tx);color:#fff;margin-left:auto;border-bottom-right-radius:4px;font-weight:600}
+  .demo.b .bubble.me{background:var(--ke)}
+  .listrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .listrow:last-child{border:0}
+  .listrow .ln{width:20px;height:20px;border-radius:6px;background:var(--ke-light);color:var(--ke);display:grid;place-items:center;font-size:11px;font-weight:800;flex:none}
+  .cap{font-size:13.5px;color:var(--ink-3);padding:16px 22px;border-top:1px solid var(--line);background:#fafbfd}
+  .cap b{color:var(--ink)}
+  .analogy{display:inline-flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .analogy span{font-size:12px;font-weight:700;font-family:var(--mono);background:#fff;border:1px solid var(--line);padding:4px 9px;border-radius:6px;color:var(--ink-2)}
+
+  /* ---------- Value ---------- */
+  .value{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:760px){.value{grid-template-columns:1fr}}
+  .vcard{border-radius:var(--radius);padding:30px 28px;border:1px solid var(--line);background:#fff;position:relative;overflow:hidden}
+  .vcard::before{content:"";position:absolute;inset:0 0 auto 0;height:4px}
+  .vcard.tx::before{background:var(--tx)}
+  .vcard.ke::before{background:var(--ke)}
+  .vcard .who{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .vcard.tx .who{color:var(--tx)}
+  .vcard.ke .who{color:var(--ke)}
+  .vcard h3{font-size:23px;font-weight:850;margin:6px 0 18px;letter-spacing:-.01em}
+  .vrow{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+  .vrow .vi{font-size:18px;flex:none}
+  .vrow h5{font-size:14.5px;font-weight:800}
+  .vrow p{font-size:13px;color:var(--ink-3);margin-top:2px}
+  .warn{margin-top:18px;padding:13px 15px;border-radius:11px;background:#FFF6E9;border:1px solid #FAD9A3;font-size:13px;font-weight:600;color:#9A6400}
+
+  /* ---------- Roadmap ---------- */
+  .road{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:820px){.road{grid-template-columns:1fr}}
+  .ph{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:26px 24px;position:relative}
+  .ph .yr{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--ink-3);font-family:var(--mono)}
+  .ph .pn{display:inline-block;font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;margin-top:10px}
+  .ph:nth-child(1) .pn{background:var(--tx-light);color:var(--tx)}
+  .ph:nth-child(2) .pn{background:#EAF7EE;color:#1B9E4B}
+  .ph:nth-child(3) .pn{background:var(--ke-light);color:var(--ke)}
+  .ph h3{font-size:19px;font-weight:850;margin:14px 0 6px}
+  .ph .pdesc{font-size:13.5px;color:var(--ink-3);margin-bottom:16px}
+  .ph ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .ph li{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:9px}
+  .ph li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ke);flex:none}
+  .ph:nth-child(1) li::before{background:var(--tx)}
+  .ph:nth-child(2) li::before{background:#1B9E4B}
+
+  /* ---------- Closing statement ---------- */
+  .close{
+    background:linear-gradient(135deg,#0E1116,#15203A 60%,#122418);color:#fff;border-radius:28px;
+    padding:60px 52px;position:relative;overflow:hidden
+  }
+  @media(max-width:620px){.close{padding:40px 26px;border-radius:20px}}
+  .close::after{content:"";position:absolute;right:-120px;top:-120px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(26,102,255,.4),transparent 70%)}
+  .close::before{content:"";position:absolute;left:-100px;bottom:-120px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(7,193,96,.45),transparent 70%)}
+  .close .ce{font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#7FE3AC;position:relative;z-index:1}
+  .close p.big{font-size:clamp(22px,3.4vw,32px);font-weight:800;line-height:1.45;letter-spacing:-.01em;margin:20px 0;position:relative;z-index:1;max-width:24ch}
+  .close p.big .hi-tx{color:#7FE3AC}
+  .close p.big .hi-ke{color:#9BBBFF}
+  .close .formula{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:30px;position:relative;z-index:1}
+  .fchip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:14px 18px;font-weight:800;font-size:15px}
+  .fchip small{display:block;font-size:11px;font-weight:600;color:#94A0B4;margin-top:2px;letter-spacing:.04em}
+  .fop{font-size:22px;font-weight:300;color:#94A0B4}
+
+  footer{padding:40px 0 60px;text-align:center;color:var(--ink-3);font-size:13px}
+  footer .fl{display:flex;gap:8px;justify-content:center;align-items:center;font-weight:700;color:var(--ink-2);margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="brandmark"><span class="dot tx"></span><span class="dot ke"></span>贝壳 × 腾讯元宝</div>
+    <div class="nav-links">
+      <a href="#vision">愿景</a>
+      <a href="#arch">架构</a>
+      <a href="#auth">授权机制</a>
+      <a href="#product">产品</a>
+      <a href="#value">价值</a>
+      <a href="#road">路径</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="pill"><b>腾讯元宝</b><span class="x">×</span><b class="o">贝壳</b><span class="x">· Agent 联合方案</span></div>
+    <h1>面向 Personal AI Agent 时代的<br><span class="grad">房产服务基础设施</span></h1>
+    <p class="lede">贝壳不再直接服务用户，而是<b>服务用户的 Personal Agent</b>。元宝掌握用户理解，贝壳掌握房产服务能力，双方共同构建「Agent 找房」新范式。</p>
+    <div class="hero-cards">
+      <div class="hcard tx">
+        <div class="ico">🧠</div>
+        <div class="tag">腾讯元宝</div>
+        <h3>User Understanding</h3>
+        <p>家庭、收入、出行、地理偏好、生活轨迹与内容消费偏好——长期沉淀的用户记忆。</p>
+      </div>
+      <div class="hcard ke">
+        <div class="ico">🏠</div>
+        <div class="tag">贝壳</div>
+        <h3>Housing Skills</h3>
+        <p>房源库、小区库、经纪人网络、VR 看房、贷款测算与交易服务——不可替代的服务能力。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- VISION -->
+<section id="vision" class="wrap">
+  <div class="eyebrow">一 · 未来愿景</div>
+  <h2 class="sec">从「用户自己决策」到「Agent 替你跑完全程」</h2>
+  <p class="sec-sub">当前模式下，用户需要独自完成大量搜索与决策。Agent 时代，用户只需表达需求，Agent 自动协同完成理解、搜索、测算与安排。</p>
+
+  <div class="compare">
+    <div class="panel now">
+      <div class="panel-h"><span class="label">当前模式</span><span class="meta">用户主导 · 高负担</span></div>
+      <div class="flow">
+        <div class="step"><span class="si">👤</span>用户</div>
+        <div class="arrowv"></div>
+        <div class="step"><span class="si">📱</span>打开贝壳 APP</div>
+        <div class="arrowv"></div>
+        <div class="step"><span class="si">🔍</span>搜索房源 <small>逐条翻找</small></div>
+        <div class="arrowv"></div>
+        <div class="step"><span class="si">⚖️</span>反复筛选 <small>自己权衡</small></div>
+        <div class="arrowv"></div>
+        <div class="step"><span class="si">💬</span>咨询经纪人</div>
+        <div class="arrowv"></div>
+        <div class="step"><span class="si">✅</span>成交</div>
+      </div>
+      <div class="quote" style="border-color:var(--ink-3);background:#f3f4f6;color:var(--ink-2)">用户需要自己完成大量决策。</div>
+    </div>
+
+    <div class="panel future">
+      <div class="panel-h"><span class="label">Agent 时代模式</span><span class="meta">Agent 主导 · 仅需确认</span></div>
+      <div class="flow">
+        <div class="step"><span class="si">👤</span>用户表达需求</div>
+        <div class="arrowv"></div>
+        <div class="step"><span class="si">🧠</span>元宝 Agent <small>理解用户</small></div>
+        <div class="arrowv"></div>
+        <div class="step"><span class="si">🏠</span>贝壳 Agent Platform <small>房产服务能力</small></div>
+        <div class="arrowv"></div>
+        <div class="step"><span class="si">⚙️</span>找房 / 贷款 / 看房 <small>自动执行</small></div>
+        <div class="arrowv"></div>
+        <div class="step"><span class="si">🧠</span>元宝二次推理决策</div>
+        <div class="arrowv"></div>
+        <div class="step"><span class="si">✅</span>用户确认</div>
+      </div>
+      <div class="quote">「我准备明年结婚，希望离公司 30 分钟内，预算 700 万以内，最好学区不错。」</div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="arch" class="wrap">
+  <div class="eyebrow">二 · 合作架构设计</div>
+  <h2 class="sec">腾讯 Agent OS + 贝壳 Housing Skills</h2>
+  <p class="sec-sub">用户以自然语言表达需求，结果再逐层回传——这是一条<b>闭环</b>：元宝持有用户记忆，经由 Agent Protocol 调用贝壳的房产服务能力，双方只交换任务上下文。</p>
+
+  <div class="arch">
+    <div class="lab">Joint Architecture · 双向闭环</div>
+    <div class="archlegend">
+      <span><i class="g"></i>下行 · 请求（结构化意图）</span>
+      <span><i class="b"></i>上行 · 结果（房源 / 推荐回传）</span>
+    </div>
+
+    <div class="layer user">
+      <h4>👤 用户</h4>
+      <div class="userio">
+        <div class="io in"><span class="iol">输入 ↓ INPUT</span>自然语言表达需求</div>
+        <div class="io out"><span class="iol">输出 ↑ OUTPUT</span>接收推荐 · 最终确认</div>
+      </div>
+    </div>
+
+    <div class="conn">
+      <div class="dir down"><span class="dl">需求 · 自然语言</span><span class="stem"></span></div>
+      <div class="dir up"><span class="dl">推荐 · 待确认</span><span class="stem"></span></div>
+    </div>
+
+    <div class="layer">
+      <div class="lh"><span class="chip tx">腾讯元宝 Agent</span></div>
+      <h4>User Memory</h4>
+      <div class="desc">长期沉淀的用户理解，不离开腾讯；下行做需求理解，上行做二次推理</div>
+      <div class="tags">
+        <span class="t">家庭情况</span><span class="t">收入情况</span><span class="t">出行习惯</span>
+        <span class="t">地理偏好</span><span class="t">生活轨迹</span><span class="t">内容消费偏好</span>
+      </div>
+    </div>
+
+    <div class="conn">
+      <div class="dir down"><span class="dl">意图 · MCP/Agent API</span><span class="stem"></span></div>
+      <div class="dir up"><span class="dl">结果 · JSON</span><span class="stem"></span></div>
+    </div>
+
+    <div class="layer">
+      <div class="lh"><span class="chip mid">贝壳 Housing Agent Gateway</span></div>
+      <h4>统一网关</h4>
+      <div class="desc">Agent 接入的安全与路由层</div>
+      <div class="tags">
+        <span class="t">Agent 身份认证</span><span class="t">用户授权管理</span>
+        <span class="t">Skill 路由</span><span class="t">数据权限控制</span>
+      </div>
+    </div>
+
+    <div class="conn">
+      <div class="dir down"><span class="dl">Skill 调用</span><span class="stem"></span></div>
+      <div class="dir up"><span class="dl">Skill 返回</span><span class="stem"></span></div>
+    </div>
+
+    <div class="skills">
+      <div class="skill"><div class="se">🔍</div><div class="sn">找房 Skill</div><div class="sd">FindHouse()</div></div>
+      <div class="skill"><div class="se">🏦</div><div class="sn">贷款 Skill</div><div class="sd">LoanPlan()</div></div>
+      <div class="skill"><div class="se">💬</div><div class="sn">咨询 Skill</div><div class="sd">Consult()</div></div>
+    </div>
+
+    <div class="conn">
+      <div class="dir down"><span class="dl">查询</span><span class="stem"></span></div>
+      <div class="dir up"><span class="dl">数据</span><span class="stem"></span></div>
+    </div>
+
+    <div class="layer" style="background:rgba(26,102,255,.06);border-color:rgba(26,102,255,.22)">
+      <div class="lh"><span class="chip ke">贝壳房产服务中台</span></div>
+      <h4>能力底座</h4>
+      <div class="tags">
+        <span class="t">房源库</span><span class="t">小区库</span><span class="t">经纪人网络</span>
+        <span class="t">VR 看房</span><span class="t">交易服务</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTH -->
+<section id="auth" style="background:#fff;border-block:1px solid var(--line)">
+ <div class="wrap">
+  <div class="eyebrow">三 · 用户授权机制（核心）</div>
+  <h2 class="sec">数据不流动，意图才流动</h2>
+  <p class="sec-sub">这是腾讯最关心的部分。双方各守边界，只交换结构化的任务上下文，而非原始数据。</p>
+
+  <div class="princ">
+    <div class="pr tx"><div class="pe">🔒</div><h4>User Memory 不离开腾讯</h4><p>用户的长期记忆与原始画像始终留在腾讯侧。</p></div>
+    <div class="pr ke"><div class="pe">🏠</div><h4>房产数据不离开贝壳</h4><p>房源、小区、经纪人等核心资产始终留在贝壳侧。</p></div>
+    <div class="pr"><div class="pe">🔁</div><h4>只交换任务上下文</h4><p>双方传递结构化意图与结果，而非可还原的个人数据。</p></div>
+  </div>
+
+  <div class="steps">
+    <div class="sc">
+      <div class="sb">1</div>
+      <h4>用户授权</h4>
+      <p>在贝壳 APP 登录元宝 Agent 并授权可读字段。</p>
+      <pre><span class="c"># 允许读取</span>
+<span class="k">✓</span> 家庭结构
+<span class="k">✓</span> 通勤偏好
+<span class="k">✓</span> 预算区间
+<span class="k">✓</span> 城市偏好
+<span class="k">✓</span> 生活习惯</pre>
+    </div>
+    <div class="sc">
+      <div class="sb">2</div>
+      <h4>生成购房画像</h4>
+      <p>腾讯侧产出<b>结构化意图</b>，非原始数据。</p>
+      <pre>{
+  <span class="k">"family"</span>:<span class="v">"三口之家"</span>,
+  <span class="k">"budget"</span>:<span class="v">"700万"</span>,
+  <span class="k">"commute"</span>:<span class="v">"30分钟"</span>,
+  <span class="k">"school"</span>:<span class="v">"关注"</span>,
+  <span class="k">"pet"</span>:<span class="v">"有"</span>
+}</pre>
+    </div>
+    <div class="sc">
+      <div class="sb">3</div>
+      <h4>调用贝壳 Skill</h4>
+      <p>通过 Agent Protocol 发起 <code>FindHouse()</code>。</p>
+      <pre><span class="k">FindHouse</span>({
+  <span class="k">"budget"</span>:<span class="v">"700万"</span>,
+  <span class="k">"commute"</span>:<span class="v">"30分钟"</span>,
+  <span class="k">"school"</span>:<span class="v">"高"</span>,
+  <span class="k">"family"</span>:<span class="v">"三口之家"</span>
+})</pre>
+    </div>
+    <div class="sc">
+      <div class="sb">4</div>
+      <h4>贝壳返回结果</h4>
+      <p>结构化的房源 / 小区 / 贷款方案。</p>
+      <pre>{
+  <span class="k">"community"</span>:[…],
+  <span class="k">"house"</span>:[…],
+  <span class="k">"loanPlan"</span>:[…]
+}</pre>
+    </div>
+    <div class="sc">
+      <div class="sb">5</div>
+      <h4>元宝二次推理</h4>
+      <p>结合长期 Memory 形成最终推荐。</p>
+      <pre><span class="c">带宠物出行</span>
+→ 优先大型社区
+<span class="c">工作地点常变</span>
+→ 轨交枢纽区域
+<span class="c">近期搜国际学校</span>
+→ 提升教育权重</pre>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product" class="wrap">
+  <div class="eyebrow">四 · 产品示意</div>
+  <h2 class="sec">两种落地形态，递进的想象空间</h2>
+  <p class="sec-sub">从「贝壳接入元宝」到「元宝内嵌贝壳能力」，贝壳逐步成为 Housing Infrastructure Provider。</p>
+
+  <div class="demos">
+    <!-- Plan A -->
+    <div class="demo a">
+      <div class="demo-h">
+        <div class="pk">方案 A</div>
+        <h3>贝壳接入元宝 Agent</h3>
+        <p>在贝壳 APP 内，以对话式找房入口承接 Agent 能力。</p>
+      </div>
+      <div class="phone">
+        <div class="screen">
+          <div class="sct"><span>🤖 元宝找房助手</span><span class="bk">···</span></div>
+          <div class="screen-body">
+            <div class="entry">
+              <div class="rt">🤖 元宝找房助手</div>
+              <div class="rs">我了解你的需求，已帮你筛出 <b>18 套</b> 房源。</div>
+              <div class="rb">点击进入对话 ›</div>
+            </div>
+            <div class="bubble ai">根据你的预算和通勤习惯，我帮你筛选了：<br>① 望京 XX 苑　② 朝阳公园 XX 府　③ 酒仙桥 XX 里<br>你更关注<b>学区</b>还是<b>改善居住</b>？</div>
+            <div class="bubble me">学区</div>
+            <div class="bubble ai">好的，正在按学区权重继续缩小范围…</div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">入口承接 + 对话式找房，<b>用户仍在贝壳生态内</b>完成决策。</div>
+    </div>
+
+    <!-- Plan B -->
+    <div class="demo b">
+      <div class="demo-h">
+        <div class="pk">方案 B</div>
+        <h3>元宝内嵌贝壳能力</h3>
+        <p>用户直接在元宝说「帮我找房」，无需打开贝壳。</p>
+      </div>
+      <div class="phone">
+        <div class="screen">
+          <div class="sct"><span>✨ 腾讯元宝</span><span class="bk">···</span></div>
+          <div class="screen-body">
+            <div class="bubble me">帮我找房</div>
+            <div class="bubble ai">已调用<b>贝壳专业找房能力</b>，为你准备好了 ↓</div>
+            <div class="entry">
+              <div class="rt">🏠 贝壳为你推荐</div>
+              <div class="listrow"><span class="ln">1</span>推荐房源 · 18 套精选</div>
+              <div class="listrow"><span class="ln">2</span>贷款方案 · 月供测算</div>
+              <div class="listrow"><span class="ln">3</span>VR 看房 · 随时预览</div>
+              <div class="listrow"><span class="ln">4</span>经纪人服务 · 一键预约</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        贝壳成为 <b>Housing Infrastructure Provider</b>，类似：
+        <div class="analogy"><span>ChatGPT + Expedia</span><span>ChatGPT + OpenTable</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE -->
+<section id="value" style="background:#fff;border-block:1px solid var(--line)">
+ <div class="wrap">
+  <div class="eyebrow">五 · 双方价值</div>
+  <h2 class="sec">一次合作，两端卡位</h2>
+  <p class="sec-sub">腾讯获得高价值的找房场景以强化 Agent，贝壳获得 Agent 时代的入口卡位。</p>
+
+  <div class="value">
+    <div class="vcard tx">
+      <div class="who">腾讯获得</div>
+      <h3>更强的 Agent 能力</h3>
+      <div class="vrow"><span class="vi">🔥</span><div><h5>高价值场景</h5><p>找房是高频咨询、长链路决策、高客单价的典型场景。</p></div></div>
+      <div class="vrow"><span class="vi">⏱️</span><div><h5>使用时长</h5><p>复杂决策链显著拉长 Agent 的有效使用时长。</p></div></div>
+      <div class="vrow"><span class="vi">🧲</span><div><h5>用户粘性</h5><p>深度服务沉淀更多用户记忆，形成正循环。</p></div></div>
+      <div class="vrow"><span class="vi">💎</span><div><h5>付费价值</h5><p>高客单价场景带来更强的商业化潜力。</p></div></div>
+    </div>
+
+    <div class="vcard ke">
+      <div class="who">贝壳获得</div>
+      <h3>Agent 流量入口</h3>
+      <div class="vrow"><span class="vi">🚪</span><div><h5>入口卡位</h5><p>未来用户可能不再打开 APP：用户 → Agent → 服务。</p></div></div>
+      <div class="vrow"><span class="vi">⚡</span><div><h5>率先接入</h5><p>抢先接入腾讯生态，建立 Agent 时代的入口优势。</p></div></div>
+      <div class="vrow"><span class="vi">🏗️</span><div><h5>基础设施地位</h5><p>从「被搜索的 APP」升级为「被调用的房产基础设施」。</p></div></div>
+      <div class="warn">⚠️ 若缺席 Agent 生态，贝壳可能退化成一个被调用的数据源。</div>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="road" class="wrap">
+  <div class="eyebrow">六 · MVP 落地路径</div>
+  <h2 class="sec">三步走，从辅助找房到交易 OS</h2>
+  <p class="sec-sub">由「仅推荐」到「任务执行」再到「全流程交易」，能力与信任逐级开放。</p>
+
+  <div class="road">
+    <div class="ph">
+      <div class="yr">2026</div>
+      <div><span class="pn">Phase 1</span></div>
+      <h3>Agent 辅助找房</h3>
+      <p class="pdesc">元宝理解用户 + 贝壳提供房源，仅做推荐。</p>
+      <ul>
+        <li>用户需求理解</li>
+        <li>结构化购房画像</li>
+        <li>房源智能推荐</li>
+      </ul>
+    </div>
+    <div class="ph">
+      <div class="yr">2027</div>
+      <div><span class="pn">Phase 2</span></div>
+      <h3>Agent 购房顾问</h3>
+      <p class="pdesc">在找房之上叠加任务执行能力。</p>
+      <ul>
+        <li>找房</li>
+        <li>贷款测算</li>
+        <li>看房预约</li>
+      </ul>
+    </div>
+    <div class="ph">
+      <div class="yr">2028+</div>
+      <div><span class="pn">Phase 3</span></div>
+      <h3>Agent 全流程交易</h3>
+      <p class="pdesc">需求 → 选房 → 带看 → 贷款 → 签约 → 交割。</p>
+      <ul>
+        <li>全链路任务编排</li>
+        <li>交易服务闭环</li>
+        <li>AI × Real Estate Transaction OS</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="wrap" style="padding-top:20px">
+  <div class="close">
+    <div class="ce">一页纸 · 核心表达</div>
+    <p class="big">腾讯提供 <span class="hi-tx">User Memory</span>，贝壳提供 <span class="hi-ke">Housing Skills</span>；在用户授权前提下，通过 Agent Protocol 实现协同——让 <span class="hi-tx">Personal Agent</span> 成为用户找房的新入口，而贝壳成为 Agent 时代的<span class="hi-ke">房产服务基础设施</span>。</p>
+    <div class="formula">
+      <div class="fchip">User Memory<small>腾讯元宝</small></div>
+      <span class="fop">×</span>
+      <div class="fchip">Housing Skills<small>贝壳</small></div>
+      <span class="fop">→</span>
+      <div class="fchip" style="background:rgba(26,102,255,.16);border-color:rgba(26,102,255,.4)">Agent 找房新范式<small style="color:#9BBBFF">Housing Infrastructure</small></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fl"><span class="dot tx" style="width:8px;height:8px"></span><span class="dot ke" style="width:8px;height:8px"></span>贝壳 × 腾讯元宝 Agent 联合方案</div>
+  面向 Personal AI Agent 时代的房产服务基础设施 · 高层交流材料 · 2026
+</footer>
+
+</body>
+</html>
