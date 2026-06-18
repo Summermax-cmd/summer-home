@@ -290,16 +290,17 @@
   }
 
   /* ---------- embed mode: ?screen=1|2|3 — render only one screen, no chrome ---------- */
-  body.embed{background:#fff;}
+  html.embed,body.embed{background:#eaf0ec; margin:0; padding:0; overflow:hidden;}
   body.embed .board-head{display:none;}
   body.embed .board{padding:0; max-width:none;}
   body.embed .stage{margin:0; gap:0;}
   body.embed .frame{display:none;}
   body.embed .frame.show{display:block;}
   body.embed .frame-cap{display:none;}
+  /* Keep the phone at design dimensions (390×846); the parent iframe scales it */
   body.embed .phone{
-    width:100%; height:auto; aspect-ratio:390 / 846;
-    border-radius:0; padding:0; background:transparent; box-shadow:none;
+    width:390px; height:846px; border-radius:0; padding:0;
+    background:transparent; box-shadow:none; animation:none;
   }
   body.embed .island{display:none;}
   body.embed .screen{border-radius:0; height:100%;}
@@ -364,52 +365,35 @@
           <div class="scroll">
             <div class="pad">
 
-              <!-- 公告 hero -->
+              <!-- 专题 hero -->
               <div class="insp-hero">
-                <div class="row1"><span class="dot"></span><span>本周热门 · 望京片区</span></div>
-                <h2>「学区调整传闻」专题任务上线，1.5× 加成中</h2>
-                <div class="why">高搜索 · 低供给的稀缺选题，前 30 篇通过审核内容享 1.5× 贝壳币加成。</div>
+                <div class="row1"><span class="dot"></span><span>本周专题 · 望京片区</span></div>
+                <h2>「学区调整传闻」1.5× 加成中</h2>
                 <div class="meta">
                   <span>已参与 <b>11</b>/30</span>
                   <span>截止 <b>06-25</b></span>
-                  <span>预估 CVS <b>82+</b></span>
                 </div>
                 <div class="acts">
                   <span class="btn-pri">立即参与</span>
-                  <span class="btn-sec">查看规则</span>
                 </div>
               </div>
 
               <!-- 分类 chips -->
               <div class="insp-tags">
                 <span class="tg on">推荐</span>
-                <span class="tg">高消费 <span class="hot">12</span></span>
+                <span class="tg">高消费</span>
                 <span class="tg">高收藏</span>
-                <span class="tg">高互动</span>
-                <span class="tg">官方任务</span>
-              </div>
-
-              <!-- 连续投稿进度 -->
-              <div class="card progress-strip">
-                <div class="row"><span class="l">连续投稿 · 本周</span><span class="r num">2 / 3 篇</span></div>
-                <div class="bar"><i style="width:66%"></i></div>
-                <div class="sub">再发 1 篇合格内容，得连续投稿奖 <b>+80</b> 贝壳币；连续 4 周达标解锁月度稳定创作者奖。</div>
-              </div>
-
-              <!-- 稀缺补贴 -->
-              <div class="subsidy">
-                <div class="h"><span class="coin">贝</span> 内容空白小区补贴</div>
-                <p>望京南、东湖湾等 <b>6</b> 个高搜索低内容小区，每发布 1 篇合格内容，额外 <b>+200</b> 贝壳币。</p>
+                <span class="tg">官方</span>
               </div>
 
               <!-- 任务列表 -->
               <div class="sec-h"><h3>热门任务</h3><a>全部 ›</a></div>
 
               <div class="card task" style="margin-bottom:12px">
-                <div class="tags"><span class="ttag consume">高消费</span><span class="ttag kind">房源讲解</span><span class="due">今日截止</span></div>
+                <div class="tags"><span class="ttag consume">高消费</span><span class="due">今日截止</span></div>
                 <h4>这套房为什么便宜？</h4>
                 <div class="reward">
-                  <span class="rstage"><span class="lbl">完成投稿</span><span class="seg num">+50</span></span>
+                  <span class="rstage"><span class="lbl">投稿</span><span class="seg num">+50</span></span>
                   <span class="rarrow">→</span>
                   <span class="rstage"><span class="lbl">消费达标</span><span class="seg num">+120</span></span>
                 </div>
@@ -417,28 +401,22 @@
               </div>
 
               <div class="card task" style="margin-bottom:12px">
-                <div class="tags"><span class="ttag consume">高消费</span><span class="ttag kind">板块解读</span><span class="due">名额 23/50</span></div>
+                <div class="tags"><span class="ttag consume">高消费</span><span class="due">名额 23/50</span></div>
                 <h4>同预算怎么选两个板块？</h4>
                 <div class="reward">
-                  <span class="rstage"><span class="lbl">完成投稿</span><span class="seg num">+50</span></span>
+                  <span class="rstage"><span class="lbl">投稿</span><span class="seg num">+50</span></span>
                   <span class="rarrow">→</span>
                   <span class="rstage"><span class="lbl">消费达标</span><span class="seg num">+150</span></span>
                 </div>
                 <button class="go">领取任务</button>
               </div>
 
-              <div class="card task" style="margin-bottom:2px">
-                <div class="tags"><span class="ttag consume">高收藏</span><span class="ttag kind">看房指南</span><span class="due">长期有效</span></div>
-                <h4>第一次看房要注意什么？</h4>
-                <div class="reward">
-                  <span class="rstage"><span class="lbl">完成投稿</span><span class="seg num">+40</span></span>
-                  <span class="rarrow">→</span>
-                  <span class="rstage"><span class="lbl">消费达标</span><span class="seg num">+100</span></span>
-                </div>
-                <button class="go">领取任务</button>
+              <!-- 稀缺补贴 -->
+              <div class="subsidy">
+                <div class="h"><span class="coin">贝</span> 空白小区补贴</div>
+                <p>望京南等 <b>6</b> 个高搜索低内容小区，发 1 篇额外 <b>+200</b> 贝壳币。</p>
               </div>
 
-              <p class="foot-note">完成投稿并通过审核即得基础奖励；发布 24–48 小时后，按完播率、停留、收藏等消费表现追加奖励。</p>
               <div style="height:14px"></div>
             </div>
           </div>
@@ -499,7 +477,7 @@
                   <div class="nm">张明</div>
                   <div class="role">楼盘主理人 · 朝阳望京</div>
                 </div>
-                <div class="lv-chip">★ <b>Lv.3</b> 优质消费创作者</div>
+                <div class="lv-chip">★ <b>Lv.3</b></div>
               </div>
 
               <!-- 钱包 hero -->
@@ -522,7 +500,6 @@
                     <circle cx="320" cy="8" r="3.4" fill="#fff"/>
                   </svg>
                   <div class="feed">
-                    <div class="ln">本周内容被有效消费 <b class="num">8,632</b> 次</div>
                     <div class="acts">
                       <button class="ghost">明细</button>
                       <button class="solid">兑换商机</button>
@@ -534,56 +511,40 @@
               <!-- 等级进度 -->
               <div class="card level">
                 <div class="top">
-                  <div class="now">Lv.3 → <span style="color:var(--brand-d)">Lv.4 专业内容创作者</span></div>
+                  <div class="now">Lv.3 → <span style="color:var(--brand-d)">Lv.4</span></div>
                   <div class="nxt"><b class="num">68%</b></div>
                 </div>
                 <div class="bar"><i style="width:68%"></i></div>
-                <div class="hint">再发 <b>2</b> 篇高完播内容，并保持收藏率同类前 <b>20%</b>，即可晋级，解锁详情页内容挂载。</div>
-                <div class="dims">
-                  <div class="dim"><div class="v num">稳</div><div class="k">投稿 30%</div></div>
-                  <div class="dim"><div class="v num">优</div><div class="k">质量 25%</div></div>
-                  <div class="dim"><div class="v num">强</div><div class="k">消费 35%</div></div>
-                  <div class="dim"><div class="v num">·</div><div class="k">转化 10%</div></div>
-                </div>
+                <div class="hint">再发 <b>2</b> 篇高完播内容，即可晋级解锁详情页挂载。</div>
               </div>
 
               <!-- 本周收益四类来源 -->
               <div class="sec-h"><h3>本周收益来源</h3><a>明细 ›</a></div>
               <div class="stats">
                 <div class="card stat">
-                  <div class="k">投稿奖励</div>
+                  <div class="k">投稿</div>
                   <div class="v"><span class="n num">+320</span></div>
-                  <span class="trend u">▲ 任务 4 条</span>
                 </div>
                 <div class="card stat">
-                  <div class="k">消费奖励</div>
+                  <div class="k">消费</div>
                   <div class="v"><span class="n num">+540</span></div>
-                  <span class="trend u">▲ 占比 43%</span>
                 </div>
                 <div class="card stat">
-                  <div class="k">质量奖励</div>
+                  <div class="k">质量</div>
                   <div class="v"><span class="n num">+260</span></div>
-                  <span class="trend u">▲ CVS 86</span>
                 </div>
                 <div class="card stat">
-                  <div class="k">转化奖励</div>
+                  <div class="k">转化</div>
                   <div class="v"><span class="n num">+140</span></div>
-                  <span class="trend flat">— 1 条</span>
                 </div>
               </div>
 
               <!-- 账单 -->
               <div class="sec-h"><h3>近期账单</h3><a>全部 ›</a></div>
               <div class="card diag">
-                <div class="row"><div class="ico ok">+</div><div class="tx">消费奖励 · 望京西园四区视频 完播奖 <b>+180</b><div style="color:var(--muted); font-size:11.5px; font-weight:600; margin-top:3px;">06-17 09:20 · 已结算</div></div></div>
-                <div class="row"><div class="ico up">★</div><div class="tx">任务投稿 · 「这套房为什么便宜」基础奖 <b>+50</b><div style="color:var(--muted); font-size:11.5px; font-weight:600; margin-top:3px;">06-16 14:02 · 已结算</div></div></div>
-                <div class="row"><div class="ico flag">⏳</div><div class="tx">消费追加奖 · 5 号线小两居图文 待结算 <b>+120</b><div style="color:var(--muted); font-size:11.5px; font-weight:600; margin-top:3px;">06-15 11:48 · 24–48h 后到账</div></div></div>
-              </div>
-
-              <!-- 兑换提示 -->
-              <div class="earn">
-                <div class="l"><span class="coin">贝</span><span class="amt num">2,000</span><span class="cap">起 兑换 1 条精准商机</span></div>
-                <p>当前余额可兑换 6 条商机；也可用于流量加投、专属勋章。</p>
+                <div class="row"><div class="ico ok">+</div><div class="tx">完播奖 · 望京西园视频 <b>+180</b><div style="color:var(--muted); font-size:11.5px; font-weight:600; margin-top:2px;">06-17 · 已结算</div></div></div>
+                <div class="row"><div class="ico up">★</div><div class="tx">任务投稿 · 这套房为什么便宜 <b>+50</b><div style="color:var(--muted); font-size:11.5px; font-weight:600; margin-top:2px;">06-16 · 已结算</div></div></div>
+                <div class="row"><div class="ico flag">⏳</div><div class="tx">消费追加 · 5 号线小两居 <b>+120</b><div style="color:var(--muted); font-size:11.5px; font-weight:600; margin-top:2px;">06-15 · 待结算</div></div></div>
               </div>
 
               <div style="height:14px"></div>
@@ -641,52 +602,40 @@
             <div class="pad">
               <!-- 概览三栏 -->
               <div class="stats" style="grid-template-columns:repeat(3,1fr);">
-                <div class="card stat"><div class="k">进行中</div><div class="v"><span class="n num">3</span></div><span class="trend u">2 待结算</span></div>
-                <div class="card stat"><div class="k">已完成</div><div class="v"><span class="n num">17</span></div><span class="trend u">▲ 本月 7</span></div>
-                <div class="card stat"><div class="k">累计奖励</div><div class="v"><span class="n num">5,420</span></div><span class="trend u">贝壳币</span></div>
+                <div class="card stat"><div class="k">进行中</div><div class="v"><span class="n num">3</span></div></div>
+                <div class="card stat"><div class="k">已完成</div><div class="v"><span class="n num">17</span></div></div>
+                <div class="card stat"><div class="k">累计奖励</div><div class="v"><span class="n num">5,420</span></div></div>
               </div>
 
               <!-- segment -->
               <div class="seg">
-                <button class="on">进行中 · 3</button>
-                <button>已完成 · 17</button>
+                <button class="on">进行中</button>
+                <button>已完成</button>
                 <button>已结算</button>
               </div>
 
               <!-- 进行中任务 -->
               <div class="card task" style="margin-bottom:12px">
-                <div class="tags"><span class="ttag consume">高消费</span><span class="ttag kind">房源讲解</span><span class="due" style="color:var(--brand-d)">已投稿 · 等待消费数据</span></div>
+                <div class="tags"><span class="ttag consume">高消费</span><span class="due" style="color:var(--brand-d)">已投稿 · 等待消费</span></div>
                 <h4>这套房为什么便宜？</h4>
-                <div class="bar" style="margin:10px 0 8px"><i style="width:50%;background:var(--brand)"></i></div>
+                <div class="bar" style="margin:10px 0 10px"><i style="width:50%;background:var(--brand)"></i></div>
                 <div class="reward">
-                  <span class="rstage" style="background:var(--brand-l); color:var(--brand-d);"><span class="lbl">✓ 投稿到账</span><span class="seg num">+50</span></span>
+                  <span class="rstage" style="background:var(--brand-l); color:var(--brand-d);"><span class="lbl">✓ 投稿</span><span class="seg num">+50</span></span>
                   <span class="rarrow">→</span>
                   <span class="rstage"><span class="lbl">消费达标</span><span class="seg num">+120</span></span>
                 </div>
-                <p class="foot-note" style="margin:10px 0 0">发布 18h · 完播 58%、收藏 86，再坚持一天有望解锁追加奖。</p>
               </div>
 
               <div class="card task" style="margin-bottom:12px">
-                <div class="tags"><span class="ttag consume">高消费</span><span class="ttag kind">板块解读</span><span class="due">名额 23/50 · 创作中</span></div>
+                <div class="tags"><span class="ttag consume">高消费</span><span class="due">创作中</span></div>
                 <h4>同预算怎么选两个板块？</h4>
-                <div class="bar" style="margin:10px 0 8px"><i style="width:18%;background:var(--coin)"></i></div>
+                <div class="bar" style="margin:10px 0 10px"><i style="width:18%;background:var(--coin)"></i></div>
                 <div class="reward">
-                  <span class="rstage"><span class="lbl">完成投稿</span><span class="seg num">+50</span></span>
+                  <span class="rstage"><span class="lbl">投稿</span><span class="seg num">+50</span></span>
                   <span class="rarrow">→</span>
                   <span class="rstage"><span class="lbl">消费达标</span><span class="seg num">+150</span></span>
                 </div>
                 <button class="go">继续创作</button>
-              </div>
-
-              <div class="card task" style="margin-bottom:2px">
-                <div class="tags"><span class="ttag consume">高收藏</span><span class="ttag kind">看房指南</span><span class="due">长期有效 · 待发布</span></div>
-                <h4>第一次看房要注意什么？</h4>
-                <div class="reward">
-                  <span class="rstage"><span class="lbl">完成投稿</span><span class="seg num">+40</span></span>
-                  <span class="rarrow">→</span>
-                  <span class="rstage"><span class="lbl">消费达标</span><span class="seg num">+100</span></span>
-                </div>
-                <button class="go">去发布</button>
               </div>
 
               <!-- 已完成预览 -->
@@ -695,20 +644,19 @@
                 <div class="ref">
                   <div class="ph"></div>
                   <div>
-                    <div class="nm">望京西园四区｜总价低 · 三个原因</div>
-                    <div class="mt">奖励 <span class="up">+320</span> · CVS 86</div>
+                    <div class="nm">望京西园 · 总价低三个原因</div>
+                    <div class="mt"><span class="up">+320</span> · CVS 86</div>
                   </div>
                 </div>
                 <div class="ref">
                   <div class="ph"></div>
                   <div>
-                    <div class="nm">5 号线小两居 · 500 万怎么选</div>
-                    <div class="mt">奖励 <span class="up">+410</span> · CVS 91</div>
+                    <div class="nm">5 号线小两居 · 怎么选</div>
+                    <div class="mt"><span class="up">+410</span> · CVS 91</div>
                   </div>
                 </div>
               </div>
 
-              <p class="foot-note">基础奖励：完成投稿并通过审核即得；追加奖励：发布 24–48h 后按消费表现结算。</p>
               <div style="height:14px"></div>
             </div>
           </div>
