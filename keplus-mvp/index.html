@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    /**
+     * 手机端按桌面宽度等比缩放，保持桌面布局；电脑端维持原响应式布局。
+     */
+    (function () {
+      try {
+        var minSide = Math.min(window.screen.width, window.screen.height);
+        if (minSide < 600) {
+          var vp = document.querySelector('meta[name="viewport"]');
+          if (vp) vp.setAttribute('content', 'width=1180');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta name="color-scheme" content="light">
+  <title>Ke+ 房源“广告”投放系统 — MVP 方案</title>
+  <style>
+    :root {
+      --ink: #142033;
+      --text: #334155;
+      --muted: #64748b;
+      --paper: #f6f8fb;
+      --panel: #ffffff;
+      --line: #dbe3ef;
+      --soft: #edf1f6;
+      --blue: #245fd6;
+      --cyan: #0f8f9d;
+      --orange: #d96a2b;
+      --green: #287657;
+      --red: #b04444;
+      --amber-bg: #fff7ed;
+      --blue-bg: #eef5ff;
+      --green-bg: #edf8f3;
+      --shadow: 0 24px 72px rgba(20, 32, 51, .10);
+      --body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+      --mono: "SF Mono", "JetBrains Mono", "Fira Code", Consolas, "Roboto Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: repeating-linear-gradient(90deg, rgba(20,32,51,.022) 0, rgba(20,32,51,.022) 1px, transparent 1px, transparent 72px), linear-gradient(180deg, #f8fafc 0%, #eef2f6 52%, #e8edf4 100%); font-family: var(--body); line-height: 1.62; }
+    main { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 30px 0 46px; }
+    .sheet { position: relative; overflow: hidden; background: rgba(255,255,255,.97); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+    .sheet::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 8px; background: linear-gradient(180deg, var(--green), var(--cyan) 40%, var(--blue) 70%, var(--orange)); }
+    header { padding: 46px 58px 38px 66px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, rgba(237,248,243,.92), rgba(255,255,255,.98) 64%); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 16px; padding: 7px 12px; color: var(--green); background: rgba(40,118,87,.08); border: 1px solid rgba(40,118,87,.16); border-radius: 999px; font-size: 14px; font-weight: 850; }
+    .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+    .eyebrow .ver { color: var(--orange); }
+    h1 { width: min(980px, 100%); margin: 0; color: var(--ink); font-size: clamp(34px, 4vw, 54px); line-height: 1.13; font-weight: 900; }
+    .subtitle { width: min(900px, 100%); margin: 16px 0 0; color: #4b5563; font-size: 19px; font-weight: 720; }
+    section { padding: 34px 58px 38px 66px; border-bottom: 1px solid var(--line); }
+    section:last-of-type { border-bottom: 0; }
+    .section-title { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .section-title::before { content: attr(data-num); display: inline-grid; place-items: center; width: 44px; height: 44px; color: #fff; background: var(--ink); border-radius: 6px; font-size: 15px; font-weight: 900; flex: 0 0 auto; }
+    h2 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 900; }
+    h3 { margin: 0 0 10px; font-size: 21px; line-height: 1.32; font-weight: 900; }
+    h4 { margin: 0 0 8px; font-size: 17px; font-weight: 850; color: var(--ink); }
+    p { margin: 0; color: #40506a; font-size: 16px; font-weight: 650; }
+    .lead { margin: 0 0 18px; color: #40506a; font-size: 18px; font-weight: 700; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+    .mt16 { margin-top: 16px; } .mt22 { margin-top: 22px; }
+    .card { position: relative; min-height: 150px; padding: 20px 20px 22px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(180deg, #fff, #fbfcff); box-shadow: 0 10px 26px rgba(20,32,51,.052); }
+    .card::before { content: ""; display: block; width: 34px; height: 4px; margin-bottom: 15px; border-radius: 99px; background: var(--green); }
+    .card.orange::before { background: var(--orange); }
+    .card.blue::before { background: var(--blue); }
+    .card.cyan::before { background: var(--cyan); }
+    .card.red::before { background: var(--red); }
+    .card ul { margin: 0; padding-left: 18px; color: #43516a; font-size: 15.5px; font-weight: 650; }
+    .card li { margin: 6px 0; }
+    .card p { font-size: 15px; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; background: #fff; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 28px rgba(20,32,51,.05); }
+    th, td { border-bottom: 1px solid var(--line); padding: 14px 16px; vertical-align: top; text-align: left; font-size: 15px; }
+    tr:last-child td { border-bottom: 0; }
+    th { color: var(--ink); background: linear-gradient(180deg, #f8fafc, #f1f5f9); font-weight: 900; }
+    td { color: #40506a; font-weight: 650; }
+    td:first-child { color: var(--ink); font-weight: 850; }
+    .req { display: inline-block; padding: 1px 7px; border-radius: 5px; font-size: 12px; font-weight: 900; }
+    .req.yes { color: #1f6b4d; background: #dcfce7; border: 1px solid #bbf7d0; }
+    .req.no { color: #6b7686; background: #f1f5f9; border: 1px solid #e2e8f0; }
+    code.k { font-family: var(--mono); font-size: 13px; color: var(--blue); background: #eef5ff; border: 1px solid #dbe7fb; border-radius: 5px; padding: 1px 6px; font-weight: 700; }
+
+    /* Callouts */
+    .callout { margin-top: 18px; border-left: 5px solid var(--green); border-radius: 0 8px 8px 0; background: var(--green-bg); padding: 18px 22px; color: #172033; font-size: 18px; font-weight: 850; }
+    .callout.callout-orange { border-left-color: var(--orange); background: var(--amber-bg); }
+    .callout.callout-blue { border-left-color: var(--blue); background: var(--blue-bg); }
+    .callout.callout-cyan { border-left-color: var(--cyan); background: #f0fafb; }
+    .callout strong { color: var(--ink); font-weight: 900; }
+    .callout span { display: block; margin-top: 8px; font-size: 15.5px; font-weight: 720; color: #3b4a60; }
+
+    /* Chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
+    .chips span { display: inline-flex; align-items: center; min-height: 28px; padding: 4px 11px; border-radius: 999px; font-size: 13px; font-weight: 800; }
+    .chip-green { color: #315f4a; background: rgba(220,252,231,.8); border: 1px solid #bbf7d0; }
+    .chip-blue { color: #1f4fad; background: rgba(219,234,254,.7); border: 1px solid #bfdbfe; }
+    .chip-orange { color: #8a4215; background: rgba(255,237,213,.7); border: 1px solid #fed7aa; }
+    .chip-cyan { color: #0a5f69; background: rgba(207,250,254,.6); border: 1px solid #a5f3fc; }
+    .chip-red { color: #8f2f2f; background: rgba(254,242,242,.8); border: 1px solid #fecaca; }
+
+    /* Target board */
+    .target-board { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; align-items: stretch; }
+    .target-main { position: relative; min-height: 220px; padding: 24px; border: 1px solid rgba(217,106,43,.24); border-radius: 8px; background: linear-gradient(135deg, #fff7ed, #ffffff 68%); box-shadow: 0 14px 34px rgba(184,91,32,.08); }
+    .target-main .label, .target-side .label { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 999px; font-size: 13px; font-weight: 900; }
+    .target-main .label { color: #8a4215; background: #ffedd5; border: 1px solid #fed7aa; }
+    .target-main strong { display: block; margin: 18px 0 8px; color: var(--ink); font-size: clamp(26px, 3.2vw, 40px); line-height: 1.1; font-weight: 950; }
+    .target-main p { width: min(560px, 100%); color: #4b5563; font-size: 16px; font-weight: 700; }
+    .target-pair { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
+    .region { padding: 16px; border: 1px solid rgba(217,106,43,.22); border-radius: 8px; background: rgba(255,255,255,.86); }
+    .region small { display: block; color: var(--muted); font-size: 13px; font-weight: 850; }
+    .region b { display: block; margin-top: 5px; color: #8a4215; font-size: 22px; line-height: 1.15; font-weight: 950; }
+    .target-side { display: grid; gap: 16px; }
+    .target-card { padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 28px rgba(20,32,51,.055); }
+    .target-card.constraint { border-color: rgba(36,95,214,.22); background: linear-gradient(135deg, #eef5ff, #ffffff 70%); }
+    .target-card.observe { border-color: rgba(40,118,87,.22); background: linear-gradient(135deg, #edf8f3, #ffffff 72%); }
+    .target-card.constraint .label { color: #1f4fad; background: #dbeafe; border: 1px solid #bfdbfe; }
+    .target-card.observe .label { color: #1f6b4d; background: #dcfce7; border: 1px solid #bbf7d0; }
+    .target-card strong { display: block; margin-top: 14px; color: var(--ink); font-size: 24px; line-height: 1.12; font-weight: 950; }
+    .target-card p { margin-top: 9px; color: #536176; font-size: 14.5px; font-weight: 680; }
+
+    /* Compare strip (old vs new) */
+    .compare-strip { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: stretch; margin-top: 18px; }
+    .compare-card { padding: 22px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(180deg, #fff, #fbfcff); box-shadow: 0 10px 26px rgba(20,32,51,.05); min-height: 160px; }
+    .compare-card.old { border-top: 4px solid #94a3b8; }
+    .compare-card.new { border-top: 4px solid var(--green); }
+    .compare-arrow { align-self: center; font-size: 30px; font-weight: 900; color: var(--green); padding: 0 14px; }
+    .compare-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 900; margin-bottom: 12px; }
+    .tag-old { color: #475569; background: #f1f5f9; border: 1px solid #cbd5e1; }
+    .tag-new { color: #1f6b4d; background: #dcfce7; border: 1px solid #bbf7d0; }
+    .compare-card ul { margin: 10px 0 0; padding-left: 18px; color: #43516a; font-size: 15px; font-weight: 650; }
+    .compare-card li { margin: 5px 0; }
+
+    /* Do / Don't lists */
+    .scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+    .scope-card { border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 26px rgba(20,32,51,.05); overflow: hidden; }
+    .scope-head { padding: 14px 20px; font-size: 16px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .scope-card.do .scope-head { background: linear-gradient(135deg, var(--green), #1a8a5e); }
+    .scope-card.dont .scope-head { background: linear-gradient(135deg, #64748b, #475569); }
+    .scope-body { padding: 16px 20px 18px; }
+    .scope-body ul { margin: 0; padding-left: 18px; color: #43516a; font-size: 15px; font-weight: 650; }
+    .scope-body li { margin: 6px 0; }
+
+    /* Flow chain */
+    .flow-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+    .fc-node { padding: 11px 16px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font-size: 14.5px; font-weight: 800; color: var(--ink); box-shadow: 0 6px 16px rgba(20,32,51,.05); }
+    .fc-node.start { border-color: var(--green); background: linear-gradient(135deg, #edf8f3, #fff); color: #1f6b4d; }
+    .fc-node.calc { border-color: var(--blue); background: linear-gradient(135deg, #eef5ff, #fff); color: #1f4fad; }
+    .fc-node.end-ok { border-color: var(--green); background: var(--green); color: #fff; }
+    .fc-node.end-stop { border-color: var(--orange); background: var(--orange); color: #fff; }
+    .fc-arrow { color: var(--muted); font-size: 18px; font-weight: 900; }
+    .fc-split { display: inline-flex; flex-direction: column; gap: 8px; }
+
+    /* Code blocks */
+    .code { margin: 0; padding: 16px 18px; background: #0f1b2d; border-radius: 8px; box-shadow: 0 10px 28px rgba(15,27,45,.18); overflow-x: auto; }
+    .code pre { margin: 0; font-family: var(--mono); font-size: 12.5px; line-height: 1.7; color: #cbd5e1; font-weight: 500; white-space: pre; }
+    .code .ck { color: #7dd3fc; }
+    .code .cs { color: #86efac; }
+    .code .cn { color: #fcd34d; }
+    .code-label { display: inline-block; margin-bottom: 8px; font-size: 13px; font-weight: 900; color: var(--muted); }
+
+    /* Scene cards */
+    .scene-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; }
+    .scene-card { border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 26px rgba(20,32,51,.055); overflow: hidden; display: flex; flex-direction: column; }
+    .scene-card .sc-top { padding: 16px 18px 14px; border-bottom: 1px solid var(--line); }
+    .scene-card .sc-name { font-size: 16.5px; font-weight: 900; color: var(--ink); line-height: 1.3; }
+    .scene-card .sc-tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+    .scene-card .sc-tag { font-size: 11.5px; font-weight: 850; padding: 2px 8px; border-radius: 999px; }
+    .scene-card .sc-ratio { margin-top: 14px; }
+    .scene-card .sc-ratio b { display: block; font-size: 38px; font-weight: 950; line-height: 1; }
+    .scene-card .sc-dyn { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; padding: 5px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 900; background: #fff4e8; color: var(--orange); border: 1px solid #fed7aa; box-shadow: 0 4px 12px rgba(217,106,43,.12); }
+    .scene-card .sc-dyn .sc-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 3px rgba(217,106,43,.18); animation: dynPulse 1.8s ease-in-out infinite; }
+    @keyframes dynPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+    .scene-card .sc-body { padding: 14px 18px 16px; flex: 1; }
+    .scene-card .sc-body ul { margin: 0; padding-left: 16px; color: #43516a; font-size: 13.5px; font-weight: 650; line-height: 1.55; }
+    .scene-card .sc-body li { margin: 5px 0; }
+    .scene-card.s-search { border-top: 4px solid var(--blue); }
+    .scene-card.s-feeds { border-top: 4px solid var(--orange); }
+    .scene-card.s-home { border-top: 4px solid var(--cyan); }
+    .scene-card.s-comm { border-top: 4px solid var(--green); }
+    .s-search .sc-ratio b { color: var(--blue); } .s-search .sc-tag { background: #dbeafe; color: #1f4fad; }
+    .s-feeds .sc-ratio b { color: var(--orange); } .s-feeds .sc-tag { background: #ffedd5; color: #8a4215; }
+    .s-home .sc-ratio b { color: var(--cyan); } .s-home .sc-tag { background: #cffafe; color: #0a5f69; }
+    .s-comm .sc-ratio b { color: var(--green); } .s-comm .sc-tag { background: #dcfce7; color: #1f6b4d; }
+
+    /* Formula */
+    .formula { margin-top: 16px; padding: 22px 24px; border: 1px solid rgba(36,95,214,.22); border-radius: 8px; background: linear-gradient(135deg, #eef5ff, #fff 70%); text-align: center; box-shadow: 0 10px 28px rgba(36,95,214,.07); }
+    .formula .f-eq { font-family: var(--mono); font-size: clamp(18px, 2.4vw, 26px); font-weight: 800; color: var(--ink); letter-spacing: .5px; }
+    .formula .f-eq .v { color: var(--blue); }
+    .formula .f-eq .op { color: var(--orange); margin: 0 4px; }
+    .formula .f-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px; margin-top: 16px; }
+    .formula .f-legend span { font-size: 13px; font-weight: 750; color: #43516a; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
+    .formula .f-legend b { color: var(--blue); font-weight: 900; }
+
+    /* Stop cards */
+    .stop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+    .stop-card { padding: 22px; border-radius: 8px; box-shadow: 0 12px 30px rgba(20,32,51,.07); }
+    .stop-card.ok { border: 1px solid rgba(40,118,87,.28); background: linear-gradient(135deg, #edf8f3, #fff 70%); }
+    .stop-card.stop { border: 1px solid rgba(217,106,43,.28); background: linear-gradient(135deg, #fff7ed, #fff 70%); }
+    .stop-card .st-tag { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 900; margin-bottom: 12px; }
+    .stop-card.ok .st-tag { background: var(--green); color: #fff; }
+    .stop-card.stop .st-tag { background: var(--orange); color: #fff; }
+    .stop-card .st-cond { font-family: var(--mono); font-size: 14px; font-weight: 700; padding: 10px 14px; border-radius: 6px; background: rgba(255,255,255,.7); border: 1px dashed #cbd5e1; color: var(--ink); margin-bottom: 12px; }
+    .stop-card ul { margin: 0; padding-left: 18px; color: #43516a; font-size: 14.5px; font-weight: 650; }
+    .stop-card li { margin: 5px 0; }
+    .stop-card .st-code { font-family: var(--mono); font-weight: 900; }
+    .stop-card.ok .st-code { color: var(--green); }
+    .stop-card.stop .st-code { color: var(--orange); }
+
+    /* Metrics */
+    .metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 4px; }
+    .metric { min-height: 108px; padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 28px rgba(20,32,51,.06); display: flex; flex-direction: column; }
+    .metric small { display: flex; align-items: center; min-height: 34px; color: var(--muted); font-size: 13px; font-weight: 850; line-height: 1.35; }
+    .metric strong { display: flex; align-items: flex-end; margin-top: 2px; min-height: 30px; color: var(--ink); font-size: 24px; line-height: 1.1; font-weight: 900; }
+    .metric > span { display: block; margin-top: 8px; color: #536176; font-size: 12.5px; font-weight: 650; }
+    .metric::before { content: ""; display: block; height: 3px; margin: -18px -18px 14px; border-radius: 8px 8px 0 0; background: var(--green); }
+    .metric.m-cyan::before { background: var(--cyan); }
+    .metric.m-blue::before { background: var(--blue); }
+    .metric.m-orange::before { background: var(--orange); }
+
+    /* Module grid */
+    .module-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+    .module-item { padding: 18px 18px 16px; border: 1px solid var(--line); border-radius: 10px; background: #f1f8f4; box-shadow: 0 6px 16px rgba(20,32,51,.04); border-top: 3px solid var(--green); }
+    .module-item .m-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .module-item .m-no { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--green); color: #fff; font-size: 14px; font-weight: 900; flex-shrink: 0; }
+    .module-item h4 { font-size: 16px; font-weight: 900; color: var(--ink); margin: 0; }
+    .module-item ul { margin: 0; padding-left: 16px; color: #43516a; font-size: 13.5px; font-weight: 650; line-height: 1.5; }
+    .module-item li { margin: 4px 0; }
+
+    /* Priority */
+    .prio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+    .prio-card { border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 26px rgba(20,32,51,.05); overflow: hidden; }
+    .prio-head { padding: 12px 18px; font-size: 16px; font-weight: 900; color: #fff; display: flex; align-items: center; justify-content: space-between; }
+    .prio-card.p0 .prio-head { background: linear-gradient(135deg, var(--orange), #c25a1f); }
+    .prio-card.p1 .prio-head { background: linear-gradient(135deg, var(--blue), #1e4fb0); }
+    .prio-card.p2 .prio-head { background: linear-gradient(135deg, #64748b, #475569); }
+    .prio-head small { font-size: 12px; font-weight: 750; opacity: .9; }
+    .prio-body { padding: 14px 18px 16px; }
+    .prio-body ul { margin: 0; padding-left: 16px; color: #43516a; font-size: 14px; font-weight: 650; line-height: 1.5; }
+    .prio-body li { margin: 5px 0; }
+
+    /* Phase banner */
+    .phase-banner { display: flex; align-items: center; gap: 14px; margin: 16px 0 0; padding: 14px 20px; border-radius: 8px; }
+    .phase-banner.phase-1 { background: linear-gradient(90deg, #142033, #1e3a5f); }
+    .phase-banner.phase-2 { background: linear-gradient(90deg, #1f4fb0, #0f8f9d); }
+    .phase-banner.phase-3 { background: linear-gradient(90deg, #0f8f9d, #287657); }
+    .phase-banner.phase-4 { background: linear-gradient(90deg, #287657, #1a8a5e); }
+    .phase-banner .phase-num { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.18); color: #fff; font-size: 15px; font-weight: 900; flex-shrink: 0; }
+    .phase-banner .phase-text { color: #fff; font-size: 17px; font-weight: 900; }
+    .phase-banner .phase-sub { color: rgba(255,255,255,.78); font-size: 13.5px; font-weight: 650; margin-left: 6px; }
+
+    /* Audience package diagram */
+    .aud-vis { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+    .aud-mode { border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 10px 26px rgba(20,32,51,.05); overflow: hidden; display: flex; flex-direction: column; }
+    .aud-mode .am-head { padding: 13px 18px; font-size: 14.5px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .aud-mode .am-head code { font-family: var(--mono); font-size: 12px; background: rgba(255,255,255,.22); padding: 2px 8px; border-radius: 5px; font-weight: 800; }
+    .aud-mode.all .am-head { background: linear-gradient(135deg, var(--green), #1a8a5e); }
+    .aud-mode.pack .am-head { background: linear-gradient(135deg, var(--blue), var(--cyan)); }
+    .aud-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
+    .aud-users { display: grid; grid-template-columns: repeat(8, 1fr); gap: 9px; }
+    .aud-u { aspect-ratio: 1; border-radius: 9px; display: grid; place-items: center; }
+    .aud-u svg { width: 18px; height: 18px; }
+    .aud-u.on { background: #e8f8ef; border: 1px solid #86efac; }
+    .aud-u.on svg { stroke: var(--green); }
+    .aud-u.off { background: #f3f5f9; border: 1px dashed #cbd5e1; }
+    .aud-u.off svg { stroke: #b3bdcc; }
+    .aud-arrow { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 14px 0 12px; font-size: 13px; font-weight: 850; color: var(--muted); }
+    .aud-arrow .aa-line { height: 2px; flex: 1; background: linear-gradient(90deg, transparent, #cbd5e1, transparent); }
+    .aud-result { padding: 12px 14px; border-radius: 8px; font-size: 13.5px; font-weight: 750; line-height: 1.55; }
+    .aud-mode.all .aud-result { background: rgba(220,252,231,.5); border: 1px solid #bbf7d0; color: #1f6b4d; }
+    .aud-mode.pack .aud-result { background: rgba(219,234,254,.45); border: 1px solid #bfdbfe; color: #1f4fad; }
+    .aud-result b { font-weight: 900; }
+    .aud-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; font-size: 12.5px; font-weight: 750; color: var(--muted); }
+    .aud-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .aud-legend i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
+    .aud-legend i.on { background: #e8f8ef; border: 1px solid #86efac; }
+    .aud-legend i.off { background: #f3f5f9; border: 1px dashed #cbd5e1; }
+
+    /* Endpoint list */
+    .api-list { display: grid; gap: 10px; margin-top: 16px; }
+    .api-item { display: flex; align-items: center; gap: 14px; padding: 13px 18px; border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 6px 16px rgba(20,32,51,.04); flex-wrap: wrap; }
+    .api-method { font-family: var(--mono); font-size: 12px; font-weight: 900; padding: 3px 10px; border-radius: 5px; flex-shrink: 0; }
+    .api-method.post { background: #dcfce7; color: #166534; }
+    .api-method.get { background: #dbeafe; color: #1e40af; }
+    .api-path { font-family: var(--mono); font-size: 13.5px; font-weight: 700; color: var(--ink); }
+    .api-desc { font-size: 13.5px; font-weight: 700; color: var(--muted); margin-left: auto; }
+
+    .insight-box { margin-top: 16px; padding: 16px 20px; border: 1px dashed var(--line); border-radius: 8px; background: #f8fafc; }
+    .insight-box p { font-size: 14.5px; color: #4b5563; }
+    .insight-box strong { color: var(--ink); }
+
+    @media (min-width: 901px) { h2 { white-space: nowrap; word-break: keep-all; } }
+    @media (max-width: 900px) {
+      * { min-width: 0; overflow-wrap: anywhere; }
+      main { width: calc(100vw - 24px); padding: 18px 0 28px; }
+      header, section { padding: 28px 22px 30px 28px; }
+      .grid-2, .grid-3, .grid-4, .grid-5, .metric-row, .target-board, .target-pair, .compare-strip, .scope-grid, .scene-grid, .stop-grid, .module-grid, .prio-grid { grid-template-columns: 1fr; }
+      h1 { width: 100%; font-size: 25px; line-height: 1.24; }
+      h2 { font-size: 24px; }
+      .compare-arrow { transform: rotate(90deg); justify-self: center; padding: 6px 0; }
+      table, tbody, tr, th, td { display: block; width: 100%; }
+      tr { border-bottom: 1px solid var(--line); }
+      tr:last-child { border-bottom: 0; }
+      th { border-bottom: 0; padding-bottom: 6px; }
+      td { padding-top: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article class="sheet">
+
+      <header>
+        <div class="eyebrow">内部产品方案 | <span class="ver">MVP · 最小可用版本</span></div>
+        <h1>Ke+ 房源“广告”投放系统</h1>
+        <p class="subtitle">把房源扶持从「按需按次开发、曝光驱动」升级为「目标驱动、效率约束、自动止损、结果可归因」的内部房源“广告”投放系统。</p>
+      </header>
+
+      <!-- ============ 01 背景与定位 ============ -->
+      <section>
+        <div class="section-title" data-num="01"><h2>项目背景与产品定位</h2></div>
+        <p class="lead">Ke+ 内存在大量需要流量扶持的房源（业主去化房源、诚意卖房源、主理人房源、重点运营房源等）。过去扶持依赖人工配置、固定坑位与简单加权，目标不可控、效果不可归因、止损不清晰。我们要建设一套<strong style="color:var(--ink);font-weight:900">面向房源访问的内部“广告”投放系统</strong>。</p>
+
+        <div class="grid-5">
+          <div class="card">
+            <h4>① 目标不可控</h4>
+            <p>需求方希望获得一定点击规模，但系统无法稳定保障周期点击达成。</p>
+          </div>
+          <div class="card orange">
+            <h4>② 效果不可归因</h4>
+            <p>投放后只看到房源点击量，难以判断是否由扶持带来。</p>
+          </div>
+          <div class="card red">
+            <h4>③ 停止机制不清</h4>
+            <p>房源表现差时缺少自动止损，浪费流量并影响用户体验。</p>
+          </div>
+          <div class="card cyan">
+            <h4>④ 场景策略不统一</h4>
+            <p>搜索、推荐、首页、小区页对扶持接受度不同，缺统一框架。</p>
+          </div>
+          <div class="card blue">
+            <h4>⑤ 运营成本高</h4>
+            <p>每次扶持都靠人工判断、加权、复盘，难以规模化。</p>
+          </div>
+        </div>
+
+        <div class="compare-strip">
+          <div class="compare-card old">
+            <span class="compare-tag tag-old">过去 · 人工流量倾斜</span>
+            <ul>
+              <li>固定坑位 + 经验加权，靠人工判断</li>
+              <li>只保证「投了」，不保证「达成多少点击」</li>
+              <li>无统一止损，低效流量持续消耗</li>
+              <li>复盘靠人工，无法规模化</li>
+            </ul>
+          </div>
+          <div class="compare-arrow">→</div>
+          <div class="compare-card new">
+            <span class="compare-tag tag-new">现在 · 房源“广告”投放系统</span>
+            <ul>
+              <li>以<b>周期核访总量</b>为目标，自动达成</li>
+              <li>以 <b>pCTR 与场景效率</b>为约束</li>
+              <li>以<b>自动投放 + 自动止损</b>为核心</li>
+              <li>报表<b>结构化归因</b>，可规模复用</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout">这不是外部商业“广告”系统，而是一个<strong>内部房源流量扶持系统</strong>——借鉴计算“广告”的投放思想，服务对象是贝壳内部业务中的目标房源。<span>需求方提供要扶持的房源和周期点击目标，Ke+ 投放系统负责在多个分发场景中自动完成点击目标，并在点击效率过低时自动止损。</span></div>
+      </section>
+
+      <!-- ============ 02 MVP 目标与边界 ============ -->
+      <section>
+        <div class="section-title" data-num="02"><h2>MVP 目标与边界</h2></div>
+        <p class="lead">MVP 先跑通一个最小闭环：<strong style="color:var(--ink);font-weight:900">需求方提供房源 → 系统完成周期点击目标 → 自动止损 → 报表归因</strong>。</p>
+
+        <div class="target-board">
+          <div class="target-main">
+            <span class="label">核心问题</span>
+            <strong>给定房源 + 周期点击目标<br>系统自动投放并明确结果</strong>
+            <p>需求方给定一批房源和一个周期核访总量目标后，系统能在指定场景中自动投放，并清楚判断最终是「目标达成」还是「点击效率过低止损」。</p>
+            <div class="target-pair">
+              <div class="region"><small>能力数量</small><b>7 项核心能力</b></div>
+              <div class="region"><small>投放场景</small><b>4 个核心场景</b></div>
+            </div>
+          </div>
+          <div class="target-side">
+            <div class="target-card constraint">
+              <span class="label">产品目标 · 7 项能力</span>
+              <div class="chips">
+                <span class="chip-blue">任务接入</span>
+                <span class="chip-blue">周期目标</span>
+                <span class="chip-blue">多场景投放</span>
+                <span class="chip-blue">在线投放</span>
+                <span class="chip-blue">节奏控制</span>
+                <span class="chip-blue">自动停止</span>
+                <span class="chip-blue">报表归因</span>
+              </div>
+            </div>
+            <div class="target-card observe">
+              <span class="label">停止两种结果</span>
+              <strong>达成 / 止损</strong>
+              <p>累计核访达到周期目标 → 达成；点击效率过低或拉低场景整体效率 → 止损。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="scope-grid" style="grid-template-columns:1fr">
+          <div class="scope-card do">
+            <div class="scope-head">✓ 本期做 · 最小闭环</div>
+            <div class="scope-body">
+              <ul>
+                <li>接收需求方任务 + 房源 ID 列表（默认已符合准入）</li>
+                <li>支持周期核访总量目标</li>
+                <li>支持 4 个投放场景：搜索结果房源列表、推荐 feeds、二手首页房源列表、小区详情页房源列表</li>
+                <li>基础 pCTR / CTR 效率判断</li>
+                <li>任务级 + 场景级停止</li>
+                <li>基础报表与停止归因</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 03 核心业务流程 ============ -->
+      <section>
+        <div class="section-title" data-num="03"><h2>核心业务流程</h2></div>
+        <p class="lead">从需求方创建任务，到在线分发排序，再到自动停止与归因报表的完整链路。</p>
+
+        <div class="flow-chain">
+          <span class="fc-node start">创建投放任务</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-node">传入房源 + 周期目标</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-node">生成投放任务</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-node">待投放 → 投放中</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-node calc">用户命中人群包</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-node calc">场景请求召回目标房源</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-node calc">计算 pCTR · Boost · Pacing</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-node calc">参与排序 / 注入</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-node">记录曝光 · 点击 · 有效点击</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-node">实时监控完成率 · 效率</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-split">
+            <span class="fc-node end-ok">达成 → 停止</span>
+            <span class="fc-node end-stop">效率过低 → 止损</span>
+          </span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-node">任务报表 + 停止归因</span>
+        </div>
+      </section>
+
+      <!-- ============ 04 需求方输入 ============ -->
+      <section>
+        <div class="section-title" data-num="04"><h2>需求方输入</h2></div>
+        <p class="lead">需求方通过接口传入「任务级」与「房源级」两类输入。</p>
+
+        <div class="grid-2">
+          <div>
+            <h4>任务级输入字段</h4>
+            <table>
+              <colgroup><col style="width:34%"><col style="width:18%"><col style="width:48%"></colgroup>
+              <tr><th>字段</th><th>必填</th><th>说明</th></tr>
+              <tr><td><code class="k">task_id</code></td><td><span class="req yes">是</span></td><td>投放任务唯一 ID</td></tr>
+              <tr><td><code class="k">task_name</code></td><td><span class="req yes">是</span></td><td>投放任务名称</td></tr>
+              <tr><td><code class="k">demand_source</code></td><td><span class="req yes">是</span></td><td>需求方来源（城市/活动/经营项目）</td></tr>
+              <tr><td><code class="k">city_id</code></td><td><span class="req yes">是</span></td><td>城市 ID</td></tr>
+              <tr><td><code class="k">start_time / end_time</code></td><td><span class="req yes">是</span></td><td>投放起止时间</td></tr>
+              <tr><td><code class="k">target_click</code></td><td><span class="req yes">是</span></td><td>周期目标核访总量（字段名沿用 target_click）</td></tr>
+              <tr><td><code class="k">scenes</code></td><td><span class="req yes">是</span></td><td>可投放场景列表</td></tr>
+              <tr><td><code class="k">audience_id</code></td><td><span class="req no">否</span></td><td>投放人群包 ID；缺省 / <code class="k">ALL</code> 表示全部用户</td></tr>
+              <tr><td><code class="k">priority</code></td><td><span class="req no">否</span></td><td>任务优先级，默认普通</td></tr>
+              <tr><td><code class="k">max_support_ratio</code></td><td><span class="req no">否</span></td><td>最大扶持流量占比</td></tr>
+            </table>
+            <div class="insight-box">
+              <p><strong>人群包接入：</strong>投放<strong>基于人群包下发生效</strong>——指定 <code class="k">ALL</code>（全部用户）则对<strong>所有用户</strong>生效；指定某人群包则<strong>仅对包内用户</strong>生效。线上请求时先判断当前用户是否命中任务人群包，命中才参与扶持的注入 / 置顶。</p>
+            </div>
+          </div>
+          <div>
+            <h4>房源级输入字段</h4>
+            <table>
+              <colgroup><col style="width:34%"><col style="width:18%"><col style="width:48%"></colgroup>
+              <tr><th>字段</th><th>必填</th><th>说明</th></tr>
+              <tr><td><code class="k">house_id</code></td><td><span class="req yes">是</span></td><td>房源 ID</td></tr>
+              <tr><td><code class="k">city_id</code></td><td><span class="req yes">是</span></td><td>城市 ID</td></tr>
+              <tr><td><code class="k">weight</code></td><td><span class="req no">否</span></td><td>房源权重，默认 1</td></tr>
+              <tr><td><code class="k">house_cap</code></td><td><span class="req no">否</span></td><td>单房源周期点击上限</td></tr>
+              <tr><td><code class="k">daily_cap</code></td><td><span class="req no">否</span></td><td>单房源单日点击上限</td></tr>
+              <tr><td><code class="k">ext_info</code></td><td><span class="req no">否</span></td><td>扩展信息</td></tr>
+            </table>
+            <div class="insight-box">
+              <p><strong>默认前提：</strong>MVP 简化房源准入，需求方提供的房源默认符合准入条件。系统仍保留运行时基础保护：房源下架 / 城市不一致 / 状态异常 / 与场景强约束冲突 / 点击效率过低，均不投放或触发止损。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt22">
+          <span class="code-label">示例 · 创建任务请求体</span>
+          <div class="code"><pre>{
+  <span class="ck">"task_id"</span>: <span class="cs">"keplus_house_ad_20260701_001"</span>,
+  <span class="ck">"task_name"</span>: <span class="cs">"北京重点房源点击扶持"</span>,
+  <span class="ck">"demand_source"</span>: <span class="cs">"北京城市经营"</span>,
+  <span class="ck">"city_id"</span>: <span class="cs">"110000"</span>,
+  <span class="ck">"start_time"</span>: <span class="cs">"2026-07-01 00:00:00"</span>,
+  <span class="ck">"end_time"</span>: <span class="cs">"2026-07-07 23:59:59"</span>,
+  <span class="ck">"target_click"</span>: <span class="cn">1000000</span>,
+  <span class="ck">"scenes"</span>: [<span class="cs">"search_result_list"</span>, <span class="cs">"recommend_feeds"</span>, <span class="cs">"ershou_home_list"</span>, <span class="cs">"community_detail_list"</span>],
+  <span class="ck">"audience_id"</span>: <span class="cs">"ALL"</span>,
+  <span class="ck">"priority"</span>: <span class="cn">1</span>,
+  <span class="ck">"max_support_ratio"</span>: <span class="cn">0.1</span>,
+  <span class="ck">"houses"</span>: [
+    { <span class="ck">"house_id"</span>: <span class="cs">"BJ000001"</span>, <span class="ck">"city_id"</span>: <span class="cs">"110000"</span>, <span class="ck">"weight"</span>: <span class="cn">1.5</span>, <span class="ck">"house_cap"</span>: <span class="cn">5000</span> }
+  ]
+}</pre></div>
+        </div>
+
+        <div class="mt22">
+          <span class="code-label">示意 · 人群包下发生效逻辑</span>
+          <div class="aud-vis">
+            <div class="aud-mode all">
+              <div class="am-head"><code>audience_id = ALL</code> 全部用户生效</div>
+              <div class="aud-body">
+                <div class="aud-users">
+                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                </div>
+                <div class="aud-arrow"><span class="aa-line"></span>扶持生效<span class="aa-line"></span></div>
+                <div class="aud-result">扶持对<b>全部用户</b>生效——所有用户在四场景都可能被注入 / 置顶扶持房源。</div>
+              </div>
+            </div>
+            <div class="aud-mode pack">
+              <div class="am-head"><code>audience_id = 人群包X</code> 仅包内用户生效</div>
+              <div class="aud-body">
+                <div class="aud-users">
+                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u off"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u off"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u off"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u off"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                  <span class="aud-u off"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
+                </div>
+                <div class="aud-arrow"><span class="aa-line"></span>命中才生效<span class="aa-line"></span></div>
+                <div class="aud-result">仅<b>命中人群包</b>的用户生效——包外用户只看自然结果，不受扶持影响。</div>
+              </div>
+            </div>
+          </div>
+          <div class="aud-legend">
+            <span><i class="on"></i>命中人群包 · 扶持生效</span>
+            <span><i class="off"></i>未命中 · 只看自然结果</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 05 投放场景 ============ -->
+      <section>
+        <div class="section-title" data-num="05"><h2>四大投放场景与承接策略</h2></div>
+        <p class="lead">MVP 支持 4 个核心房源流量场景，按用户意图强弱与体验敏感度，匹配不同扶持强度与点击承接比例。</p>
+
+        <div class="scene-grid">
+          <div class="scene-card s-search">
+            <div class="sc-top">
+              <div class="sc-name">搜索结果<br>房源列表</div>
+              <div class="sc-tags"><span class="sc-tag">意图强</span></div>
+              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按周占比动态计算</span></div>
+            </div>
+            <div class="sc-body"><ul>
+              <li><b>置顶</b>：先全部出投放房源，出完即回归自然</li>
+              <li>底线：须与 query 相关 / 符合筛选条件</li>
+              <li>不强插无关房源</li>
+            </ul></div>
+          </div>
+          <div class="scene-card s-feeds">
+            <div class="sc-top">
+              <div class="sc-name">推荐 feeds</div>
+              <div class="sc-tags"><span class="sc-tag">意图弱/中</span></div>
+              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按周占比动态计算</span></div>
+            </div>
+            <div class="sc-body"><ul>
+              <li>主要承接点击规模</li>
+              <li><b>坑位注入</b>：一刷偶数位出扶持房源，出完即停</li>
+              <li>高 pCTR 快速放量、低 CTR 快速止损</li>
+              <li>重点监控整体 CTR 是否下降</li>
+            </ul></div>
+          </div>
+          <div class="scene-card s-home">
+            <div class="sc-top">
+              <div class="sc-name">二手首页<br>房源列表</div>
+              <div class="sc-tags"><span class="sc-tag">意图中</span></div>
+              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按周占比动态计算</span></div>
+            </div>
+            <div class="sc-body"><ul>
+              <li>可承担中高比例点击目标</li>
+              <li><b>坑位注入</b>：非首屏偶数位出扶持房源，出完即停</li>
+              <li>首屏谨慎干预、非首屏放量</li>
+              <li>监控首页与首屏点击效率</li>
+            </ul></div>
+          </div>
+          <div class="scene-card s-comm">
+            <div class="sc-top">
+              <div class="sc-name">小区详情页<br>房源列表</div>
+              <div class="sc-tags"><span class="sc-tag">强上下文</span></div>
+              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按周占比动态计算</span></div>
+            </div>
+            <div class="sc-body"><ul>
+              <li>只扶持当前小区内目标房源</li>
+              <li><b>置顶</b>：当前小区内先出投放房源，出完即停</li>
+              <li>不跨小区硬插房源</li>
+              <li>相关性要求高，精准补充</li>
+            </ul></div>
+          </div>
+        </div>
+
+        <div class="mt22">
+          <table>
+            <colgroup><col style="width:22%"><col style="width:14%"><col style="width:12%"><col style="width:30%"><col style="width:22%"></colgroup>
+            <tr><th>场景</th><th>用户意图</th><th>扶持强度</th><th>主要策略</th><th>点击承接（按周占比动态计算）</th></tr>
+            <tr><td>搜索结果房源列表</td><td>强</td><td>低</td><td>置顶（须 query / 筛选相关）</td><td>x%</td></tr>
+            <tr><td>推荐 feeds</td><td>弱 / 中</td><td>高</td><td>坑位注入（偶数位）</td><td>x%</td></tr>
+            <tr><td>二手首页房源列表</td><td>中</td><td>中高</td><td>坑位注入（非首屏偶数位）</td><td>x%</td></tr>
+            <tr><td>小区详情页房源列表</td><td>强上下文</td><td>中</td><td>当前小区内置顶</td><td>x%</td></tr>
+          </table>
+        </div>
+
+        <div class="callout callout-cyan">各场景的<strong>点击承接配比</strong>按<strong>最近一周各场景房源点击占比</strong>动态划分——即以近 7 天搜索结果、推荐 feeds、二手首页、小区详情页各自的房源点击占比为基准分配目标，使扶持节奏贴合真实流量结构，并随每周数据滚动更新。<span>上表区间为经验缺省值，实际下发以最近一周占比测算结果为准。</span></div>
+      </section>
+
+      <!-- ============ 06 在线投放逻辑与关键因子 ============ -->
+      <section>
+        <div class="section-title" data-num="06"><h2>在线投放逻辑与关键因子</h2></div>
+        <p class="lead">MVP 尽量走<strong style="color:var(--ink);font-weight:900">白盒逻辑</strong>：<strong style="color:var(--ink);font-weight:900">放置规则</strong>决定「房源放在哪个坑」，<strong style="color:var(--ink);font-weight:900">关键因子</strong>决定「出哪些、按什么顺序、出多少」，<strong style="color:var(--ink);font-weight:900">出完本次投放候选即停</strong>，规则清晰、可解释、可复盘。</p>
+
+        <h3 style="margin-top:6px">① 白盒放置规则 · 坑位注入 / 置顶</h3>
+        <div class="compare-strip">
+          <div class="compare-card new" style="border-top-color:var(--orange)">
+            <span class="compare-tag" style="color:#8a4215;background:#ffedd5;border:1px solid #fed7aa">规则一 · 坑位注入</span>
+            <p style="font-size:14px;font-weight:850;color:var(--orange);margin:12px 0 6px">推荐 feeds / 二手首页房源列表</p>
+            <ul>
+              <li>一刷信息流中，所有<b>偶数位</b>（第 2、4、6… 位）均可出扶持房源</li>
+              <li>按投放候选顺序依次填入偶数坑，<b>直到本次投放候选出完</b></li>
+              <li>不改动自然排序，仅占用偶数坑位</li>
+              <li>二手首页注入限非首屏</li>
+            </ul>
+          </div>
+          <div class="compare-arrow" style="color:var(--muted)">·</div>
+          <div class="compare-card new" style="border-top-color:var(--blue)">
+            <span class="compare-tag" style="color:#1f4fad;background:#dbeafe;border:1px solid #bfdbfe">规则二 · 置顶</span>
+            <p style="font-size:14px;font-weight:850;color:var(--blue);margin:12px 0 6px">搜索结果 / 小区详情页房源列表</p>
+            <ul>
+              <li>命中投放的房源<b>先全部置顶</b>展示</li>
+              <li>按投放候选顺序依次出，<b>直到本次投放候选出完</b></li>
+              <li>之后回归自然结果，不再干预</li>
+              <li>小区详情页仅置顶当前小区内目标房源</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout callout-cyan"><strong>强上下文场景底线（搜索 / 筛选）：</strong>搜索结果与筛选页意图最强，扶持有硬性底线——<strong>搜索必须与 query 相关；筛选后必须符合用户的筛选条件</strong>。不满足则该房源不出，宁可不投也不破坏上下文。</div>
+
+        <h3 style="margin-top:30px">② 关键因子 · 决定出哪些 / 顺序 / 出多少</h3>
+        <p class="lead"><strong style="color:var(--ink);font-weight:900">Relevance</strong> 作硬性底线过滤掉不该出的房源，<strong style="color:var(--ink);font-weight:900">pCTR × Boost</strong> 给通过底线的投放候选排序，<strong style="color:var(--ink);font-weight:900">Pacing</strong> 按目标进度控制本次出多少、是否暂缓。</p>
+
+        <div class="formula">
+          <div class="f-eq"><span class="v">AdScore</span> <span style="font-size:.7em;color:var(--muted);font-weight:700">(eCPM)</span> <span class="op">=</span> pCTR <span class="op">×</span> Boost</div>
+          <div class="f-legend">
+            <span><b>Relevance</b> 作 0/1 底线先过滤，未过线不进候选</span>
+            <span><b>pCTR × Boost</b> 给候选排序，分高者先出</span>
+            <span><b>Pacing</b> 控制本次出多少 / 是否暂缓</span>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="card blue">
+            <h4>pCTR · 是否值得投</h4>
+            <ul>
+              <li>优先接入现有推荐 / 搜索 pCTR 模型</li>
+              <li>无实时 pCTR 时用历史 CTR 近似</li>
+              <li>小样本做平滑：<br><code class="k">(点击 + α×场景均值) / (曝光 + α)</code></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Boost · 扶持强度</h4>
+            <ul>
+              <li><code class="k">Boost = TaskPriority × HouseWeight × Pacing</code></li>
+              <li>任务优先级权重</li>
+              <li>需求方传入房源 weight</li>
+              <li>节奏带来的加速 / 降速</li>
+            </ul>
+          </div>
+          <div class="card cyan">
+            <h4>Relevance · 相关性</h4>
+            <ul>
+              <li>搜索：城市一致 + 满足筛选 + 不偏离</li>
+              <li>feeds：不与负偏好冲突、匹配近期偏好</li>
+              <li>二手首页：首屏更严、非首屏稍宽</li>
+              <li>小区页：房源必须属于当前小区</li>
+            </ul>
+          </div>
+          <div class="card orange">
+            <h4>Pacing · 节奏控制</h4>
+            <ul>
+              <li>目标完成率 = 累计点击 / 周期目标</li>
+              <li>时间消耗率 = 已投时长 / 总周期</li>
+              <li>对比两者，调整 PacingBoost</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid-2 mt22">
+          <div>
+            <h4>Pacing 判断逻辑</h4>
+            <table>
+              <colgroup><col style="width:60%"><col style="width:40%"></colgroup>
+              <tr><th>状态</th><th>动作</th></tr>
+              <tr><td>目标完成率 &lt; 时间消耗率</td><td>提高 PacingBoost</td></tr>
+              <tr><td>目标完成率 ≈ 时间消耗率</td><td>维持</td></tr>
+              <tr><td>目标完成率 &gt; 时间消耗率</td><td>降低 PacingBoost</td></tr>
+              <tr><td>目标完成率 ≥ 100%</td><td>停止投放</td></tr>
+            </table>
+          </div>
+          <div>
+            <h4>PacingBoost 简单分档</h4>
+            <table>
+              <colgroup><col style="width:60%"><col style="width:40%"></colgroup>
+              <tr><th>进度状态</th><th>PacingBoost</th></tr>
+              <tr><td>严重落后</td><td>1.5</td></tr>
+              <tr><td>轻微落后</td><td>1.2</td></tr>
+              <tr><td>正常</td><td>1.0</td></tr>
+              <tr><td>进度领先</td><td>0.7</td></tr>
+              <tr><td>已达成</td><td>0</td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 07 核访目标与停止机制 ============ -->
+      <section>
+        <div class="section-title" data-num="07"><h2>核访目标与停止机制</h2></div>
+
+        <div class="metric-row">
+          <div class="metric m-orange">
+            <small>目标口径</small>
+            <strong>周期核访总量</strong>
+            <span>仅设在任务级目标（核访量），不强制每套房源都有目标</span>
+          </div>
+          <div class="metric m-blue">
+            <small>核访口径</small>
+            <strong>房源详情页核访</strong>
+            <span>用户从四场景点击房源卡片进入详情页并通过核实校验，计为一次核访</span>
+          </div>
+          <div class="metric m-cyan">
+            <small>房源维度只做</small>
+            <strong>统计 · cap · 识别</strong>
+            <span>点击贡献统计、单房源 cap、低效房源识别与异常下线</span>
+          </div>
+          <div class="metric">
+            <small>示例目标</small>
+            <strong>7 天 / 100 万</strong>
+            <span>7 天内为 500 套目标房源累计带来 100 万次核访</span>
+          </div>
+        </div>
+
+        <div class="stop-grid">
+          <div class="stop-card ok">
+            <span class="st-tag">① 目标达成停止</span>
+            <div class="st-cond">累计核访量 ≥ 目标核访量</div>
+            <ul>
+              <li>任务状态变更为<b>已达成</b>，停止原因 <span class="st-code">TARGET_REACHED</span></li>
+              <li>记录停止时间与最终核访量</li>
+              <li>所有目标房源停止扶持投放</li>
+              <li>目标房源回归自然排序</li>
+            </ul>
+          </div>
+          <div class="stop-card stop">
+            <span class="st-tag">② 点击效率过低止损</span>
+            <div class="st-cond">扶持拉低场景整体核访率（即 CTR）</div>
+            <ul>
+              <li>采用<b>场景级止损 + 任务级止损</b>两层机制</li>
+              <li>所有可投场景被止损 → 任务停止</li>
+              <li>停止原因 <span class="st-code">ALL_SCENES_STOPPED_BY_LOW_EFFICIENCY</span></li>
+              <li>避免为完成目标而持续消耗低效流量</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 08 止损规则 ============ -->
+      <section>
+        <div class="section-title" data-num="08"><h2>效率止损规则</h2></div>
+        <p class="lead">止损<strong style="color:var(--ink);font-weight:900">只看一类触发</strong>：扶持是否<strong style="color:var(--ink);font-weight:900">拉低场景整体核访率（即 CTR）</strong>。对比开启扶持后的场景整体核访率与基准，<strong style="color:var(--ink);font-weight:900">下降超过 10% 即止损</strong>；判断须满足最小样本量，避免小样本误判。</p>
+
+        <div class="formula" style="border-color:rgba(217,106,43,.22);background:linear-gradient(135deg,#fff7ed,#fff 70%)">
+          <div class="f-eq" style="font-size:clamp(16px,2vw,22px)"><span class="v" style="color:var(--orange)">核访率下降率</span> <span class="op">=</span> （基准核访率 <span class="op">−</span> 当前核访率） <span class="op">÷</span> 基准核访率</div>
+          <div class="f-legend">
+            <span>下降率 ≥ <b>5%</b> → 场景限速</span>
+            <span>下降率 &gt; <b>10%</b> → 停止该场景投放</span>
+            <span>基准取自<b>预留 10% 流量</b>（不投扶持的对照组）</span>
+          </div>
+        </div>
+
+        <div class="grid-2 mt22" style="align-items:stretch">
+          <div style="display:flex;flex-direction:column">
+            <h4>整体核访率下降止损底线</h4>
+            <div class="target-card" style="flex:1;border-color:rgba(217,106,43,.3);background:linear-gradient(135deg,#fff7ed,#ffffff 70%)">
+              <span class="label" style="color:#8a4215;background:#ffedd5;border:1px solid #fed7aa">统一底线 · 四场景一致</span>
+              <strong style="color:#b85b20;font-size:40px">下降 &gt; 10%</strong>
+              <p style="margin-top:6px;color:#8a4215;font-weight:850">≈ 意味着商机潜在约降 10%</p>
+              <p>任一可投场景整体核访率较基准<b>下降超过 10%</b>，即停止该场景投放；下降达 <b>5%</b>（底线一半）先场景限速观察。不再按场景设差异化阈值。</p>
+            </div>
+          </div>
+          <div>
+            <h4>最小样本量要求（未达到只观察）</h4>
+            <p style="margin:0 0 10px;font-size:13.5px;font-weight:700;color:var(--muted)">样本太少时核访率波动大、易误判，<b style="color:var(--ink)">曝光与核访都达到门槛后才触发止损</b>；未达门槛只统计观察、不止损。</p>
+            <table>
+              <colgroup><col style="width:46%"><col style="width:27%"><col style="width:27%"></colgroup>
+              <tr><th>场景</th><th>最小曝光</th><th>最小核访</th></tr>
+              <tr><td>搜索结果房源列表</td><td>10,000</td><td>100</td></tr>
+              <tr><td>推荐 feeds</td><td>20,000</td><td>200</td></tr>
+              <tr><td>二手首页房源列表</td><td>10,000</td><td>100</td></tr>
+              <tr><td>小区详情页房源列表</td><td>5,000</td><td>50</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="callout callout-orange">任务级止损：当任务配置的<strong>可投场景全部因拉低整体核访率被停止</strong>，则整个任务停止——状态置为<strong>已止损</strong>，停止原因 <strong>ALL_SCENES_STOPPED_BY_LOW_EFFICIENCY</strong>。</div>
+      </section>
+
+      <!-- ============ 09 任务状态与停止原因 ============ -->
+      <section>
+        <div class="section-title" data-num="09"><h2>任务状态与停止原因枚举</h2></div>
+
+        <div class="grid-2">
+          <div>
+            <h4>任务状态设计</h4>
+            <table>
+              <colgroup><col style="width:34%"><col style="width:66%"></colgroup>
+              <tr><th>状态</th><th>说明</th></tr>
+              <tr><td>待开始</td><td>任务已创建，但未到开始时间</td></tr>
+              <tr><td>投放中</td><td>正常投放</td></tr>
+              <tr><td>限速中</td><td>至少一个场景限速，任务仍在投放</td></tr>
+              <tr><td>部分场景停止</td><td>部分场景因效率过低停止</td></tr>
+              <tr><td>已达成</td><td>周期点击目标已达成</td></tr>
+              <tr><td>已止损</td><td>所有可投场景因效率过低停止</td></tr>
+              <tr><td>已结束未达成</td><td>到达 end_time，未完成也未全量止损</td></tr>
+              <tr><td>已取消</td><td>需求方主动取消</td></tr>
+            </table>
+          </div>
+          <div>
+            <h4>停止原因枚举</h4>
+            <table>
+              <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
+              <tr><th>code</th><th>停止原因</th></tr>
+              <tr><td><code class="k">TARGET_REACHED</code></td><td>目标达成</td></tr>
+              <tr><td><code class="k">SCENE_CTR_DROP</code></td><td>场景整体核访率（CTR）下降</td></tr>
+              <tr><td><code class="k">ALL_SCENES_STOPPED_<br>BY_LOW_EFFICIENCY</code></td><td>全场景效率止损</td></tr>
+              <tr><td><code class="k">PERIOD_ENDED</code></td><td>周期结束未达成</td></tr>
+              <tr><td><code class="k">HOUSE_INVALID</code></td><td>房源状态异常</td></tr>
+              <tr><td><code class="k">MANUAL_CANCELLED</code></td><td>人工取消</td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 10 报表设计 ============ -->
+      <section>
+        <div class="section-title" data-num="10"><h2>报表与归因设计</h2></div>
+        <p class="lead">报表要回答三个问题：任务完成了吗？哪些场景 / 房源贡献了点击？系统为什么停止？</p>
+
+        <h4>场景维度报表（示例）</h4>
+        <table>
+          <colgroup><col style="width:18%"><col style="width:13%"><col style="width:13%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:10%"><col style="width:13%"></colgroup>
+          <tr><th>场景</th><th>扶持曝光</th><th>扶持核访</th><th>基准核访率</th><th>当前核访率</th><th>核访率下降</th><th>状态</th><th>停止原因</th></tr>
+          <tr><td>搜索结果列表</td><td>800,000</td><td>9,600</td><td>4.0%</td><td>3.5%</td><td>12.5%</td><td>已停止</td><td>整体核访率下降</td></tr>
+          <tr><td>推荐 feeds</td><td>12,000,000</td><td>480,000</td><td>4.2%</td><td>4.18%</td><td>0.5%</td><td>正常</td><td>-</td></tr>
+          <tr><td>二手首页列表</td><td>7,000,000</td><td>280,000</td><td>4.1%</td><td>4.09%</td><td>0.3%</td><td>正常</td><td>-</td></tr>
+          <tr><td>小区详情页列表</td><td>3,000,000</td><td>90,000</td><td>3.2%</td><td>3.18%</td><td>0.6%</td><td>正常</td><td>-</td></tr>
+        </table>
+
+        <div class="grid-2 mt22">
+          <div class="stop-card ok" style="min-height:auto">
+            <span class="st-tag">停止归因 · 目标达成示例</span>
+            <table style="box-shadow:none">
+              <tr><td>停止类型</td><td>目标达成</td></tr>
+              <tr><td>原因 code</td><td><span class="st-code" style="color:var(--green)">TARGET_REACHED</span></td></tr>
+              <tr><td>目标 / 实际点击</td><td>1,000,000 / 1,003,200</td></tr>
+              <tr><td>完成率</td><td>100.32%</td></tr>
+              <tr><td>停止时间</td><td>2026-07-06 18:42:00</td></tr>
+            </table>
+          </div>
+          <div class="stop-card stop" style="min-height:auto">
+            <span class="st-tag">停止归因 · 效率止损示例</span>
+            <table style="box-shadow:none">
+              <tr><td>停止类型</td><td>点击效率过低</td></tr>
+              <tr><td>原因 code</td><td><span class="st-code" style="color:var(--orange);font-size:12px">ALL_SCENES_STOPPED_BY_LOW_EFFICIENCY</span></td></tr>
+              <tr><td>目标 / 实际点击</td><td>1,000,000 / 320,000（32%）</td></tr>
+              <tr><td>主要触发规则</td><td>各场景整体核访率下降均超阈值</td></tr>
+              <tr><td>建议动作</td><td>替换房源 / 降目标 / 延周期 / 扩房源池</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="insight-box">
+          <p><strong>报表清单：</strong>① 任务总览报表（完成率、状态、停止原因）② 场景维度报表（点击贡献与止损）③ 房源维度报表（P1，高/低效房源识别）④ 停止归因报表（结构化展示停止原因与建议）。</p>
+        </div>
+      </section>
+
+      <!-- ============ 11 埋点与接口 ============ -->
+      <section>
+        <div class="section-title" data-num="11"><h2>数据埋点与接口</h2></div>
+
+        <div class="grid-3">
+          <div class="card blue">
+            <h4>曝光埋点</h4>
+            <ul style="font-size:14px">
+              <li>task_id · house_id · user_id</li>
+              <li>scene · request_id · position</li>
+              <li>is_ad_support · pctr</li>
+              <li>natural_score · ad_score · final_score</li>
+              <li>timestamp</li>
+            </ul>
+          </div>
+          <div class="card cyan">
+            <h4>点击埋点</h4>
+            <ul style="font-size:14px">
+              <li>task_id · house_id · user_id</li>
+              <li>scene · request_id</li>
+              <li>click_time · position</li>
+              <li>is_ad_support</li>
+            </ul>
+          </div>
+          <div class="card orange">
+            <h4>状态变更埋点</h4>
+            <ul style="font-size:14px">
+              <li>task_id · scene（可空）</li>
+              <li>old_status · new_status</li>
+              <li>reason_code</li>
+              <li>trigger_metric · timestamp</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="api-list">
+          <div class="api-item"><span class="api-method post">POST</span><span class="api-path">/keplus/ad/task/create</span><span class="api-desc">创建投放任务（任务 + 房源列表）</span></div>
+          <div class="api-item"><span class="api-method get">GET</span><span class="api-path">/keplus/ad/task/status?task_id=xxx</span><span class="api-desc">查询任务状态与完成率</span></div>
+          <div class="api-item"><span class="api-method post">POST</span><span class="api-path">/keplus/ad/task/cancel</span><span class="api-desc">取消任务（operator + reason）</span></div>
+          <div class="api-item"><span class="api-method get">GET</span><span class="api-path">/keplus/ad/task/report?task_id=xxx</span><span class="api-desc">任务总览 / 场景 / 房源 / 停止归因</span></div>
+        </div>
+      </section>
+
+      <!-- ============ 12 系统模块 ============ -->
+      <section>
+        <div class="section-title" data-num="12"><h2>核心系统模块</h2></div>
+
+        <div class="module-grid">
+          <div class="module-item">
+            <div class="m-head"><span class="m-no">1</span><h4>任务管理模块</h4></div>
+            <ul><li>创建 / 校验 / 状态 / 周期 / 取消</li><li>输出任务配置给在线投放</li></ul>
+          </div>
+          <div class="module-item">
+            <div class="m-head"><span class="m-no">2</span><h4>房源列表管理模块</h4></div>
+            <ul><li>接收房源、存储房源与任务关系</li><li>处理 weight / cap，过滤异常房源</li></ul>
+          </div>
+          <div class="module-item">
+            <div class="m-head"><span class="m-no">3</span><h4>在线投放模块</h4></div>
+            <ul><li>判断用户命中任务人群包 + 命中可投任务</li><li>召回目标房源，计算扶持分、注入 / 置顶</li></ul>
+          </div>
+          <div class="module-item">
+            <div class="m-head"><span class="m-no">4</span><h4>节奏控制模块</h4></div>
+            <ul><li>计算完成率 / 时间消耗率</li><li>输出 PacingBoost，达成触发停止</li></ul>
+          </div>
+          <div class="module-item">
+            <div class="m-head"><span class="m-no">5</span><h4>效率止损模块</h4></div>
+            <ul><li>计算场景整体核访率 / 基准对比 / 下降率</li><li>触发场景限速、停止与任务级止损</li></ul>
+          </div>
+          <div class="module-item">
+            <div class="m-head"><span class="m-no">6</span><h4>报表归因模块</h4></div>
+            <ul><li>聚合曝光点击、生成各维度报表</li><li>记录停止原因、输出归因结果</li></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 13 MVP 优先级 ============ -->
+      <section>
+        <div class="section-title" data-num="13"><h2>MVP 版本优先级</h2></div>
+
+        <div class="prio-grid">
+          <div class="prio-card p0">
+            <div class="prio-head"><span>P0 · 必须做</span><small>最小闭环</small></div>
+            <div class="prio-body"><ul>
+              <li>任务创建接口 + 房源接入</li>
+              <li>周期目标点击量</li>
+              <li>4 个场景标识 + 在线投放（置顶 / 注入）</li>
+              <li>基础 Pacing</li>
+              <li>目标达成自动停止</li>
+              <li>场景 CTR 低效止损</li>
+              <li>任务总览 + 场景维度报表</li>
+              <li>停止原因归因</li>
+            </ul></div>
+          </div>
+          <div class="prio-card p1">
+            <div class="prio-head"><span>P1 · 可后置</span><small>体验增强</small></div>
+            <div class="prio-body"><ul>
+              <li>房源维度详细报表</li>
+              <li>单房源 cap</li>
+              <li>坑位注入能力</li>
+              <li>更精细 pCTR 模型接入</li>
+              <li>首屏 / 非首屏差异策略</li>
+              <li>历史同期基准 CTR</li>
+              <li>负反馈止损</li>
+              <li>需求方后台页面</li>
+            </ul></div>
+          </div>
+          <div class="prio-card p2">
+            <div class="prio-head"><span>P2 · 后续演进</span><small>体系化</small></div>
+            <div class="prio-body"><ul>
+              <li>多任务竞价</li>
+              <li>增量实验归因</li>
+              <li>人群定向</li>
+              <li>房源质量准入</li>
+              <li>智能推荐房源池</li>
+              <li>ROI / 转化目标</li>
+              <li>多目标优化</li>
+              <li>自动建议替换房源</li>
+            </ul></div>
+          </div>
+        </div>
+      </section>
+
+    </article>
+  </main>
+</body>
+</html>
