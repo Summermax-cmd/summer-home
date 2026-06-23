@@ -579,7 +579,7 @@
             <div class="sc-top">
               <div class="sc-name">搜索结果<br>房源列表</div>
               <div class="sc-tags"><span class="sc-tag">意图强</span></div>
-              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按周占比动态计算</span></div>
+              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按 10% 对照组占比动态计算</span></div>
             </div>
             <div class="sc-body"><ul>
               <li><b>置顶</b>：先全部出投放房源，出完即回归自然</li>
@@ -591,7 +591,7 @@
             <div class="sc-top">
               <div class="sc-name">推荐 feeds</div>
               <div class="sc-tags"><span class="sc-tag">意图弱/中</span></div>
-              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按周占比动态计算</span></div>
+              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按 10% 对照组占比动态计算</span></div>
             </div>
             <div class="sc-body"><ul>
               <li>主要承接点击规模</li>
@@ -604,7 +604,7 @@
             <div class="sc-top">
               <div class="sc-name">二手首页<br>房源列表</div>
               <div class="sc-tags"><span class="sc-tag">意图中</span></div>
-              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按周占比动态计算</span></div>
+              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按 10% 对照组占比动态计算</span></div>
             </div>
             <div class="sc-body"><ul>
               <li>可承担中高比例点击目标</li>
@@ -617,7 +617,7 @@
             <div class="sc-top">
               <div class="sc-name">小区详情页<br>房源列表</div>
               <div class="sc-tags"><span class="sc-tag">强上下文</span></div>
-              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按周占比动态计算</span></div>
+              <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按 10% 对照组占比动态计算</span></div>
             </div>
             <div class="sc-body"><ul>
               <li>只扶持当前小区内目标房源</li>
@@ -631,7 +631,7 @@
         <div class="mt22">
           <table>
             <colgroup><col style="width:22%"><col style="width:14%"><col style="width:12%"><col style="width:30%"><col style="width:22%"></colgroup>
-            <tr><th>场景</th><th>用户意图</th><th>扶持强度</th><th>主要策略</th><th>点击承接（按周占比动态计算）</th></tr>
+            <tr><th>场景</th><th>用户意图</th><th>扶持强度</th><th>主要策略</th><th>点击承接（按 10% 对照组占比动态计算）</th></tr>
             <tr><td>搜索结果房源列表</td><td>强</td><td>低</td><td>置顶（须 query / 筛选相关）</td><td>x%</td></tr>
             <tr><td>推荐 feeds</td><td>弱 / 中</td><td>高</td><td>坑位注入（偶数位）</td><td>x%</td></tr>
             <tr><td>二手首页房源列表</td><td>中</td><td>中高</td><td>坑位注入（非首屏偶数位）</td><td>x%</td></tr>
@@ -639,7 +639,7 @@
           </table>
         </div>
 
-        <div class="callout callout-cyan">各场景的<strong>点击承接配比</strong>按<strong>最近一周各场景房源点击占比</strong>动态划分——即以近 7 天搜索结果、推荐 feeds、二手首页、小区详情页各自的房源点击占比为基准分配目标，使扶持节奏贴合真实流量结构，并随每周数据滚动更新。<span>上表区间为经验缺省值，实际下发以最近一周占比测算结果为准。</span></div>
+        <div class="callout callout-cyan">各场景的<strong>点击承接配比</strong>按<strong>预留 10% 对照组的各场景占比</strong>动态划分——即以不投扶持的 10% 对照流量中，搜索结果、推荐 feeds、二手首页、小区详情页各自的自然占比为基准分配目标，使扶持节奏贴合真实流量结构，并随对照组数据滚动更新。<span>上表区间为经验缺省值，实际下发以对照组占比测算结果为准。</span></div>
       </section>
 
       <!-- ============ 06 在线投放逻辑与关键因子 ============ -->
