@@ -252,33 +252,6 @@
     .phase-banner .phase-text { color: #fff; font-size: 17px; font-weight: 900; }
     .phase-banner .phase-sub { color: rgba(255,255,255,.78); font-size: 13.5px; font-weight: 650; margin-left: 6px; }
 
-    /* Audience package diagram */
-    .aud-vis { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
-    .aud-mode { border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 10px 26px rgba(20,32,51,.05); overflow: hidden; display: flex; flex-direction: column; }
-    .aud-mode .am-head { padding: 13px 18px; font-size: 14.5px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .aud-mode .am-head code { font-family: var(--mono); font-size: 12px; background: rgba(255,255,255,.22); padding: 2px 8px; border-radius: 5px; font-weight: 800; }
-    .aud-mode.all .am-head { background: linear-gradient(135deg, var(--green), #1a8a5e); }
-    .aud-mode.pack .am-head { background: linear-gradient(135deg, var(--blue), var(--cyan)); }
-    .aud-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
-    .aud-users { display: grid; grid-template-columns: repeat(8, 1fr); gap: 9px; }
-    .aud-u { aspect-ratio: 1; border-radius: 9px; display: grid; place-items: center; }
-    .aud-u svg { width: 18px; height: 18px; }
-    .aud-u.on { background: #e8f8ef; border: 1px solid #86efac; }
-    .aud-u.on svg { stroke: var(--green); }
-    .aud-u.off { background: #f3f5f9; border: 1px dashed #cbd5e1; }
-    .aud-u.off svg { stroke: #b3bdcc; }
-    .aud-arrow { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 14px 0 12px; font-size: 13px; font-weight: 850; color: var(--muted); }
-    .aud-arrow .aa-line { height: 2px; flex: 1; background: linear-gradient(90deg, transparent, #cbd5e1, transparent); }
-    .aud-result { padding: 12px 14px; border-radius: 8px; font-size: 13.5px; font-weight: 750; line-height: 1.55; }
-    .aud-mode.all .aud-result { background: rgba(220,252,231,.5); border: 1px solid #bbf7d0; color: #1f6b4d; }
-    .aud-mode.pack .aud-result { background: rgba(219,234,254,.45); border: 1px solid #bfdbfe; color: #1f4fad; }
-    .aud-result b { font-weight: 900; }
-    .aud-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; font-size: 12.5px; font-weight: 750; color: var(--muted); }
-    .aud-legend span { display: inline-flex; align-items: center; gap: 6px; }
-    .aud-legend i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
-    .aud-legend i.on { background: #e8f8ef; border: 1px solid #86efac; }
-    .aud-legend i.off { background: #f3f5f9; border: 1px dashed #cbd5e1; }
-
     /* Endpoint list */
     .api-list { display: grid; gap: 10px; margin-top: 16px; }
     .api-item { display: flex; align-items: center; gap: 14px; padding: 13px 18px; border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 6px 16px rgba(20,32,51,.04); flex-wrap: wrap; }
@@ -439,8 +412,6 @@
           <span class="fc-arrow">→</span>
           <span class="fc-node">待投放 → 投放中</span>
           <span class="fc-arrow">→</span>
-          <span class="fc-node calc">用户命中人群包</span>
-          <span class="fc-arrow">→</span>
           <span class="fc-node calc">场景请求召回目标房源</span>
           <span class="fc-arrow">→</span>
           <span class="fc-node calc">计算 pCTR · Boost · Pacing</span>
@@ -478,13 +449,9 @@
               <tr><td><code class="k">start_time / end_time</code></td><td><span class="req yes">是</span></td><td>投放起止时间</td></tr>
               <tr><td><code class="k">target_click</code></td><td><span class="req yes">是</span></td><td>周期目标核访总量（字段名沿用 target_click）</td></tr>
               <tr><td><code class="k">scenes</code></td><td><span class="req yes">是</span></td><td>可投放场景列表</td></tr>
-              <tr><td><code class="k">audience_id</code></td><td><span class="req no">否</span></td><td>投放人群包 ID；缺省 / <code class="k">ALL</code> 表示全部用户</td></tr>
               <tr><td><code class="k">priority</code></td><td><span class="req no">否</span></td><td>任务优先级，默认普通</td></tr>
               <tr><td><code class="k">max_support_ratio</code></td><td><span class="req no">否</span></td><td>最大扶持流量占比</td></tr>
             </table>
-            <div class="insight-box">
-              <p><strong>人群包接入：</strong>投放<strong>基于人群包下发生效</strong>——指定 <code class="k">ALL</code>（全部用户）则对<strong>所有用户</strong>生效；指定某人群包则<strong>仅对包内用户</strong>生效。线上请求时先判断当前用户是否命中任务人群包，命中才参与扶持的注入 / 置顶。</p>
-            </div>
           </div>
           <div>
             <h4>房源级输入字段</h4>
@@ -515,7 +482,6 @@
   <span class="ck">"end_time"</span>: <span class="cs">"2026-07-07 23:59:59"</span>,
   <span class="ck">"target_click"</span>: <span class="cn">1000000</span>,
   <span class="ck">"scenes"</span>: [<span class="cs">"search_result_list"</span>, <span class="cs">"recommend_feeds"</span>, <span class="cs">"ershou_home_list"</span>, <span class="cs">"community_detail_list"</span>],
-  <span class="ck">"audience_id"</span>: <span class="cs">"ALL"</span>,
   <span class="ck">"priority"</span>: <span class="cn">1</span>,
   <span class="ck">"max_support_ratio"</span>: <span class="cn">0.1</span>,
   <span class="ck">"houses"</span>: [
@@ -524,49 +490,6 @@
 }</pre></div>
         </div>
 
-        <div class="mt22">
-          <span class="code-label">示意 · 人群包下发生效逻辑</span>
-          <div class="aud-vis">
-            <div class="aud-mode all">
-              <div class="am-head"><code>audience_id = ALL</code> 全部用户生效</div>
-              <div class="aud-body">
-                <div class="aud-users">
-                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                </div>
-                <div class="aud-arrow"><span class="aa-line"></span>扶持生效<span class="aa-line"></span></div>
-                <div class="aud-result">扶持对<b>全部用户</b>生效——所有用户在四场景都可能被注入 / 置顶扶持房源。</div>
-              </div>
-            </div>
-            <div class="aud-mode pack">
-              <div class="am-head"><code>audience_id = 人群包X</code> 仅包内用户生效</div>
-              <div class="aud-body">
-                <div class="aud-users">
-                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u off"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u off"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u off"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u on"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u off"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                  <span class="aud-u off"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.4 3.2-5.4 7-5.4s7 2 7 5.4"/></svg></span>
-                </div>
-                <div class="aud-arrow"><span class="aa-line"></span>命中才生效<span class="aa-line"></span></div>
-                <div class="aud-result">仅<b>命中人群包</b>的用户生效——包外用户只看自然结果，不受扶持影响。</div>
-              </div>
-            </div>
-          </div>
-          <div class="aud-legend">
-            <span><i class="on"></i>命中人群包 · 扶持生效</span>
-            <span><i class="off"></i>未命中 · 只看自然结果</span>
-          </div>
-        </div>
       </section>
 
       <!-- ============ 05 投放场景 ============ -->
@@ -978,7 +901,7 @@
           </div>
           <div class="module-item">
             <div class="m-head"><span class="m-no">3</span><h4>在线投放模块</h4></div>
-            <ul><li>判断用户命中任务人群包 + 命中可投任务</li><li>召回目标房源，计算扶持分、注入 / 置顶</li></ul>
+            <ul><li>命中可投任务、召回目标房源</li><li>计算扶持分、注入 / 置顶</li></ul>
           </div>
           <div class="module-item">
             <div class="m-head"><span class="m-no">4</span><h4>节奏控制模块</h4></div>
@@ -1006,7 +929,6 @@
               <li>任务创建接口 + 房源接入</li>
               <li>周期目标核访量</li>
               <li>4 个场景标识 + 在线投放（置顶 / 注入）</li>
-              <li>人群包接入（命中生效）</li>
               <li>基础 Pacing</li>
               <li>目标达成自动停止</li>
               <li>整体核访率下降止损</li>
@@ -1031,7 +953,7 @@
             <div class="prio-body"><ul>
               <li>多任务竞价</li>
               <li>增量实验归因</li>
-              <li>复杂人群定向 / 自建圈选</li>
+              <li>人群定向</li>
               <li>房源质量准入</li>
               <li>智能推荐房源池</li>
               <li>ROI / 转化目标</li>
