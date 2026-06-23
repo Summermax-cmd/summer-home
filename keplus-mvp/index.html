@@ -369,18 +369,18 @@
           </div>
         </div>
 
-        <div class="callout">这不是外部商业“广告”系统，而是一个<strong>内部房源流量扶持系统</strong>——借鉴计算“广告”的投放思想，服务对象是贝壳内部业务中的目标房源。<span>需求方提供要扶持的房源和周期点击目标，Ke+ 投放系统负责在多个分发场景中自动完成点击目标，并在点击效率过低时自动止损。</span></div>
+        <div class="callout">这不是外部商业“广告”系统，而是一个<strong>内部房源流量扶持系统</strong>——借鉴计算“广告”的投放思想，服务对象是贝壳内部业务中的目标房源。<span>需求方提供要扶持的房源和周期核访目标，Ke+ 投放系统负责在多个分发场景中自动完成核访目标，并在点击效率过低时自动止损。</span></div>
       </section>
 
       <!-- ============ 02 MVP 目标与边界 ============ -->
       <section>
         <div class="section-title" data-num="02"><h2>MVP 目标与边界</h2></div>
-        <p class="lead">MVP 先跑通一个最小闭环：<strong style="color:var(--ink);font-weight:900">需求方提供房源 → 系统完成周期点击目标 → 自动止损 → 报表归因</strong>。</p>
+        <p class="lead">MVP 先跑通一个最小闭环：<strong style="color:var(--ink);font-weight:900">需求方提供房源 → 系统完成周期核访目标 → 自动止损 → 报表归因</strong>。</p>
 
         <div class="target-board">
           <div class="target-main">
             <span class="label">核心问题</span>
-            <strong>给定房源 + 周期点击目标<br>系统自动投放并明确结果</strong>
+            <strong>给定房源 + 周期核访目标<br>系统自动投放并明确结果</strong>
             <p>需求方给定一批房源和一个周期核访总量目标后，系统能在指定场景中自动投放，并清楚判断最终是「目标达成」还是「点击效率过低止损」。</p>
             <div class="target-pair">
               <div class="region"><small>能力数量</small><b>7 项核心能力</b></div>
@@ -447,7 +447,7 @@
           <span class="fc-arrow">→</span>
           <span class="fc-node calc">参与排序 / 注入</span>
           <span class="fc-arrow">→</span>
-          <span class="fc-node">记录曝光 · 点击 · 有效点击</span>
+          <span class="fc-node">记录曝光 · 点击 · 核访</span>
           <span class="fc-arrow">→</span>
           <span class="fc-node">实时监控完成率 · 效率</span>
           <span class="fc-arrow">→</span>
@@ -494,8 +494,8 @@
               <tr><td><code class="k">house_id</code></td><td><span class="req yes">是</span></td><td>房源 ID</td></tr>
               <tr><td><code class="k">city_id</code></td><td><span class="req yes">是</span></td><td>城市 ID</td></tr>
               <tr><td><code class="k">weight</code></td><td><span class="req no">否</span></td><td>房源权重，默认 1</td></tr>
-              <tr><td><code class="k">house_cap</code></td><td><span class="req no">否</span></td><td>单房源周期点击上限</td></tr>
-              <tr><td><code class="k">daily_cap</code></td><td><span class="req no">否</span></td><td>单房源单日点击上限</td></tr>
+              <tr><td><code class="k">house_cap</code></td><td><span class="req no">否</span></td><td>单房源周期核访上限</td></tr>
+              <tr><td><code class="k">daily_cap</code></td><td><span class="req no">否</span></td><td>单房源单日核访上限</td></tr>
               <tr><td><code class="k">ext_info</code></td><td><span class="req no">否</span></td><td>扩展信息</td></tr>
             </table>
             <div class="insight-box">
@@ -716,7 +716,7 @@
           <div class="card orange">
             <h4>Pacing · 节奏控制</h4>
             <ul>
-              <li>目标完成率 = 累计点击 / 周期目标</li>
+              <li>目标完成率 = 累计核访 / 周期目标</li>
               <li>时间消耗率 = 已投时长 / 总周期</li>
               <li>对比两者，调整 PacingBoost</li>
             </ul>
@@ -768,7 +768,7 @@
           <div class="metric m-cyan">
             <small>房源维度只做</small>
             <strong>统计 · cap · 识别</strong>
-            <span>点击贡献统计、单房源 cap、低效房源识别与异常下线</span>
+            <span>核访贡献统计、单房源 cap、低效房源识别与异常下线</span>
           </div>
           <div class="metric">
             <small>示例目标</small>
@@ -856,7 +856,7 @@
               <tr><td>投放中</td><td>正常投放</td></tr>
               <tr><td>限速中</td><td>至少一个场景限速，任务仍在投放</td></tr>
               <tr><td>部分场景停止</td><td>部分场景因效率过低停止</td></tr>
-              <tr><td>已达成</td><td>周期点击目标已达成</td></tr>
+              <tr><td>已达成</td><td>周期核访目标已达成</td></tr>
               <tr><td>已止损</td><td>所有可投场景因效率过低停止</td></tr>
               <tr><td>已结束未达成</td><td>到达 end_time，未完成也未全量止损</td></tr>
               <tr><td>已取消</td><td>需求方主动取消</td></tr>
@@ -881,7 +881,7 @@
       <!-- ============ 10 报表设计 ============ -->
       <section>
         <div class="section-title" data-num="10"><h2>报表与归因设计</h2></div>
-        <p class="lead">报表要回答三个问题：任务完成了吗？哪些场景 / 房源贡献了点击？系统为什么停止？</p>
+        <p class="lead">报表要回答三个问题：任务完成了吗？哪些场景 / 房源贡献了核访？系统为什么停止？</p>
 
         <h4>场景维度报表（示例）</h4>
         <table>
@@ -899,7 +899,7 @@
             <table style="box-shadow:none">
               <tr><td>停止类型</td><td>目标达成</td></tr>
               <tr><td>原因 code</td><td><span class="st-code" style="color:var(--green)">TARGET_REACHED</span></td></tr>
-              <tr><td>目标 / 实际点击</td><td>1,000,000 / 1,003,200</td></tr>
+              <tr><td>目标 / 实际核访</td><td>1,000,000 / 1,003,200</td></tr>
               <tr><td>完成率</td><td>100.32%</td></tr>
               <tr><td>停止时间</td><td>2026-07-06 18:42:00</td></tr>
             </table>
@@ -909,14 +909,14 @@
             <table style="box-shadow:none">
               <tr><td>停止类型</td><td>点击效率过低</td></tr>
               <tr><td>原因 code</td><td><span class="st-code" style="color:var(--orange);font-size:12px">ALL_SCENES_STOPPED_BY_LOW_EFFICIENCY</span></td></tr>
-              <tr><td>目标 / 实际点击</td><td>1,000,000 / 320,000（32%）</td></tr>
+              <tr><td>目标 / 实际核访</td><td>1,000,000 / 320,000（32%）</td></tr>
               <tr><td>主要触发规则</td><td>各场景整体核访率下降均超阈值</td></tr>
               <tr><td>建议动作</td><td>替换房源 / 降目标 / 延周期 / 扩房源池</td></tr>
             </table>
           </div>
         </div>
         <div class="insight-box">
-          <p><strong>报表清单：</strong>① 任务总览报表（完成率、状态、停止原因）② 场景维度报表（点击贡献与止损）③ 房源维度报表（P1，高/低效房源识别）④ 停止归因报表（结构化展示停止原因与建议）。</p>
+          <p><strong>报表清单：</strong>① 任务总览报表（完成率、状态、停止原因）② 场景维度报表（核访贡献与止损）③ 房源维度报表（P1，高/低效房源识别）④ 停止归因报表（结构化展示停止原因与建议）。</p>
         </div>
       </section>
 
@@ -1004,11 +1004,12 @@
             <div class="prio-head"><span>P0 · 必须做</span><small>最小闭环</small></div>
             <div class="prio-body"><ul>
               <li>任务创建接口 + 房源接入</li>
-              <li>周期目标点击量</li>
+              <li>周期目标核访量</li>
               <li>4 个场景标识 + 在线投放（置顶 / 注入）</li>
+              <li>人群包接入（命中生效）</li>
               <li>基础 Pacing</li>
               <li>目标达成自动停止</li>
-              <li>场景 CTR 低效止损</li>
+              <li>整体核访率下降止损</li>
               <li>任务总览 + 场景维度报表</li>
               <li>停止原因归因</li>
             </ul></div>
@@ -1018,10 +1019,9 @@
             <div class="prio-body"><ul>
               <li>房源维度详细报表</li>
               <li>单房源 cap</li>
-              <li>坑位注入能力</li>
               <li>更精细 pCTR 模型接入</li>
               <li>首屏 / 非首屏差异策略</li>
-              <li>历史同期基准 CTR</li>
+              <li>对照组基准分层细化</li>
               <li>负反馈止损</li>
               <li>需求方后台页面</li>
             </ul></div>
@@ -1031,7 +1031,7 @@
             <div class="prio-body"><ul>
               <li>多任务竞价</li>
               <li>增量实验归因</li>
-              <li>人群定向</li>
+              <li>复杂人群定向 / 自建圈选</li>
               <li>房源质量准入</li>
               <li>智能推荐房源池</li>
               <li>ROI / 转化目标</li>
