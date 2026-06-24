@@ -254,6 +254,18 @@
     .prio-head small { font-size: 12px; font-weight: 750; opacity: .9; }
     .prio-body { padding: 14px 18px 16px; }
     .prio-body ul { margin: 0; padding-left: 16px; color: #43516a; font-size: 14px; font-weight: 650; line-height: 1.5; }
+
+    /* Goal gauge (目标过低 / 合理 / 过高) */
+    .goal-gauge { margin-top: 16px; }
+    .gg-bar { display: flex; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 8px 22px rgba(20,32,51,.06); }
+    .gg-zone { padding: 16px 12px; display: flex; align-items: center; font-size: 13px; font-weight: 850; text-align: center; min-width: 0; }
+    .gg-zone.low { flex: 0 0 22%; background: #f3f5f9; color: #94a3b8; justify-content: center; }
+    .gg-zone.ok { flex: 1; background: linear-gradient(90deg, #e8f8ef, #d6f3e2); justify-content: space-between; gap: 8px; }
+    .gg-zone.high { flex: 0 0 30%; background: #fff1ee; color: #b04444; justify-content: center; }
+    .gg-tier { background: #fff; border: 1px solid #bbf7d0; border-radius: 999px; padding: 6px 13px; font-size: 12.5px; font-weight: 900; color: #1f6b4d; box-shadow: 0 4px 12px rgba(40,118,87,.12); white-space: nowrap; }
+    .gg-tier.mid { border-color: var(--green); background: var(--green); color: #fff; }
+    .gg-axis { margin-top: 8px; display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--muted); }
+    .gg-axis b { color: var(--green); }
     .prio-body li { margin: 5px 0; }
 
     /* Phase banner */
@@ -681,6 +693,19 @@
             <span><b>建议目标</b> = 可达上限 × 安全系数（约 0.7~0.8），留波动与止损空间</span>
             <span>系统给出 <b>保守 / 建议 / 可达上限</b> 三档供需求方选择</span>
           </div>
+        </div>
+
+        <div class="goal-gauge">
+          <div class="gg-bar">
+            <div class="gg-zone low">过低 · 浪费扶持位</div>
+            <div class="gg-zone ok">
+              <span class="gg-tier">保守</span>
+              <span class="gg-tier mid">建议</span>
+              <span class="gg-tier">可达上限</span>
+            </div>
+            <div class="gg-zone high">过高 · 达不成 / 空耗优质流量</div>
+          </div>
+          <div class="gg-axis"><span>← 目标偏低</span><span><b>合理区间</b>（保守 ~ 可达上限）</span><span>目标偏高 →</span></div>
         </div>
 
         <div class="grid-3" style="margin-top:16px">
