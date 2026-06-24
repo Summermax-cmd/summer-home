@@ -221,6 +221,20 @@
     .metric.m-blue::before { background: var(--blue); }
     .metric.m-orange::before { background: var(--orange); }
 
+    /* Team split (算法 / 工程) */
+    .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; align-items: start; }
+    .team-col { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 10px 26px rgba(20,32,51,.05); }
+    .team-head { padding: 14px 18px; font-size: 16px; font-weight: 900; color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .team-head small { font-size: 12px; font-weight: 750; opacity: .9; }
+    .team-col.algo .team-head { background: linear-gradient(135deg, var(--blue), var(--cyan)); }
+    .team-col.eng .team-head { background: linear-gradient(135deg, var(--green), #1a8a5e); }
+    .team-body { padding: 14px; display: grid; gap: 9px; }
+    .team-item { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fafbfc; }
+    .team-col.algo .team-item { border-left: 3px solid var(--blue); }
+    .team-col.eng .team-item { border-left: 3px solid var(--green); }
+    .team-item h4 { margin: 0 0 3px; font-size: 14.5px; font-weight: 900; color: var(--ink); }
+    .team-item p { font-size: 12.5px; font-weight: 650; color: var(--muted); line-height: 1.5; }
+
     /* Module grid */
     .module-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
     .module-item { padding: 18px 18px 16px; border: 1px solid var(--line); border-radius: 10px; background: #f1f8f4; box-shadow: 0 6px 16px rgba(20,32,51,.04); border-top: 3px solid var(--green); }
@@ -270,7 +284,7 @@
       * { min-width: 0; overflow-wrap: anywhere; }
       main { width: calc(100vw - 24px); padding: 18px 0 28px; }
       header, section { padding: 28px 22px 30px 28px; }
-      .grid-2, .grid-3, .grid-4, .grid-5, .metric-row, .target-board, .target-pair, .compare-strip, .scope-grid, .scene-grid, .stop-grid, .module-grid, .prio-grid { grid-template-columns: 1fr; }
+      .grid-2, .grid-3, .grid-4, .grid-5, .metric-row, .target-board, .target-pair, .compare-strip, .scope-grid, .scene-grid, .stop-grid, .module-grid, .team-grid, .prio-grid { grid-template-columns: 1fr; }
       h1 { width: 100%; font-size: 25px; line-height: 1.24; }
       h2 { font-size: 24px; }
       .compare-arrow { transform: rotate(90deg); justify-self: center; padding: 6px 0; }
@@ -886,36 +900,38 @@
         </div>
       </section>
 
-      <!-- ============ 12 系统模块 ============ -->
+      <!-- ============ 12 算法 / 工程 模块与因子 ============ -->
       <section>
-        <div class="section-title" data-num="12"><h2>核心系统模块</h2></div>
+        <div class="section-title" data-num="12"><h2>核心模块与因子 · 算法 / 工程分工</h2></div>
+        <p class="lead">算法侧负责「<strong style="color:var(--ink);font-weight:900">出哪些、怎么排、何时停</strong>」的判断因子与策略；工程侧负责「<strong style="color:var(--ink);font-weight:900">把房源按规则放进四场景、统计、止损、出报表</strong>」的服务与链路。</p>
 
-        <div class="module-grid">
-          <div class="module-item">
-            <div class="m-head"><span class="m-no">1</span><h4>任务管理模块</h4></div>
-            <ul><li>创建 / 校验 / 状态 / 周期 / 取消</li><li>输出任务配置给在线投放</li></ul>
+        <div class="team-grid">
+          <div class="team-col algo">
+            <div class="team-head"><span>🧮 算法侧 · 因子与策略</span><small>判断逻辑</small></div>
+            <div class="team-body">
+              <div class="team-item"><h4>pCTR 预估</h4><p>接入现有推荐 / 搜索 pCTR 模型；无实时 pCTR 时用历史 CTR 平滑近似</p></div>
+              <div class="team-item"><h4>AdScore（eCPM）排序</h4><p>pCTR × Boost，对通过底线的投放候选排序，分高者先出</p></div>
+              <div class="team-item"><h4>Relevance 相关性底线</h4><p>各场景相关性规则；搜索须 query / 筛选相关、小区须本小区等硬底线</p></div>
+              <div class="team-item"><h4>Pacing 节奏策略</h4><p>完成率 vs 时间消耗率判断，PacingBoost 分档取值标定</p></div>
+              <div class="team-item"><h4>对照组基准与阈值标定</h4><p>10% 对照组基准、止损下降阈值、承接配比、最小样本量的科学性与调参</p></div>
+            </div>
           </div>
-          <div class="module-item">
-            <div class="m-head"><span class="m-no">2</span><h4>房源列表管理模块</h4></div>
-            <ul><li>接收房源、存储房源与任务关系</li><li>处理 weight / cap，过滤异常房源</li></ul>
-          </div>
-          <div class="module-item">
-            <div class="m-head"><span class="m-no">3</span><h4>在线投放模块</h4></div>
-            <ul><li>命中可投任务、召回目标房源</li><li>计算扶持分、注入 / 置顶</li></ul>
-          </div>
-          <div class="module-item">
-            <div class="m-head"><span class="m-no">4</span><h4>节奏控制模块</h4></div>
-            <ul><li>计算完成率 / 时间消耗率</li><li>输出 PacingBoost，达成触发停止</li></ul>
-          </div>
-          <div class="module-item">
-            <div class="m-head"><span class="m-no">5</span><h4>效率止损模块</h4></div>
-            <ul><li>计算场景整体核访率 / 基准对比 / 下降率</li><li>触发场景限速、停止与任务级止损</li></ul>
-          </div>
-          <div class="module-item">
-            <div class="m-head"><span class="m-no">6</span><h4>报表归因模块</h4></div>
-            <ul><li>聚合曝光点击、生成各维度报表</li><li>记录停止原因、输出归因结果</li></ul>
+          <div class="team-col eng">
+            <div class="team-head"><span>🛠 工程侧 · 服务与模块</span><small>系统链路</small></div>
+            <div class="team-body">
+              <div class="team-item"><h4>任务管理模块</h4><p>创建 / 校验 / 状态机 / 周期 / 取消，4 个 API，配置下发在线模块</p></div>
+              <div class="team-item"><h4>房源列表管理模块</h4><p>房源 ↔ 任务关系存储、weight / cap、过滤下架与异常房源</p></div>
+              <div class="team-item"><h4>在线投放模块</h4><p>命中可投任务 → 召回 → 执行注入 / 置顶，四场景分发链路改造</p></div>
+              <div class="team-item"><h4>节奏控制模块</h4><p>实时累计核访、完成率计算、PacingBoost 下发、达成自动停止</p></div>
+              <div class="team-item"><h4>效率止损模块</h4><p>窗口化统计、最小样本门槛、限速 / 停止、任务级止损、状态变更</p></div>
+              <div class="team-item"><h4>数据埋点</h4><p>曝光 / 核访 / 状态变更三类埋点，含 request_id、is_ad_support、各 score</p></div>
+              <div class="team-item"><h4>报表归因模块</h4><p>任务 / 场景 / 房源三维聚合、停止原因记录、报表接口</p></div>
+              <div class="team-item"><h4>对照组分流</h4><p>预留 10% 流量稳定分桶，保证对照组与扶持组同口径可比</p></div>
+            </div>
           </div>
         </div>
+
+        <div class="callout callout-cyan"><strong>需共同拍板：</strong>核访口径（点进投放房源详情、可降级为点击，工程埋点）、对照组方案（算法定科学性 + 工程稳定分流）、止损阈值与 Pacing 分档（算法给初值 + 工程支持灰度可配）。</div>
       </section>
 
       <!-- ============ 13 MVP 优先级 ============ -->
