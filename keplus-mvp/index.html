@@ -352,7 +352,7 @@
           </div>
         </div>
 
-        <div class="callout">这不是外部商业“广告”系统，而是一个<strong>内部房源流量扶持系统</strong>——借鉴计算“广告”的投放思想，服务对象是贝壳内部业务中的目标房源。它<strong>不是 eCPM 抢曝光，而是类 oCPM 保核访</strong>：以「点进投放房源详情」为优化目标，而非单纯堆曝光。<span>这里的「成本」也不是花了多少钱，而是<strong>消耗了多少平台优质流量</strong>、以及<strong>对用户体验造成多少损耗</strong>——所以系统以效率为约束、低效即自动止损。需求方<strong>只需提供要扶持的目标房源，系统辅助生成周期核访目标</strong>，Ke+ 投放系统负责在多个分发场景中自动完成核访目标，并在点击效率过低时自动止损。</span></div>
+        <div class="callout">这不是外部商业“广告”系统，而是一个<strong>内部房源流量扶持系统</strong>——借鉴计算“广告”的投放思想，服务对象是贝壳内部业务中的目标房源。它<strong>不是 eCPM 抢曝光，而是类 oCPM 保核访</strong>：以「点进投放房源详情」为优化目标，而非单纯堆曝光。<span>这里的「成本」也不是花了多少钱，而是<strong>消耗了多少平台优质流量、对用户体验造成多少损耗</strong>——所以系统以效率为约束、低效即自动止损。需求方<strong>只需提供目标房源，系统辅助生成核访目标</strong>，并在四个分发场景中自动完成投放。</span></div>
       </section>
 
       <!-- ============ 02 MVP 目标与边界 ============ -->
@@ -386,23 +386,7 @@
             <div class="target-card observe">
               <span class="label">停止两种结果</span>
               <strong>达成 / 止损</strong>
-              <p>累计核访达到周期目标 → 达成；点击效率过低或拉低场景整体效率 → 止损。</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="scope-grid" style="grid-template-columns:1fr">
-          <div class="scope-card do">
-            <div class="scope-head">✓ 本期做 · 最小闭环</div>
-            <div class="scope-body">
-              <ul>
-                <li>接收需求方任务 + 房源 ID 列表（默认已符合准入）</li>
-                <li>支持周期核访总量目标</li>
-                <li>支持 4 个投放场景：搜索结果房源列表、推荐 feeds、二手首页房源列表、小区详情页房源列表</li>
-                <li>基础 pCTR / CTR 效率判断</li>
-                <li>任务级 + 场景级停止</li>
-                <li>基础报表与停止归因</li>
-              </ul>
+              <p>累计核访达到周期目标 → 达成；扶持拉低场景整体核访率 → 止损。</p>
             </div>
           </div>
         </div>
@@ -414,13 +398,9 @@
         <p class="lead">从需求方创建任务，到在线分发排序，再到自动停止与归因报表的完整链路。</p>
 
         <div class="flow-chain">
-          <span class="fc-node start">创建投放任务</span>
-          <span class="fc-arrow">→</span>
-          <span class="fc-node">传入目标房源</span>
+          <span class="fc-node start">新建任务 · 传目标房源</span>
           <span class="fc-arrow">→</span>
           <span class="fc-node calc">系统辅助生成核访目标</span>
-          <span class="fc-arrow">→</span>
-          <span class="fc-node">生成投放任务</span>
           <span class="fc-arrow">→</span>
           <span class="fc-node">待投放 → 投放中</span>
           <span class="fc-arrow">→</span>
@@ -519,7 +499,7 @@
       <!-- ============ 05 投放场景 ============ -->
       <section>
         <div class="section-title" data-num="05"><h2>四大投放场景与承接策略</h2></div>
-        <p class="lead">MVP 支持 4 个核心房源流量场景，按用户意图强弱与体验敏感度，匹配不同扶持强度与点击承接比例。</p>
+        <p class="lead">MVP 支持 4 个核心房源流量场景，按用户意图强弱与体验敏感度，匹配不同扶持强度与核访承接比例。</p>
 
         <div class="scene-grid">
           <div class="scene-card s-search">
@@ -541,7 +521,7 @@
               <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按 10% 对照组占比动态计算</span></div>
             </div>
             <div class="sc-body"><ul>
-              <li>主要承接点击规模</li>
+              <li>主要承接核访规模</li>
               <li><b>坑位注入</b>：一刷偶数位出扶持房源，出完即停</li>
               <li>高 pCTR 快速放量、低 CTR 快速止损</li>
               <li>重点监控整体 CTR 是否下降</li>
@@ -554,7 +534,7 @@
               <div class="sc-ratio"><b>x%</b><span class="sc-dyn"><span class="sc-dot"></span>按 10% 对照组占比动态计算</span></div>
             </div>
             <div class="sc-body"><ul>
-              <li>可承担中高比例点击目标</li>
+              <li>可承担中高比例核访目标</li>
               <li><b>坑位注入</b>：非首屏偶数位出扶持房源，出完即停</li>
               <li>首屏谨慎干预、非首屏放量</li>
               <li>监控首页与首屏点击效率</li>
@@ -578,7 +558,7 @@
         <div class="mt22">
           <table>
             <colgroup><col style="width:22%"><col style="width:14%"><col style="width:12%"><col style="width:30%"><col style="width:22%"></colgroup>
-            <tr><th>场景</th><th>用户意图</th><th>扶持强度</th><th>主要策略</th><th>点击承接（按 10% 对照组占比动态计算）</th></tr>
+            <tr><th>场景</th><th>用户意图</th><th>扶持强度</th><th>主要策略</th><th>核访承接（按 10% 对照组占比动态计算）</th></tr>
             <tr><td>搜索结果房源列表</td><td>强</td><td>低</td><td>置顶（须 query / 筛选相关）</td><td>x%</td></tr>
             <tr><td>推荐 feeds</td><td>弱 / 中</td><td>高</td><td>坑位注入（偶数位）</td><td>x%</td></tr>
             <tr><td>二手首页房源列表</td><td>中</td><td>中高</td><td>坑位注入（非首屏偶数位）</td><td>x%</td></tr>
@@ -586,7 +566,7 @@
           </table>
         </div>
 
-        <div class="callout callout-cyan">各场景的<strong>点击承接配比</strong>按<strong>预留 10% 对照组的各场景占比</strong>动态划分——即以不投扶持的 10% 对照流量中，搜索结果、推荐 feeds、二手首页、小区详情页各自的自然占比为基准分配目标，使扶持节奏贴合真实流量结构，并随对照组数据滚动更新。<span>上表区间为经验缺省值，实际下发以对照组占比测算结果为准。</span></div>
+        <div class="callout callout-cyan">各场景的<strong>核访承接配比</strong>按<strong>预留 10% 对照组的各场景占比</strong>动态划分——即以不投扶持的 10% 对照流量中，搜索结果、推荐 feeds、二手首页、小区详情页各自的自然占比为基准分配目标，使扶持节奏贴合真实流量结构，并随对照组数据滚动更新。<span>上表区间为经验缺省值，实际下发以对照组占比测算结果为准。</span></div>
       </section>
 
       <!-- ============ 06 在线投放逻辑与关键因子 ============ -->
@@ -914,7 +894,7 @@
           <div class="stop-card stop" style="min-height:auto">
             <span class="st-tag">停止归因 · 效率止损示例</span>
             <table style="box-shadow:none">
-              <tr><td>停止类型</td><td>点击效率过低</td></tr>
+              <tr><td>停止类型</td><td>整体核访率下降止损</td></tr>
               <tr><td>原因 code</td><td><span class="st-code" style="color:var(--orange);font-size:12px">ALL_SCENES_STOPPED_BY_LOW_EFFICIENCY</span></td></tr>
               <tr><td>目标 / 实际核访</td><td>1,000,000 / 320,000（32%）</td></tr>
               <tr><td>主要触发规则</td><td>各场景整体核访率下降均超阈值</td></tr>
@@ -1010,6 +990,7 @@
       <!-- ============ 13 MVP 优先级 ============ -->
       <section>
         <div class="section-title" data-num="13"><h2>MVP 版本优先级</h2></div>
+        <p class="lead"><strong style="color:var(--ink);font-weight:900">P0 即本期要做的最小闭环</strong>——跑通「建任务 → 生成目标 → 投放 → 止损 → 报表」；P1 体验增强、P2 体系化演进，按需迭代。</p>
 
         <div class="prio-grid">
           <div class="prio-card p0">
