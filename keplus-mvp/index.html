@@ -791,13 +791,13 @@
       <!-- ============ 08 止损规则 ============ -->
       <section>
         <div class="section-title" data-num="08"><h2>效率止损规则</h2></div>
-        <p class="lead">止损<strong style="color:var(--ink);font-weight:900">只看一类触发</strong>：扶持是否<strong style="color:var(--ink);font-weight:900">拉低场景整体核访率（即 CTR）</strong>。对比开启扶持后的场景整体核访率与基准，<strong style="color:var(--ink);font-weight:900">下降超过 10% 即止损</strong>；判断须满足最小样本量，避免小样本误判。</p>
+        <p class="lead">止损<strong style="color:var(--ink);font-weight:900">只看一类触发</strong>：扶持是否<strong style="color:var(--ink);font-weight:900">拉低场景整体核访率（即 CTR）</strong>。对比开启扶持后的场景整体核访率与基准，<strong style="color:var(--ink);font-weight:900">下降超过 20% 即止损</strong>；判断须满足最小样本量，避免小样本误判。</p>
 
         <div class="formula" style="border-color:rgba(217,106,43,.22);background:linear-gradient(135deg,#fff7ed,#fff 70%)">
           <div class="f-eq" style="font-size:clamp(16px,2vw,22px)"><span class="v" style="color:var(--orange)">核访率下降率</span> <span class="op">=</span> （基准核访率 <span class="op">−</span> 当前核访率） <span class="op">÷</span> 基准核访率</div>
           <div class="f-legend">
-            <span>下降率 ≥ <b>5%</b> → 场景限速</span>
-            <span>下降率 &gt; <b>10%</b> → 停止该场景投放</span>
+            <span>下降率 ≥ <b>10%</b> → 场景限速</span>
+            <span>下降率 &gt; <b>20%</b> → 停止该场景投放</span>
             <span>基准取自<b>预留 10% 流量</b>（不投扶持的对照组）</span>
           </div>
         </div>
@@ -807,9 +807,9 @@
             <h4>整体核访率下降止损底线</h4>
             <div class="target-card" style="flex:1;border-color:rgba(217,106,43,.3);background:linear-gradient(135deg,#fff7ed,#ffffff 70%)">
               <span class="label" style="color:#8a4215;background:#ffedd5;border:1px solid #fed7aa">统一底线 · 四场景一致</span>
-              <strong style="color:#b85b20;font-size:40px">下降 &gt; 10%</strong>
-              <p style="margin-top:6px;color:#8a4215;font-weight:850">≈ 意味着商机潜在约降 10%</p>
-              <p>任一可投场景整体核访率较基准<b>下降超过 10%</b>，即停止该场景投放；下降达 <b>5%</b>（底线一半）先场景限速观察。不再按场景设差异化阈值。</p>
+              <strong style="color:#b85b20;font-size:40px">下降 &gt; 20%</strong>
+              <p style="margin-top:6px;color:#8a4215;font-weight:850">≈ 意味着商机潜在约降 20%</p>
+              <p>任一可投场景整体核访率较基准<b>下降超过 20%</b>，即停止该场景投放；下降达 <b>10%</b>（底线一半）先场景限速观察。不再按场景设差异化阈值。</p>
             </div>
           </div>
           <div>
@@ -874,7 +874,7 @@
         <table>
           <colgroup><col style="width:18%"><col style="width:13%"><col style="width:13%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:10%"><col style="width:13%"></colgroup>
           <tr><th>场景</th><th>扶持曝光</th><th>扶持核访</th><th>基准核访率</th><th>当前核访率</th><th>核访率下降</th><th>状态</th><th>停止原因</th></tr>
-          <tr><td>搜索结果列表</td><td>800,000</td><td>9,600</td><td>4.0%</td><td>3.5%</td><td>12.5%</td><td>已停止</td><td>整体核访率下降</td></tr>
+          <tr><td>搜索结果列表</td><td>800,000</td><td>9,600</td><td>4.0%</td><td>3.0%</td><td>25%</td><td>已停止</td><td>整体核访率下降</td></tr>
           <tr><td>推荐 feeds</td><td>12,000,000</td><td>480,000</td><td>4.2%</td><td>4.18%</td><td>0.5%</td><td>正常</td><td>-</td></tr>
           <tr><td>二手首页列表</td><td>7,000,000</td><td>280,000</td><td>4.1%</td><td>4.09%</td><td>0.3%</td><td>正常</td><td>-</td></tr>
           <tr><td>小区详情页列表</td><td>3,000,000</td><td>90,000</td><td>3.2%</td><td>3.18%</td><td>0.6%</td><td>正常</td><td>-</td></tr>
