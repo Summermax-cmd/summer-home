@@ -255,6 +255,12 @@
     .prio-body { padding: 14px 18px 16px; }
     .prio-body ul { margin: 0; padding-left: 16px; color: #43516a; font-size: 14px; font-weight: 650; line-height: 1.5; }
 
+    /* Step cards (后台操作步骤) */
+    .step-card { position: relative; padding: 16px 15px 15px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(180deg, #f1f8f4, #ffffff 62%); box-shadow: 0 6px 16px rgba(20,32,51,.05); border-top: 3px solid var(--green); }
+    .step-card .step-no { display: inline-grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; background: var(--green); color: #fff; font-size: 14px; font-weight: 900; margin-bottom: 8px; }
+    .step-card h4 { margin: 0 0 5px; font-size: 15px; font-weight: 900; color: var(--ink); }
+    .step-card p { font-size: 12.5px; font-weight: 650; color: var(--muted); line-height: 1.5; }
+
     /* Goal gauge (目标过低 / 合理 / 过高) */
     .goal-gauge { margin-top: 16px; }
     .gg-bar { display: flex; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 8px 22px rgba(20,32,51,.06); }
@@ -440,25 +446,15 @@
       <!-- ============ 04 制定投放任务 ============ -->
       <section>
         <div class="section-title" data-num="04"><h2>制定投放任务</h2></div>
-        <p class="lead">需求方提供「任务级」与「房源级」两类输入。<strong style="color:var(--ink);font-weight:900">MVP 只走系统后台直接配置 + 批量上传房源</strong>——可视化、人工即可操作、无需研发对接（我们目前也没有现成的内部任务平台可挂接口）；程序化<strong style="color:var(--ink);font-weight:900">接口对接列入后续演进</strong>，届时复用同一套数据模型。</p>
+        <p class="lead">MVP 把投放任务做成一个<strong style="color:var(--ink);font-weight:900">可视化后台产品</strong>——需求方 / 运营无需研发对接，在后台几步操作即可完成一次投放：<strong style="color:var(--ink);font-weight:900">建任务 → 批量传房源 → 确认系统给的目标 → 提交 → 看进度报表</strong>。</p>
 
-        <div class="grid-2" style="margin-bottom:16px">
-          <div class="card">
-            <h4>MVP · 后台配置 + 批量上传</h4>
-            <ul>
-              <li>自建<b>最小内部操作页</b>：建任务、填字段、选场景</li>
-              <li>房源支持 <b>Excel / CSV 批量上传</b>，或粘贴房源 ID</li>
-              <li>运营 / 需求方<b>人工即可操作</b>，无需研发对接，成本低</li>
-            </ul>
-          </div>
-          <div class="card" style="opacity:.62">
-            <h4>后续 · 接口对接</h4>
-            <ul>
-              <li>程序化创建任务、传房源，适合大批量周期性接入</li>
-              <li>MVP <b>不做</b>；数据模型预留，后续可平滑加接口</li>
-              <li>与后台<b>共用同一套任务 / 房源字段</b></li>
-            </ul>
-          </div>
+        <h4 style="margin-top:4px">需求方怎么用 · MVP 后台 5 步</h4>
+        <div class="grid-5" style="margin:10px 0 16px">
+          <div class="step-card"><span class="step-no">1</span><h4>新建任务</h4><p>填任务名、城市、需求来源、投放周期、可投场景</p></div>
+          <div class="step-card"><span class="step-no">2</span><h4>批量上传房源</h4><p>Excel / CSV 批量导入目标房源，或粘贴房源 ID 列表</p></div>
+          <div class="step-card"><span class="step-no">3</span><h4>确认核访目标</h4><p>系统自动测算并默认「建议」档，可在保守~可达上限间滑动，超出不可设</p></div>
+          <div class="step-card"><span class="step-no">4</span><h4>提交投放</h4><p>确认后任务进入待投放，到点自动开投，无需人工盯盘</p></div>
+          <div class="step-card"><span class="step-no">5</span><h4>看进度与报表</h4><p>投放中看完成率 / 各场景表现，结束看报表与停止归因</p></div>
         </div>
 
         <div class="grid-2">
