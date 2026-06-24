@@ -453,7 +453,7 @@
               <tr><td><code class="k">demand_source</code></td><td><span class="req yes">是</span></td><td>需求方来源（城市/活动/经营项目）</td></tr>
               <tr><td><code class="k">city_id</code></td><td><span class="req yes">是</span></td><td>城市 ID</td></tr>
               <tr><td><code class="k">start_time / end_time</code></td><td><span class="req yes">是</span></td><td>投放起止时间</td></tr>
-              <tr><td><code class="k">target_click</code></td><td><span class="req no">否</span></td><td>周期目标核访总量；缺省由系统辅助生成（需求方确认档位）</td></tr>
+              <tr><td><code class="k">target_click</code></td><td><span class="req no">否</span></td><td>周期目标核访总量；不由需求方填，系统在 [保守, 可达上限] 内生成、默认建议档</td></tr>
               <tr><td><code class="k">scenes</code></td><td><span class="req yes">是</span></td><td>可投放场景列表</td></tr>
               <tr><td><code class="k">priority</code></td><td><span class="req no">否</span></td><td>任务优先级，默认普通</td></tr>
               <tr><td><code class="k">max_support_ratio</code></td><td><span class="req no">否</span></td><td>最大扶持流量占比</td></tr>
@@ -687,27 +687,28 @@
         <div class="section-title" data-num="07"><h2>核访目标与停止机制</h2></div>
 
         <h3 style="margin-top:2px">① 目标设定辅助</h3>
-        <p class="lead">MVP 中<strong style="color:var(--ink);font-weight:900">需求方只需提供目标房源，核访目标由系统辅助生成</strong>——在建任务时根据房源历史核访能力、周期与场景容量，自动测算一个可达成、不浪费的核访目标区间，避免目标过高（达不成、空耗优质流量）或过低（未充分利用扶持位）。</p>
+        <p class="lead"><strong style="color:var(--ink);font-weight:900">目标设定不交给需求方自由填写</strong>——需求方只负责选房源，系统据此测算并生成核访目标。需求方能<strong style="color:var(--ink);font-weight:900">明确看到系统建议值，以及「过高为何不允许设定」的理由</strong>；系统<strong style="color:var(--ink);font-weight:900">默认落在建议（合理区间）</strong>，需求方最多只能<strong style="color:var(--ink);font-weight:900">滑到可达上限</strong>，不可再高。</p>
 
         <div class="formula" style="border-color:rgba(40,118,87,.2);background:linear-gradient(135deg,#edf8f3,#ffffff 70%)">
           <div class="f-eq" style="font-size:clamp(14px,1.8vw,19px)"><span class="v" style="color:var(--green)">可达核访上限</span> ≈ Σ<sub>场景</sub>（可投曝光 <span class="op">×</span> max_support_ratio <span class="op">×</span> 扶持房源预估核访率），周期内累计</div>
           <div class="f-legend">
             <span><b>建议目标</b> = 可达上限 × 安全系数（约 0.7~0.8），留波动与止损空间</span>
-            <span>系统给出 <b>保守 / 建议 / 可达上限</b> 三档供需求方选择</span>
+            <span>需求方不自由填，<b>只能在 保守 ~ 可达上限 间滑动</b>，默认建议档</span>
           </div>
         </div>
 
         <div class="goal-gauge">
           <div class="gg-bar">
-            <div class="gg-zone low">过低 · 浪费扶持位</div>
+            <div class="gg-zone low">低于保守 · 浪费扶持位</div>
             <div class="gg-zone ok">
               <span class="gg-tier">保守</span>
-              <span class="gg-tier mid">建议</span>
+              <span class="gg-tier mid">建议 · 默认</span>
               <span class="gg-tier">可达上限</span>
             </div>
-            <div class="gg-zone high">过高 · 达不成 / 空耗优质流量</div>
+            <div class="gg-zone high">🔒 超出可达上限 · 不可设定</div>
           </div>
-          <div class="gg-axis"><span>← 目标偏低</span><span><b>合理区间</b>（保守 ~ 可达上限）</span><span>目标偏高 →</span></div>
+          <div class="gg-axis"><span>← 不建议</span><span><b>需求方可滑动区间</b>（保守 ~ 可达上限，默认建议）</span><span>系统拒绝 →</span></div>
+          <p style="margin-top:10px;font-size:13px;font-weight:700;color:var(--muted)">超出可达上限<b style="color:var(--ink)">不允许设定</b>，系统会给出明确理由：<b style="color:var(--ink)">需扩房源池 / 延长周期</b>才能支撑更高目标，否则只会达不成且空耗平台优质流量。</p>
         </div>
 
         <div class="grid-3" style="margin-top:16px">
@@ -723,16 +724,16 @@
           <div class="card blue">
             <h4>输出 · 给需求方</h4>
             <ul>
-              <li>推荐核访目标区间：保守 / 建议 / 可达上限</li>
-              <li>预计所需扶持流量与各场景分配</li>
+              <li>目标三档：保守 / <b>建议（默认）</b> / 可达上限（滑动上限）</li>
+              <li>各档对应的扶持流量与各场景分配</li>
               <li>预估达成时间与投放节奏</li>
             </ul>
           </div>
           <div class="card orange">
-            <h4>风险提示</h4>
+            <h4>约束与理由</h4>
             <ul>
-              <li>目标 &gt; 可达上限 → 建议扩房源池 / 延周期 / 降目标</li>
-              <li>目标 &lt; 保守值 → 提示可上调，避免浪费扶持位</li>
+              <li><b>上限锁定</b>：不可超过可达上限——更高需扩房源池 / 延周期，系统给出明确理由</li>
+              <li>默认落在<b>建议档</b>，需求方仅可在 保守 ~ 可达上限 间滑动</li>
               <li>房源历史样本不足 → 用场景均值兜底并标注低置信</li>
             </ul>
           </div>
