@@ -346,19 +346,19 @@
           </div>
         </div>
 
-        <div class="callout">这不是外部商业“广告”系统，而是一个<strong>内部房源流量扶持系统</strong>——借鉴计算“广告”的投放思想，服务对象是贝壳内部业务中的目标房源。它<strong>不是 eCPM 抢曝光，而是类 oCPM 保核访</strong>：以「点进投放房源详情」为优化目标，而非单纯堆曝光。<span>这里的「成本」也不是花了多少钱，而是<strong>消耗了多少平台优质流量</strong>、以及<strong>对用户体验造成多少损耗</strong>——所以系统以效率为约束、低效即自动止损。需求方提供要扶持的房源和周期核访目标，Ke+ 投放系统负责在多个分发场景中自动完成核访目标，并在点击效率过低时自动止损。</span></div>
+        <div class="callout">这不是外部商业“广告”系统，而是一个<strong>内部房源流量扶持系统</strong>——借鉴计算“广告”的投放思想，服务对象是贝壳内部业务中的目标房源。它<strong>不是 eCPM 抢曝光，而是类 oCPM 保核访</strong>：以「点进投放房源详情」为优化目标，而非单纯堆曝光。<span>这里的「成本」也不是花了多少钱，而是<strong>消耗了多少平台优质流量</strong>、以及<strong>对用户体验造成多少损耗</strong>——所以系统以效率为约束、低效即自动止损。需求方<strong>只需提供要扶持的目标房源，系统辅助生成周期核访目标</strong>，Ke+ 投放系统负责在多个分发场景中自动完成核访目标，并在点击效率过低时自动止损。</span></div>
       </section>
 
       <!-- ============ 02 MVP 目标与边界 ============ -->
       <section>
         <div class="section-title" data-num="02"><h2>MVP 目标与边界</h2></div>
-        <p class="lead">MVP 先跑通一个最小闭环：<strong style="color:var(--ink);font-weight:900">需求方提供房源 → 系统完成周期核访目标 → 自动止损 → 报表归因</strong>。</p>
+        <p class="lead">MVP 先跑通一个最小闭环：<strong style="color:var(--ink);font-weight:900">需求方只提供目标房源 → 系统辅助生成核访目标 → 自动投放达成 → 自动止损 → 报表归因</strong>。</p>
 
         <div class="target-board">
           <div class="target-main">
             <span class="label">核心问题</span>
-            <strong>给定房源 + 周期核访目标<br>系统自动投放并明确结果</strong>
-            <p>需求方给定一批房源和一个周期核访总量目标后，系统能在指定场景中自动投放，并清楚判断最终是「目标达成」还是「点击效率过低止损」。</p>
+            <strong>只需提供目标房源<br>系统辅助生成目标并自动投放</strong>
+            <p>需求方只需提供一批目标房源，系统辅助测算并生成周期核访目标，再在指定场景中自动投放，并清楚判断最终是「目标达成」还是「点击效率过低止损」。</p>
             <div class="target-pair">
               <div class="region"><small>能力数量</small><b>7 项核心能力</b></div>
               <div class="region"><small>投放场景</small><b>4 个核心场景</b></div>
@@ -369,7 +369,7 @@
               <span class="label">产品目标 · 7 项能力</span>
               <div class="chips">
                 <span class="chip-blue">任务接入</span>
-                <span class="chip-blue">周期目标</span>
+                <span class="chip-blue">目标辅助生成</span>
                 <span class="chip-blue">多场景投放</span>
                 <span class="chip-blue">在线投放</span>
                 <span class="chip-blue">节奏控制</span>
@@ -410,7 +410,9 @@
         <div class="flow-chain">
           <span class="fc-node start">创建投放任务</span>
           <span class="fc-arrow">→</span>
-          <span class="fc-node">传入房源 + 周期目标</span>
+          <span class="fc-node">传入目标房源</span>
+          <span class="fc-arrow">→</span>
+          <span class="fc-node calc">系统辅助生成核访目标</span>
           <span class="fc-arrow">→</span>
           <span class="fc-node">生成投放任务</span>
           <span class="fc-arrow">→</span>
@@ -451,7 +453,7 @@
               <tr><td><code class="k">demand_source</code></td><td><span class="req yes">是</span></td><td>需求方来源（城市/活动/经营项目）</td></tr>
               <tr><td><code class="k">city_id</code></td><td><span class="req yes">是</span></td><td>城市 ID</td></tr>
               <tr><td><code class="k">start_time / end_time</code></td><td><span class="req yes">是</span></td><td>投放起止时间</td></tr>
-              <tr><td><code class="k">target_click</code></td><td><span class="req yes">是</span></td><td>周期目标核访总量（字段名沿用 target_click）</td></tr>
+              <tr><td><code class="k">target_click</code></td><td><span class="req no">否</span></td><td>周期目标核访总量；缺省由系统辅助生成（需求方确认档位）</td></tr>
               <tr><td><code class="k">scenes</code></td><td><span class="req yes">是</span></td><td>可投放场景列表</td></tr>
               <tr><td><code class="k">priority</code></td><td><span class="req no">否</span></td><td>任务优先级，默认普通</td></tr>
               <tr><td><code class="k">max_support_ratio</code></td><td><span class="req no">否</span></td><td>最大扶持流量占比</td></tr>
@@ -685,7 +687,7 @@
         <div class="section-title" data-num="07"><h2>核访目标与停止机制</h2></div>
 
         <h3 style="margin-top:2px">① 目标设定辅助</h3>
-        <p class="lead">需求方不必凭感觉拍目标——系统在建任务时<strong style="color:var(--ink);font-weight:900">根据房源历史核访能力、周期与场景容量，自动测算一个可达成、不浪费的核访目标区间</strong>，避免目标过高（达不成、空耗优质流量）或过低（未充分利用扶持位）。</p>
+        <p class="lead">MVP 中<strong style="color:var(--ink);font-weight:900">需求方只需提供目标房源，核访目标由系统辅助生成</strong>——在建任务时根据房源历史核访能力、周期与场景容量，自动测算一个可达成、不浪费的核访目标区间，避免目标过高（达不成、空耗优质流量）或过低（未充分利用扶持位）。</p>
 
         <div class="formula" style="border-color:rgba(40,118,87,.2);background:linear-gradient(135deg,#edf8f3,#ffffff 70%)">
           <div class="f-eq" style="font-size:clamp(14px,1.8vw,19px)"><span class="v" style="color:var(--green)">可达核访上限</span> ≈ Σ<sub>场景</sub>（可投曝光 <span class="op">×</span> max_support_ratio <span class="op">×</span> 扶持房源预估核访率），周期内累计</div>
@@ -990,7 +992,7 @@
             <div class="prio-head"><span>P0 · 必须做</span><small>最小闭环</small></div>
             <div class="prio-body"><ul>
               <li>任务创建接口 + 房源接入</li>
-              <li>周期目标核访量</li>
+              <li>目标设定辅助（系统生成核访目标）</li>
               <li>4 个场景标识 + 在线投放（置顶 / 注入）</li>
               <li>基础 Pacing</li>
               <li>目标达成自动停止</li>
@@ -1002,7 +1004,6 @@
           <div class="prio-card p1">
             <div class="prio-head"><span>P1 · 可后置</span><small>体验增强</small></div>
             <div class="prio-body"><ul>
-              <li>目标设定辅助（推荐目标区间）</li>
               <li>房源维度详细报表</li>
               <li>单房源 cap</li>
               <li>更精细 pCTR 模型接入</li>
