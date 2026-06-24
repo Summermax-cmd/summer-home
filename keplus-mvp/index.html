@@ -456,8 +456,11 @@
               <tr><td><code class="k">target_click</code></td><td><span class="req no">否</span></td><td>周期目标核访总量；不由需求方填，系统在 [保守, 可达上限] 内生成、默认建议档</td></tr>
               <tr><td><code class="k">scenes</code></td><td><span class="req yes">是</span></td><td>可投放场景列表</td></tr>
               <tr><td><code class="k">priority</code></td><td><span class="req no">否</span></td><td>任务优先级，默认普通</td></tr>
-              <tr><td><code class="k">max_support_ratio</code></td><td><span class="req no">否</span></td><td>最大扶持流量占比</td></tr>
+              <tr><td><code class="k">max_support_ratio</code></td><td><span class="req no">否</span></td><td>最大扶持流量占比；按场景标定的上限<b>由系统自算</b>，任务只能在硬顶内调低</td></tr>
             </table>
+            <div class="insight-box">
+              <p><strong>max_support_ratio 怎么来：</strong>它是<strong>按场景标定的扶持流量上限，由系统自己计算、非人工/需求方设定</strong>。例如<strong>推荐 feeds</strong> 用偶数位注入，理论上限可达 <strong>50%</strong>；系统再用 <strong>10% 对照组</strong>实测「占比加到多少会拉低整体核访率」，在理论上限内反推出每个场景的安全上限。任务可在此硬顶内调低，不可调高。</p>
+            </div>
           </div>
           <div>
             <h4>房源级输入字段</h4>
