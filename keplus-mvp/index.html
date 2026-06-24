@@ -440,23 +440,23 @@
       <!-- ============ 04 需求方输入 ============ -->
       <section>
         <div class="section-title" data-num="04"><h2>需求方输入</h2></div>
-        <p class="lead">需求方提供「任务级」与「房源级」两类输入，<strong style="color:var(--ink);font-weight:900">优先支持系统后台直接配置 + 批量上传房源</strong>（可视化、人工即可操作、无需开发对接，落地成本低）；如成本允许同时保留<strong style="color:var(--ink);font-weight:900">接口对接</strong>方式做程序化批量接入。</p>
+        <p class="lead">需求方提供「任务级」与「房源级」两类输入。<strong style="color:var(--ink);font-weight:900">MVP 只走系统后台直接配置 + 批量上传房源</strong>——可视化、人工即可操作、无需研发对接（我们目前也没有现成的内部任务平台可挂接口）；程序化<strong style="color:var(--ink);font-weight:900">接口对接列入后续演进</strong>，届时复用同一套数据模型。</p>
 
         <div class="grid-2" style="margin-bottom:16px">
           <div class="card">
-            <h4>方式一 · 后台配置 + 批量上传（优先）</h4>
+            <h4>MVP · 后台配置 + 批量上传</h4>
             <ul>
-              <li>可视化后台直接建任务、填字段、选场景</li>
+              <li>自建<b>最小内部操作页</b>：建任务、填字段、选场景</li>
               <li>房源支持 <b>Excel / CSV 批量上传</b>，或粘贴房源 ID</li>
               <li>运营 / 需求方<b>人工即可操作</b>，无需研发对接，成本低</li>
             </ul>
           </div>
-          <div class="card blue">
-            <h4>方式二 · 接口对接</h4>
+          <div class="card" style="opacity:.62">
+            <h4>后续 · 接口对接</h4>
             <ul>
-              <li>程序化创建任务、传房源列表</li>
-              <li>适合系统化、大批量、周期性自动接入</li>
-              <li>与后台共用同一套任务 / 房源数据模型</li>
+              <li>程序化创建任务、传房源，适合大批量周期性接入</li>
+              <li>MVP <b>不做</b>；数据模型预留，后续可平滑加接口</li>
+              <li>与后台<b>共用同一套任务 / 房源字段</b></li>
             </ul>
           </div>
         </div>
@@ -966,8 +966,9 @@
           </div>
         </div>
 
+        <p style="margin:16px 0 0;font-size:13.5px;font-weight:700;color:var(--muted)">下列接口 MVP 阶段<b style="color:var(--ink)">仅由内部后台调用</b>（建任务 / 查状态 / 取消 / 拉报表），不对外开放；外部程序化对接为后续，复用同一套接口。</p>
         <div class="api-list">
-          <div class="api-item"><span class="api-method post">POST</span><span class="api-path">/keplus/ad/task/create</span><span class="api-desc">创建投放任务（任务 + 房源列表）</span></div>
+          <div class="api-item"><span class="api-method post">POST</span><span class="api-path">/keplus/ad/task/create</span><span class="api-desc">创建投放任务（后台提交：任务 + 房源列表）</span></div>
           <div class="api-item"><span class="api-method get">GET</span><span class="api-path">/keplus/ad/task/status?task_id=xxx</span><span class="api-desc">查询任务状态与完成率</span></div>
           <div class="api-item"><span class="api-method post">POST</span><span class="api-path">/keplus/ad/task/cancel</span><span class="api-desc">取消任务（operator + reason）</span></div>
           <div class="api-item"><span class="api-method get">GET</span><span class="api-path">/keplus/ad/task/report?task_id=xxx</span><span class="api-desc">任务总览 / 场景 / 房源 / 停止归因</span></div>
@@ -1001,6 +1002,7 @@
               <div class="team-item"><h4>效率止损模块</h4><p>窗口化统计、最小样本门槛、限速 / 停止、任务级止损、状态变更</p></div>
               <div class="team-item"><h4>数据埋点</h4><p>曝光 / 核访 / 状态变更三类埋点，含 request_id、is_ad_support、各 score</p></div>
               <div class="team-item"><h4>报表归因模块</h4><p>任务 / 场景 / 房源三维聚合、停止原因记录、报表接口</p></div>
+              <div class="team-item"><h4>最小内部后台</h4><p>建任务 / 填字段 / 选场景 + Excel·CSV 批量上传房源，人工可操作（无现成平台，需自建）</p></div>
               <div class="team-item"><h4>对照组分流</h4><p>预留 10% 流量稳定分桶，保证对照组与扶持组同口径可比</p></div>
             </div>
           </div>
@@ -1017,7 +1019,7 @@
           <div class="prio-card p0">
             <div class="prio-head"><span>P0 · 必须做</span><small>最小闭环</small></div>
             <div class="prio-body"><ul>
-              <li>任务创建接口 + 房源接入</li>
+              <li>最小内部后台：建任务 + 批量上传房源</li>
               <li>目标设定辅助（系统生成核访目标）</li>
               <li>4 个场景标识 + 在线投放（置顶 / 注入）</li>
               <li>基础 Pacing</li>
@@ -1036,12 +1038,13 @@
               <li>首屏 / 非首屏差异策略</li>
               <li>对照组基准分层细化</li>
               <li>负反馈止损</li>
-              <li>需求方后台（配置 + 批量上传，人工可操作）</li>
+              <li>后台体验增强（更完整的可视化）</li>
             </ul></div>
           </div>
           <div class="prio-card p2">
             <div class="prio-head"><span>P2 · 后续演进</span><small>体系化</small></div>
             <div class="prio-body"><ul>
+              <li>接口对接（程序化批量接入，复用同一数据模型）</li>
               <li>核访升级深层转化 → 引入 pCVR（oCPM 全量）</li>
               <li>多任务竞价</li>
               <li>增量实验归因</li>
