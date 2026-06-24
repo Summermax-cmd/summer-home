@@ -672,6 +672,46 @@
       <section>
         <div class="section-title" data-num="07"><h2>核访目标与停止机制</h2></div>
 
+        <h3 style="margin-top:2px">① 目标设定辅助</h3>
+        <p class="lead">需求方不必凭感觉拍目标——系统在建任务时<strong style="color:var(--ink);font-weight:900">根据房源历史核访能力、周期与场景容量，自动测算一个可达成、不浪费的核访目标区间</strong>，避免目标过高（达不成、空耗优质流量）或过低（未充分利用扶持位）。</p>
+
+        <div class="formula" style="border-color:rgba(40,118,87,.2);background:linear-gradient(135deg,#edf8f3,#ffffff 70%)">
+          <div class="f-eq" style="font-size:clamp(14px,1.8vw,19px)"><span class="v" style="color:var(--green)">可达核访上限</span> ≈ Σ<sub>场景</sub>（可投曝光 <span class="op">×</span> max_support_ratio <span class="op">×</span> 扶持房源预估核访率），周期内累计</div>
+          <div class="f-legend">
+            <span><b>建议目标</b> = 可达上限 × 安全系数（约 0.7~0.8），留波动与止损空间</span>
+            <span>系统给出 <b>保守 / 建议 / 可达上限</b> 三档供需求方选择</span>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top:16px">
+          <div class="card">
+            <h4>输入 · 系统已知</h4>
+            <ul>
+              <li>房源列表 + 各房源历史核访能力（历史 CTR × 可得曝光）</li>
+              <li>投放周期长度</li>
+              <li>可投场景 + 各场景对照组容量（可承接占比）</li>
+              <li><code class="k">max_support_ratio</code> 扶持流量上限</li>
+            </ul>
+          </div>
+          <div class="card blue">
+            <h4>输出 · 给需求方</h4>
+            <ul>
+              <li>推荐核访目标区间：保守 / 建议 / 可达上限</li>
+              <li>预计所需扶持流量与各场景分配</li>
+              <li>预估达成时间与投放节奏</li>
+            </ul>
+          </div>
+          <div class="card orange">
+            <h4>风险提示</h4>
+            <ul>
+              <li>目标 &gt; 可达上限 → 建议扩房源池 / 延周期 / 降目标</li>
+              <li>目标 &lt; 保守值 → 提示可上调，避免浪费扶持位</li>
+              <li>房源历史样本不足 → 用场景均值兜底并标注低置信</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 style="margin-top:30px">② 目标口径与停止机制</h3>
         <div class="metric-row">
           <div class="metric m-orange">
             <small>目标口径</small>
@@ -895,6 +935,7 @@
               <div class="team-item"><h4>Relevance 相关性底线</h4><p>各场景相关性规则；搜索须 query / 筛选相关、小区须本小区等硬底线</p></div>
               <div class="team-item"><h4>Pacing 节奏策略</h4><p>完成率 vs 时间消耗率判断，PacingBoost 分档取值标定</p></div>
               <div class="team-item"><h4>对照组基准与阈值标定</h4><p>10% 对照组基准、止损下降阈值、承接配比、最小样本量的科学性与调参</p></div>
+              <div class="team-item"><h4>目标设定辅助测算</h4><p>按房源历史核访能力 × 场景容量估算可达上限，给出保守/建议/上限三档</p></div>
             </div>
           </div>
           <div class="team-col eng">
@@ -936,6 +977,7 @@
           <div class="prio-card p1">
             <div class="prio-head"><span>P1 · 可后置</span><small>体验增强</small></div>
             <div class="prio-body"><ul>
+              <li>目标设定辅助（推荐目标区间）</li>
               <li>房源维度详细报表</li>
               <li>单房源 cap</li>
               <li>更精细 pCTR 模型接入</li>
