@@ -440,7 +440,26 @@
       <!-- ============ 04 需求方输入 ============ -->
       <section>
         <div class="section-title" data-num="04"><h2>需求方输入</h2></div>
-        <p class="lead">需求方通过接口传入「任务级」与「房源级」两类输入。</p>
+        <p class="lead">需求方提供「任务级」与「房源级」两类输入，<strong style="color:var(--ink);font-weight:900">优先支持系统后台直接配置 + 批量上传房源</strong>（可视化、人工即可操作、无需开发对接，落地成本低）；如成本允许同时保留<strong style="color:var(--ink);font-weight:900">接口对接</strong>方式做程序化批量接入。</p>
+
+        <div class="grid-2" style="margin-bottom:16px">
+          <div class="card">
+            <h4>方式一 · 后台配置 + 批量上传（优先）</h4>
+            <ul>
+              <li>可视化后台直接建任务、填字段、选场景</li>
+              <li>房源支持 <b>Excel / CSV 批量上传</b>，或粘贴房源 ID</li>
+              <li>运营 / 需求方<b>人工即可操作</b>，无需研发对接，成本低</li>
+            </ul>
+          </div>
+          <div class="card blue">
+            <h4>方式二 · 接口对接</h4>
+            <ul>
+              <li>程序化创建任务、传房源列表</li>
+              <li>适合系统化、大批量、周期性自动接入</li>
+              <li>与后台共用同一套任务 / 房源数据模型</li>
+            </ul>
+          </div>
+        </div>
 
         <div class="grid-2">
           <div>
@@ -1017,7 +1036,7 @@
               <li>首屏 / 非首屏差异策略</li>
               <li>对照组基准分层细化</li>
               <li>负反馈止损</li>
-              <li>需求方后台页面</li>
+              <li>需求方后台（配置 + 批量上传，人工可操作）</li>
             </ul></div>
           </div>
           <div class="prio-card p2">
