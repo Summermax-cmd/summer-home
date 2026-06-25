@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function () {
+      try {
+        var minSide = Math.min(window.screen.width, window.screen.height);
+        if (minSide < 600) {
+          var vp = document.querySelector('meta[name="viewport"]');
+          if (vp) vp.setAttribute('content', 'width=1180');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta name="color-scheme" content="light">
+  <title>贝壳商业模式 · Before → After</title>
+  <style>
+    :root {
+      --ink: #142033; --text: #334155; --muted: #64748b;
+      --line: #dbe3ef; --blue: #245fd6; --cyan: #0f8f9d; --orange: #d96a2b;
+      --green: #287657; --red: #b04444; --gray: #94a3b8;
+      --body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+      --shadow: 0 24px 72px rgba(20,32,51,.10);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: linear-gradient(180deg, #f8fafc 0%, #eef2f6 52%, #e8edf4 100%); font-family: var(--body); line-height: 1.6; }
+    main { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 30px 0 46px; }
+    .sheet { position: relative; overflow: hidden; background: rgba(255,255,255,.97); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+    .sheet::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 8px; background: linear-gradient(180deg, var(--gray) 0%, var(--gray) 38%, var(--green) 50%, var(--cyan) 75%, var(--orange)); }
+    header { padding: 40px 50px 30px 60px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, rgba(237,248,243,.9), rgba(255,255,255,.98) 64%); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; margin-bottom: 14px; padding: 6px 12px; color: var(--green); background: rgba(40,118,87,.08); border: 1px solid rgba(40,118,87,.16); border-radius: 999px; font-size: 13px; font-weight: 850; }
+    .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+    h1 { margin: 0; font-size: clamp(30px, 3.6vw, 46px); line-height: 1.12; font-weight: 950; }
+    h1 .b { color: var(--gray); } h1 .a { color: var(--green); }
+    .subtitle { margin: 14px 0 0; color: #4b5563; font-size: 17px; font-weight: 700; max-width: 880px; }
+    section { padding: 30px 50px 34px 60px; border-bottom: 1px solid var(--line); }
+    section:last-of-type { border-bottom: 0; }
+    .phase-head { display: flex; align-items: center; gap: 13px; margin-bottom: 18px; }
+    .phase-tag { display: inline-grid; place-items: center; height: 38px; padding: 0 16px; border-radius: 8px; color: #fff; font-size: 16px; font-weight: 950; letter-spacing: .5px; }
+    .phase-tag.before { background: linear-gradient(135deg, #64748b, #475569); }
+    .phase-tag.after { background: linear-gradient(135deg, var(--green), #1a8a5e); }
+    .phase-head h2 { margin: 0; font-size: 24px; font-weight: 900; }
+    .phase-head .ph-sub { color: var(--muted); font-size: 14px; font-weight: 700; }
+
+    /* Roles */
+    .roles { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .role { display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 999px; background: #fff; border: 1px solid var(--line); box-shadow: 0 6px 16px rgba(20,32,51,.05); font-size: 15px; font-weight: 850; color: var(--ink); }
+    .role .ic { font-size: 19px; }
+    .role.sys { border-color: rgba(36,95,214,.3); background: linear-gradient(135deg, #eef5ff, #fff 70%); color: var(--blue); }
+    .role.new { border-color: rgba(40,118,87,.35); background: linear-gradient(135deg, #edf8f3, #fff 70%); }
+    .role .newbadge { font-size: 11px; font-weight: 900; color: #fff; background: var(--green); padding: 1px 7px; border-radius: 999px; margin-left: 2px; }
+
+    /* Flow chain */
+    .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; }
+    .flab { flex: 0 0 92px; font-size: 13.5px; font-weight: 900; color: var(--muted); }
+    .fnode { padding: 10px 15px; border-radius: 10px; background: #fff; border: 1px solid var(--line); font-size: 14px; font-weight: 800; color: var(--ink); box-shadow: 0 6px 16px rgba(20,32,51,.05); }
+    .fnode.deal { background: #f1f5f9; border-color: #cbd5e1; color: #475569; }
+    .fnode.deal.win { background: #dcfce7; border-color: #86efac; color: #166534; }
+    .farrow { color: var(--gray); font-size: 17px; font-weight: 900; }
+
+    .platform-cut { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 10px 16px; border-radius: 10px; background: #fff7ed; border: 1px solid #fed7aa; color: #8a4215; font-size: 14.5px; font-weight: 850; }
+    .static-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .static-chips span { font-size: 13px; font-weight: 800; padding: 5px 11px; border-radius: 999px; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+    /* Divider */
+    .plus-div { display: flex; align-items: center; gap: 14px; padding: 20px 50px; background: linear-gradient(90deg, rgba(40,118,87,.06), rgba(15,143,157,.04)); border-bottom: 1px solid var(--line); }
+    .plus-ic { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--green), var(--cyan)); color: #fff; font-size: 26px; font-weight: 700; flex-shrink: 0; box-shadow: 0 8px 22px rgba(40,118,87,.22); }
+    .plus-div .pd-t { font-size: 19px; font-weight: 950; color: var(--ink); }
+    .plus-div .pd-s { font-size: 14px; font-weight: 700; color: var(--muted); }
+
+    /* After loop — three phases */
+    .loop { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin: 4px 0 8px; align-items: stretch; }
+    .lphase { position: relative; padding: 20px 18px; border: 1px solid var(--line); background: #fff; box-shadow: 0 8px 22px rgba(20,32,51,.05); }
+    .lphase:first-child { border-radius: 12px 0 0 12px; }
+    .lphase:last-child { border-radius: 0 12px 12px 0; }
+    .lphase + .lphase { border-left: 0; }
+    .lphase::after { content: "→"; position: absolute; top: 50%; right: -13px; transform: translateY(-50%); z-index: 2; color: var(--green); font-size: 22px; font-weight: 900; background: #fff; border-radius: 50%; width: 26px; height: 26px; display: grid; place-items: center; box-shadow: 0 2px 8px rgba(40,118,87,.2); }
+    .lphase:last-child::after { display: none; }
+    .lphase .lp-tag { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 900; color: #fff; margin-bottom: 12px; }
+    .lphase.p1 .lp-tag { background: var(--blue); } .lphase.p1 { border-top: 3px solid var(--blue); }
+    .lphase.p2 .lp-tag { background: var(--cyan); } .lphase.p2 { border-top: 3px solid var(--cyan); }
+    .lphase.p3 .lp-tag { background: var(--orange); } .lphase.p3 { border-top: 3px solid var(--orange); }
+    .lphase ul { margin: 0; padding-left: 17px; color: #43516a; font-size: 14px; font-weight: 650; line-height: 1.55; }
+    .lphase li { margin: 6px 0; }
+    .lphase li b { color: var(--ink); font-weight: 850; }
+
+    .loop-back { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0 16px; padding: 10px; border: 1px dashed #cbd5e1; border-radius: 10px; background: #f8fafc; font-size: 14px; font-weight: 800; color: var(--muted); }
+    .loop-back b { color: var(--ink); }
+    .loop-back .lb-arrow { color: var(--orange); font-size: 18px; font-weight: 900; }
+
+    /* Branch */
+    .branches { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 6px 0 4px; }
+    .branch { padding: 16px 18px; border-radius: 12px; }
+    .branch.win { background: linear-gradient(135deg, #edf8f3, #fff 72%); border: 1px solid #bbf7d0; }
+    .branch.lose { background: linear-gradient(135deg, #fff7ed, #fff 72%); border: 1px solid #fed7aa; }
+    .branch h4 { margin: 0 0 6px; font-size: 16px; font-weight: 900; }
+    .branch.win h4 { color: #1f6b4d; } .branch.lose h4 { color: #8a4215; }
+    .branch p { margin: 0; font-size: 14px; font-weight: 700; color: #43516a; }
+    .branch p b { color: var(--ink); }
+
+    .buyer-note { margin-top: 16px; padding: 14px 18px; border-radius: 10px; border-left: 5px solid var(--blue); background: #eef5ff; font-size: 15px; font-weight: 800; color: #1f3a6b; }
+
+    /* Key highlight */
+    .key { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 4px; }
+    .key-card { padding: 22px; border-radius: 12px; box-shadow: 0 12px 30px rgba(20,32,51,.07); }
+    .key-card.static { border: 2px solid #cbd5e1; background: linear-gradient(135deg, #f8fafc, #fff 70%); }
+    .key-card.value { border: 2px solid rgba(40,118,87,.35); background: linear-gradient(135deg, #edf8f3, #fff 68%); }
+    .key-card .kc-tag { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 900; margin-bottom: 12px; }
+    .key-card.static .kc-tag { background: #e2e8f0; color: #475569; }
+    .key-card.value .kc-tag { background: var(--green); color: #fff; }
+    .key-card h3 { margin: 0 0 8px; font-size: 21px; font-weight: 950; color: var(--ink); }
+    .key-card.value h3 { color: #1f6b4d; }
+    .key-card p { margin: 0; font-size: 15px; font-weight: 720; color: #40506a; }
+    .key-card ul { margin: 10px 0 0; padding-left: 18px; color: #43516a; font-size: 14.5px; font-weight: 700; }
+    .key-card li { margin: 5px 0; }
+    .key-card b { color: var(--ink); }
+    .keep-row { display: flex; gap: 16px; margin-top: 6px; }
+    .keep-item { flex: 1; text-align: center; padding: 12px; border-radius: 10px; background: #fff; border: 1px solid #e2e8f0; }
+    .keep-item small { display: block; font-size: 12px; font-weight: 800; color: var(--muted); }
+    .keep-item b { display: block; margin-top: 4px; font-size: 18px; font-weight: 950; color: #475569; }
+    .keep-item .lock { font-size: 13px; color: var(--green); font-weight: 900; }
+
+    @media (max-width: 900px) {
+      * { min-width: 0; overflow-wrap: anywhere; }
+      main { width: calc(100vw - 24px); }
+      header, section, .plus-div { padding-left: 24px; padding-right: 22px; }
+      h1 { font-size: 26px; }
+      .loop, .branches, .key { grid-template-columns: 1fr; }
+      .lphase { border-radius: 12px !important; border-left: 1px solid var(--line) !important; }
+      .lphase::after { content: "↓"; top: auto; bottom: -13px; right: 50%; transform: translateX(50%); }
+      .flab { flex: 0 0 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article class="sheet">
+
+      <header>
+        <div class="eyebrow">商业模式演进 · 房源投放系统</div>
+        <h1>贝壳商业模式 <span class="b">Before</span> → <span class="a">After</span></h1>
+        <p class="subtitle">在「挂房源—带看—议价—成交」的存量链路之上，新增一套<strong>房源投放系统</strong>：房价与佣金率不变，投放对应的是<strong>增值服务</strong>，为平台打开新的收益机会点。</p>
+      </header>
+
+      <!-- ===== BEFORE ===== -->
+      <section>
+        <div class="phase-head">
+          <span class="phase-tag before">BEFORE</span>
+          <h2>传统居住交易链路</h2>
+          <span class="ph-sub">货架浏览 · 经纪人撮合 · 线下成交</span>
+        </div>
+
+        <div class="roles">
+          <span class="role"><span class="ic">🙋</span>买房用户</span>
+          <span class="role"><span class="ic">🧑‍💼</span>经纪人</span>
+          <span class="role"><span class="ic">🏢</span>平台</span>
+          <span class="role"><span class="ic">🏠</span>卖房用户</span>
+        </div>
+
+        <div class="flow">
+          <span class="flab">卖方侧</span>
+          <span class="fnode">卖房用户挂房源</span><span class="farrow">→</span>
+          <span class="fnode">经纪人维护房源</span><span class="farrow">→</span>
+          <span class="fnode">线下带看</span><span class="farrow">→</span>
+          <span class="fnode">议价</span><span class="farrow">→</span>
+          <span class="fnode deal">成交</span>
+        </div>
+        <div class="flow">
+          <span class="flab">买方侧</span>
+          <span class="fnode">平台货架浏览房源</span><span class="farrow">→</span>
+          <span class="fnode">咨询联系经纪人</span><span class="farrow">→</span>
+          <span class="fnode">线下带看</span><span class="farrow">→</span>
+          <span class="fnode">议价</span><span class="farrow">→</span>
+          <span class="fnode deal">成交</span>
+        </div>
+
+        <div class="platform-cut">🏢 平台从成交中获得 <b>&nbsp;x%&nbsp;</b> 分成（基于 ACN 协作网络）</div>
+        <div class="static-chips">
+          <span>房子价格 = y</span>
+          <span>佣金点位 = z%</span>
+          <span>ACN 经纪人协作网络</span>
+        </div>
+      </section>
+
+      <!-- ===== DIVIDER ===== -->
+      <div class="plus-div">
+        <span class="plus-ic">+</span>
+        <div>
+          <div class="pd-t">新增能力：房源投放系统</div>
+          <div class="pd-s">在原链路之上叠加「投前 → 投中 → 投后」闭环，不改变价格与佣金，只新增增值服务</div>
+        </div>
+      </div>
+
+      <!-- ===== AFTER ===== -->
+      <section>
+        <div class="phase-head">
+          <span class="phase-tag after">AFTER</span>
+          <h2>叠加房源投放系统</h2>
+          <span class="ph-sub">出价驱动 · 放大核访 · 投后反馈优化</span>
+        </div>
+
+        <div class="roles">
+          <span class="role new"><span class="ic">🙋</span>买房用户 / 经纪人</span>
+          <span class="role new"><span class="ic">🏠</span>卖房用户 / 经纪人</span>
+          <span class="role sys"><span class="ic">📡</span>房源投放系统<span class="newbadge">新增</span></span>
+          <span class="role"><span class="ic">🏢</span>平台</span>
+        </div>
+
+        <!-- 投前/投中/投后 闭环 -->
+        <div class="loop">
+          <div class="lphase p1">
+            <span class="lp-tag">投前</span>
+            <ul>
+              <li>卖方用户 / 经纪人<b>出价</b></li>
+              <li>价不止是货币，<b>付出的时间与精力成本也计入</b></li>
+              <li>平台据出价匹配<b>准客 / 潜客</b></li>
+            </ul>
+          </div>
+          <div class="lphase p2">
+            <span class="lp-tag">投中</span>
+            <ul>
+              <li>在分发场景<b>放大该房源的核访</b></li>
+              <li>配备<b>专属触达素材 / 落地页 / 服务</b></li>
+              <li>买方<b>发现投放房源的概率更高</b></li>
+            </ul>
+          </div>
+          <div class="lphase p3">
+            <span class="lp-tag">投后</span>
+            <ul>
+              <li>获得<b>投后反馈</b>（核访、留资、带看…）</li>
+              <li>按效果分两路（见下）</li>
+              <li>为投放房源<b>带来更多成交机会</b></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="branches">
+          <div class="branch win">
+            <h4>① 有效果</h4>
+            <p>带来<b>更多客户</b> → <b>提升成交机会</b>，可继续 / 加投</p>
+          </div>
+          <div class="branch lose">
+            <h4>② 无效果</h4>
+            <p>系统给出<b>优化建议</b> → <b>调整出价</b> / 换房源 / 调周期</p>
+          </div>
+        </div>
+
+        <div class="loop-back">
+          <span class="lb-arrow">↻</span> 投后反馈回流到<b>下一轮出价</b>，形成<b>投前 → 投中 → 投后</b>持续闭环
+        </div>
+
+        <div class="buyer-note">🙋 买方侧：投放让买房用户 / 经纪人<b>更容易发现对的房源</b>，为投放房源带来更多成交机会；平台仍从成交中获得 <b>x%</b> 分成。</div>
+      </section>
+
+      <!-- ===== KEY ===== -->
+      <section>
+        <div class="phase-head">
+          <span class="phase-tag after" style="background:linear-gradient(135deg,var(--orange),#c25a1f)">关键</span>
+          <h2>不变的 与 新增的</h2>
+          <span class="ph-sub">投放 = 增值服务，是平台新的收益机会点</span>
+        </div>
+
+        <div class="key">
+          <div class="key-card static">
+            <span class="kc-tag">保持不变</span>
+            <h3>房价 与 佣金率 不动</h3>
+            <p>投放系统<b>不改变</b>房子的成交价格、也<b>不改变</b>佣金点位，原有交易关系与 ACN 协作完全保留。</p>
+            <div class="keep-row">
+              <div class="keep-item"><small>房子价格</small><b>y</b><span class="lock">🔒 不变</span></div>
+              <div class="keep-item"><small>佣金率</small><b>z%</b><span class="lock">🔒 不变</span></div>
+            </div>
+          </div>
+          <div class="key-card value">
+            <span class="kc-tag">新增价值</span>
+            <h3>投放 = 增值服务 → 平台新收益</h3>
+            <p>在不动价格 / 佣金的前提下，投放是<b>额外的增值服务</b>：卖方用出价换「确定性的曝光与核访放大」。</p>
+            <ul>
+              <li>对卖方：花钱 / 花精力换<b>更高成交确定性</b></li>
+              <li>对买方：<b>更快找到对的房</b></li>
+              <li>对平台：在 x% 分成之外，<b>开辟增值服务的新收益机会点</b></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </article>
+  </main>
+</body>
+</html>
